@@ -5,6 +5,7 @@ import { simpleAction } from './actions/simpleAction';
 import propTypes  from 'prop-types';
 
 
+
  const mapStateToProps = state => ({
   ...state
  })
@@ -14,10 +15,28 @@ import propTypes  from 'prop-types';
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {'schools': []};
+  }
 
   simpleAction = () => {
     this.props.simpleAction();
-   }
+  }
+
+  setSchoolsArr(data) {
+    this.setState({'schools': data.target.response});
+  }
+
+  getFilesFromServer = () => {
+    const request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:1234/schools');
+    request.responseType = 'json';
+    request.onload = (data) => {
+      this.setSchoolsArr(data);
+    }
+    request.send();
+  }
 
  render() {
  
@@ -30,9 +49,12 @@ class App extends Component {
         JSON.stringify(this.props)
       }
      </pre>
+
+     <button onClick={this.getFilesFromServer}>Test server</button>
+     <div>{JSON.stringify(this.state.schools)}</div>
    </div>
   );
- }
+}
 }
 
 App.propTypes = {
