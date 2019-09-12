@@ -4,15 +4,12 @@ import './App.css';
 import { simpleAction } from './actions/simpleAction';
 import propTypes  from 'prop-types';
 
-
-
  const mapStateToProps = state => ({
   ...state
  })
  const mapDispatchToProps = dispatch => ({
   simpleAction: () => dispatch(simpleAction())
  })
-
 
 class App extends Component {
   constructor(props) {
