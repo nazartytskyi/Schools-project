@@ -1,0 +1,11 @@
+{"schools" : [
+    {
+        "id": "unique id 1",
+        "name": "some name"
+    },
+    
+    {
+    "id": "another id",
+    "name": "some another name"  
+    }
+]}
