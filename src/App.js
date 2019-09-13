@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './App.css';
+import './App.scss';
 import { simpleAction } from './actions/simpleAction';
 import propTypes  from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
 
  const mapStateToProps = state => ({
   ...state
@@ -39,8 +40,10 @@ class App extends Component {
  
   return (
    <div className="App">
-     <h1>Hello World</h1>
-     <button onClick={this.simpleAction}>Test redux action</button>
+      <AppBar color="primary" position="static">
+        <h1>Hello World</h1>
+      </AppBar>
+     <button className="btn" onClick={this.simpleAction}>Test redux action</button>
      <pre>
       {
         JSON.stringify(this.props)
