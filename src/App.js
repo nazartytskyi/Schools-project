@@ -4,6 +4,8 @@ import './App.scss';
 import { simpleAction } from './actions/simpleAction';
 import propTypes  from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
  const mapStateToProps = state => ({
   ...state
@@ -62,3 +64,11 @@ App.propTypes = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+const Root = ({ store }) => (
+  <Provider store={store}>
+    <Router>
+      <Route path="/app" component={App} />
+    </Router>
+  </Provider>
+)
