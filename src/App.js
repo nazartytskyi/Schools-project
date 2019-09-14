@@ -4,6 +4,7 @@ import './App.scss';
 import { simpleAction } from './actions/simpleAction';
 import propTypes  from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
+import { Link }from 'react-router-dom'
 
  const mapStateToProps = state => ({
   ...state
@@ -43,7 +44,11 @@ class App extends Component {
       <AppBar color="primary" position="static">
         <h1>Hello World</h1>
       </AppBar>
-     <button className="btn" onClick={this.simpleAction}>Test redux action</button>
+     <div className="nav">
+      <button className="btn" onClick={this.simpleAction}>Test redux action</button>
+      <Link to="/hi">HelloWorld</Link>
+      <Link to="/">GoBack</Link>
+     </div>
      <pre>
       {
         JSON.stringify(this.props)
