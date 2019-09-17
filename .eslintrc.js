@@ -22,7 +22,6 @@ module.exports = {
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
 		"no-console": "warn",
-		"no-extra-parens": ["error", "all"],
 		"array-callback-return": "error",
 		"curly": "error",
 		"default-case": "warn",
@@ -54,9 +53,7 @@ module.exports = {
 		"no-useless-computed-key": "error",
 		"no-useless-constructor": "error",
 		"no-prototype-builtins": "off",
-		"no-var": "warn",
-		"no-unused-vars": ["error", { "vars": "local" }],
-		"no-magic-numbers": ["warn", { "ignore": [0, 1] }]
+		"no-var": "warn"
     },
     "parser": "babel-eslint"
 };
