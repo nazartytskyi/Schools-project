@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.scss';
 import { simpleAction } from './actions/simpleAction';
-import propTypes  from 'prop-types';
+import propTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import { Link }from 'react-router-dom'
 
