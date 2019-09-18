@@ -5,6 +5,7 @@ import './SearchPage.scss';
 // import AppBar from '@material-ui/core/AppBar';
 // import { Link } from 'react-router-dom';
 import MapSearch from './MapSearch/MapSearch';
+import Filters from './Filters/Filters';
 
 class SearchPage extends Component {
   constructor(props) {
@@ -16,7 +17,10 @@ class SearchPage extends Component {
     return (
       <>
         {/*<Header/>*/}
-        <MapSearch/>
+        <main>
+         <Filters className="filtrers"/>
+         <MapSearch className="search-results"/>
+        </main>
         {/*<Footer/>*/}
       </>
       );
