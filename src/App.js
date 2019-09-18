@@ -5,6 +5,7 @@ import { simpleAction } from './actions/simpleAction';
 import propTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import { Link }from 'react-router-dom'
+import Header from './components/shareable/header/Header.js'
 
  const mapStateToProps = state => ({
   ...state
@@ -41,6 +42,7 @@ class App extends Component {
  
   return (
    <div className="App">
+     <Header />
       <AppBar color="primary" position="static">
         <h1>Hello World</h1>
       </AppBar>
