@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
-import simpleReducer from './simpleReducer';
+import schools from './schools';
+import teachers from './teachers';
 export default combineReducers({
- simpleReducer
+  schools,
+  teachers
 });

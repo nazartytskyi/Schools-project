@@ -1,7 +1,7 @@
 // /client/App.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { simpleAction } from './actions/simpleAction'
+import { getSchools } from './actions/getSchools'
 import axios from 'axios';
 
 const mapStateToProps = state => ({
@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
  });
 
  const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction())
+  getSchools: () => dispatch(getSchools())
  })
 
 class App extends Component {
@@ -24,29 +24,30 @@ class App extends Component {
     objectToUpdate: null,
   };
 
-  simpleAction = (event) => {
-    this.props.simpleAction();
+  getSchools = (event) => {
+    this.props.getSchools();
   }
 
   componentDidMount() {
-    this.simpleAction();
+    this.getSchools();
   }
 
   componentWillUnmount() {
   }
 
   render() {
-    const { data } = this.state;
-    // console.log(store.getState());
+    const schools = this.props.schools.data || [];
+    console.log(this.props);
+    //console.log(store.getState());
     return (
       <div>
         <p>{JSON.stringify(this.props)}</p>
         <ul>
-          {data.length <= 0
-            ? 'NO DB ENTRIES YET'
-            : data.map((dat) => (
-                <li>{JSON.stringify(dat)}</li>
-              ))}
+          {
+            (this.props.schools) && schools.map((school) => (
+              <li>{school.name}</li>
+            ))
+          }
         </ul>
       </div>
     );
