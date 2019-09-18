@@ -7,7 +7,7 @@ import Hello from './Hello'
 
 const Root = ({ store }) => (
   <Provider store={store}>
-    <Router>
+    <Router >
       <Route path="/" component={App} />
       <Route path='/hi' component={Hello}/>
     </Router>

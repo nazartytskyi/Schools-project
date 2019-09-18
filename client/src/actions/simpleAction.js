@@ -1,6 +1,10 @@
+import axios from 'axios';
+
 export const simpleAction = () => dispatch => {
-  dispatch({
-   type: 'SIMPLE_ACTION',
-   payload: 'result_of_simple_action'
-  })
- }
+  axios.get('http://localhost:3001/api/getData').then((res) => {
+    dispatch({
+      type: 'SIMPLE_ACTION',
+      payload: res
+    });
+  });
+};
