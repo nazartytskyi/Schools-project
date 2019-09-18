@@ -1,0 +1,65 @@
+@import '../../../Variables.scss';
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $mainColor;
+  color: #fff;
+  padding: 10px;
+  font-family: $mainFont;
+  font-size: $mainFontSize;
+}
+
+.logo {
+  text-align: center;
+  color: $secondaryColor;
+  margin-left: 20px;	
+  div i{
+    font-size: 50px;
+  }
+  p {
+    font-size: 12px;
+  }
+}
+
+.menu {
+  display: flex;
+  nav {
+    margin-right: 40px;
+    display: flex;
+    align-items: center;
+    ul {
+      display: flex;
+      list-style-type: none;
+      li {
+        margin-right: 30px;
+        .nav-link {
+          color: #fff;
+          text-decoration: none;
+          padding-bottom: 5px;
+          &:hover {
+            border-bottom: 2px solid $secondaryColor;
+          }
+        }
+      }  
+    }
+  }
+ 
+  .sign {
+    display: flex;
+    .sign-btn {
+      margin-right: 10px;
+      color: #fff;
+      border: 1px solid #fff;
+      font-size: 12px;
+      &:hover {
+        color: $mainColor;
+        background-color: $secondaryColor;
+      }
+    }
+  }
+}
+a {
+  color: $secondaryColor;
+}
