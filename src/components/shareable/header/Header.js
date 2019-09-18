@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Header.scss';
 import { Link } from 'react-router-dom'
 import logo from '../../../img/logoSchools.png';
+import { Button } from '@material-ui/core';
 
 export class Header extends Component {
   render() {
@@ -22,8 +23,12 @@ export class Header extends Component {
             </ul>
           </nav>
           <div className="sign">
-            <div className="sign-btn">Зареєструватись</div>
-            <div className="sign-btn">Увійти</div>
+            <Button variant="contained" color="primary" className="sign-btn">
+              Зареєструватись
+            </Button>
+            <Button variant="contained" color="secondary" className="sign-btn">
+              Увійти
+            </Button>
           </div>
         </div>
       </header>

@@ -12,7 +12,10 @@ header {
 
 .menu {
   display: flex;
+  align-self: center;
   nav {
+    display: flex;
+    align-self: center;
     margin-right: 40px;
     ul {
       display: flex;
@@ -32,6 +35,7 @@ header {
     display: flex;
     .sign-btn {
       margin-right: 10px;
+      height: 50px;
     }
   }
 }
