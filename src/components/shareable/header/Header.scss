@@ -1,0 +1,38 @@
+@import '../../../Variables.scss';
+
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: $mainBgColor;
+  color: #fff;
+  padding: 20px;
+  font-family: $mainFont;
+  font-size: $mainFontSize;
+}
+
+.menu {
+  display: flex;
+  nav {
+    margin-right: 40px;
+    ul {
+      display: flex;
+      list-style-type: none;
+      li {
+        margin-right: 20px;
+        .nav-link {
+          color: #fff;
+          text-decoration: none;
+          padding-bottom: 5px;
+        }
+      }  
+    }
+  }
+ 
+  .sign {
+    display: flex;
+    .sign-btn {
+      margin-right: 10px;
+    }
+  }
+}
+
