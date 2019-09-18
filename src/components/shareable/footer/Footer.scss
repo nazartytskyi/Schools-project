@@ -1,26 +1,17 @@
+@import '../../../Variables.scss';
+
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 100px;
-  background-color: floralwhite;
+  background-color: $mainColor;
 }
 .footer-items {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-.footer-nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.logo {
-  display: flex;
-  flex-direction: row;
-  justify-content: baseline;
+  align-items: center;
 }
 .footer-copy {
-  display: flex;
-  align-self: center;
+  color: $secondaryColor;
 }

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import './Header.scss';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
-import logo from '../../../img/logoSchools.png';
-import { Button } from '@material-ui/core';
+import SchoolIcon from '@material-ui/icons/School';
+
 
 export class Header extends Component {
   render() {
     return (
       <header>
-        <div className='logo'>
-            <Link to='/hi'><img src={logo} alt='' /></Link>
-          </div>
+        <div className="logo">
+          <Link to='/hi'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
+          <p>Schools</p>
+        </div>
+        
         <div className="menu">
           <nav>
             <ul>
@@ -23,10 +26,10 @@ export class Header extends Component {
             </ul>
           </nav>
           <div className="sign">
-            <Button variant="contained" color="primary" className="sign-btn">
-              Зареєструватись
+            <Button variant="outlined" className="sign-btn">
+              Зареєструватися
             </Button>
-            <Button variant="contained" color="secondary" className="sign-btn">
+            <Button variant="outlined" className="sign-btn">
               Увійти
             </Button>
           </div>
