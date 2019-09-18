@@ -47,6 +47,7 @@ class App extends Component {
      <div className="nav">
       <button className="btn" onClick={this.simpleAction}>Test redux action</button>
       <Link to="/hi">HelloWorld</Link>
+      <Link to="/search">Search Page</Link>
       <Link to="/">GoBack</Link>
      </div>
      <pre>
