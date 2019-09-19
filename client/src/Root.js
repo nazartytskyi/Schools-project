@@ -7,7 +7,7 @@ import Hello from './Hello'
 import Header from './shareable/header/Header'
 import Footer from './shareable/footer/Footer'
 import Search from './pages/SearchPage/SearchPage'
-import TestApp from './pages/TestApp/TestApp'
+
 const Root = ({ store }) => (
   <Provider store={store}>
     <Router>
