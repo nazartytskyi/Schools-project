@@ -4,9 +4,10 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import App from './App'
 import Hello from './Hello'
-import Header from './components/shareable/header/Header'
-import Footer from './components/shareable/footer/Footer'
-import Search from './components/pages/SearchPage/SearchPage'
+import Header from './shareable/header/Header'
+import Footer from './shareable/footer/Footer'
+import Search from './pages/SearchPage/SearchPage'
+
 const Root = ({ store }) => (
   <Provider store={store}>
     <Router>
