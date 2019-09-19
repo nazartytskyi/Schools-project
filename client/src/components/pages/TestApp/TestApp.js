@@ -1,7 +1,7 @@
 // /client/App.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getSchools } from './actions/getSchools'
+import { getSchools } from '../../../actions/getSchools'
 //import axios from 'axios';
 
 const mapStateToProps = state => ({
