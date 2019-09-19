@@ -46,10 +46,9 @@ function a11yProps(index) {
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: '', setValue: ''}; 
+    this.state = {value: 0}; 
 };
 
-  
   render() {
     const value = this.state.value;  
     const handleChange = (event, newValue) => {
@@ -64,12 +63,12 @@ class SearchPage extends React.Component {
 
           </div>
 
-          <AppBar position="static">
+         
             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-            <Tab label="List" {...a11yProps(0)} />
-            <Tab label="Map" {...a11yProps(1)} />
-          </Tabs>
-          </AppBar>
+              <Tab label="List" {...a11yProps(0)} />
+              <Tab label="Map" {...a11yProps(1)} />
+            </Tabs>
+          
         
           <div className="search-content-wrapper">
             <Filters className="filtrers"/>
