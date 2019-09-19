@@ -6,7 +6,7 @@ import App from './App'
 import Hello from './Hello'
 import Header from './components/shareable/header/Header'
 import Footer from './components/shareable/footer/Footer'
-//import Search from './components/pages/search/Search'
+import Search from './components/pages/SearchPage/SearchPage'
 const Root = ({ store }) => (
   <Provider store={store}>
     <Router>
@@ -14,7 +14,7 @@ const Root = ({ store }) => (
       <Route path='/app' component={App} />
       <Route path='/hi' component={Hello} />
       <Route path='/' component={Footer} />
-      {/* <Route path='/search' component={Search} /> */}
+      <Route path='/search' component={Search} />
     </Router>
   </Provider>
 )
