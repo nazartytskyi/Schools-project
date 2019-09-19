@@ -1,0 +1,11 @@
+main {
+    display: flex;
+    justify-content: space-around;
+    .filters {
+        width: 25%;
+    }
+
+    .search-results {
+        width: 70%;
+    }
+}

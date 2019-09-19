@@ -1,0 +1,17 @@
+@import '../../../Variables.scss';
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: $mainColor;
+}
+.footer-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copy {
+  color: $secondaryColor;
+}
