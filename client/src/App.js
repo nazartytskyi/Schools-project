@@ -21,7 +21,7 @@ class App extends Component {
     intervalIsSet: false,
     idToDelete: null,
     idToUpdate: null,
-    objectToUpdate: null,
+    objectToUpdate: null
   };
 
   getSchools = (event) => {
@@ -32,13 +32,11 @@ class App extends Component {
     this.getSchools();
   }
 
-  componentWillUnmount() {
-  }
+  // componentWillUnmount() {
+  // }
 
   render() {
     const schools = this.props.schools.data || [];
-    console.log(this.props);
-    //console.log(store.getState());
     return (
       <div>
         <p>{JSON.stringify(this.props)}</p>
