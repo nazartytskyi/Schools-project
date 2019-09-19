@@ -17,7 +17,7 @@ export class Header extends Component {
         <div className="menu">
           <nav>
             <ul>
-              <li><Link to='/app' className="nav-link">Знайти школи</Link></li>
+              <li><Link to='/search' className="nav-link">Знайти школи</Link></li>
               <li><Link to='/hi' className="nav-link">Новини</Link></li>
               <li><Link to='/hi' className="nav-link">Рейтинги</Link></li>
               <li><Link to='/hi' className="nav-link">Вакансії</Link></li>
