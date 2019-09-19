@@ -1,8 +1,10 @@
-// /client/App.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './App.scss';
 import { getSchools } from './actions/getSchools'
-//import axios from 'axios';
+//import propTypes from 'prop-types';
+//import AppBar from '@material-ui/core/AppBar';
+import { Link }from 'react-router-dom'
 
 const mapStateToProps = state => ({
   ...state
