@@ -1,11 +1,19 @@
 main {
     display: flex;
     justify-content: space-around;
-    .filters {
-        width: 25%;
-    }
+    flex-direction: column;
+    box-sizing: border-box;
 
-    .search-results {
-        width: 70%;
+    .search-content-wrapper {
+        display: flex;
+        justify-content: space-around;
+
+        .filters {
+            width: 25%;
+        }
+    
+        .search-results {
+            width: 75%;
+        }
     }
 }
