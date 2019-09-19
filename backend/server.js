@@ -34,7 +34,9 @@ app.use(logger('dev'));
 // this method fetches all available data in our database
 router.get('/getData', (req, res) => {
   Schools.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
+    if (err) {
+      return res.json({ success: false, error: err });
+    }
     return res.json({ success: true, data: data });
   });
 });
@@ -43,8 +45,10 @@ router.get('/getData', (req, res) => {
 // this method overwrites existing data in our database
 router.post('/updateData', (req, res) => {
   const { id, update } = req.body;
-  Schools.findByIdAndUpdate(id, update, (err) => {
-    if (err) return res.json({ success: false, error: err });
+  Schools.findByIdAndUpdate(id, update, err => {
+    if (err) {
+      return res.json({ success: false, error: err });
+    }
     return res.json({ success: true });
   });
 });
@@ -53,8 +57,10 @@ router.post('/updateData', (req, res) => {
 // this method removes existing data in our database
 router.delete('/deleteData', (req, res) => {
   const { id } = req.body;
-  Schools.findByIdAndRemove(id, (err) => {
-    if (err) return res.send(err);
+  Schools.findByIdAndRemove(id, err => {
+    if (err) {
+      return res.send(err);
+    }
     return res.json({ success: true });
   });
 });
@@ -69,13 +75,15 @@ router.post('/putData', (req, res) => {
   if ((!id && id !== 0) || !message) {
     return res.json({
       success: false,
-      error: 'INVALID INPUTS',
+      error: 'INVALID INPUTS'
     });
   }
   data.message = message;
   data.id = id;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
+  data.save(err => {
+    if (err) {
+      return res.json({ success: false, error: err });
+    }
     return res.json({ success: true });
   });
 });
