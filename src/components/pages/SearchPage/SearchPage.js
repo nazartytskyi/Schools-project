@@ -62,7 +62,6 @@ class SearchPage extends React.Component {
           <div className="searchbar">
 
           </div>
-
          
             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
               <Tab label="List" {...a11yProps(0)} />
