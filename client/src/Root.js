@@ -8,16 +8,22 @@ import Header from './shareable/header/Header'
 import Footer from './shareable/footer/Footer'
 import Search from './pages/SearchPage/SearchPage'
 import News from './shareable/News/News'
+import Layout from './shareable/HOC/Layout';
+import LayoutNoWrap from './shareable/HOC/LayoutNoWrap';
+
 
 const Root = ({ store }) => (
   <Provider store={store}>
     <Router>
-      <Route path='/' component={Header} />
-      <Route path='/app' component={App} />
-      <Route path='/hi' component={Hello} />
-      <Route path='/search' component={Search} />
-      <Route path='/news' component={News} />
-      <Route path='/' component={Footer} />
+      <Layout>
+      {/* <Route path='/landing' component={Header} /> */}
+        <Route path='/app' component={App} />
+        <Route path='/hi' exact component={Hello} />
+        <Route path='/search' component={Search} />
+        <Route   path='/news' component={News} />
+      </Layout>:
+      
+      {/* <Route path='/landing' component={Footer} /> */}
     </Router>
   </Provider>
 )

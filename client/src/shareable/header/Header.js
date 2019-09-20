@@ -22,7 +22,7 @@ export class Header extends Component {
               <li><Link to='/hi' className="nav-link">Рейтинги</Link></li>
               <li><Link to='/hi' className="nav-link">Вакансії</Link></li>
               <li><Link to='/hi' className="nav-link">Контакти</Link></li>
-              <li><Link to='/hi' className="nav-link">Про проект</Link></li>
+              <li><Link to='/app' className="nav-link">Про проект</Link></li>
             </ul>
           </nav>
           <div className="sign">
