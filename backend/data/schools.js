@@ -5,7 +5,11 @@ const SchemaSchools = mongoose.Schema;
 const DataSchema = new SchemaSchools(
   {
     id: Number,
-    name: String
+    name: String,
+    description : String,
+    phoneNumber : String,
+    adress : String,
+    language : String
   },
   { collection: 'schools' }
 );
