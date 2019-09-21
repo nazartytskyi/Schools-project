@@ -20,6 +20,7 @@ header {
   }
   p {
     font-size: 12px;
+    margin: 0;
   }
 }
 
@@ -32,6 +33,7 @@ header {
     ul {
       display: flex;
       list-style-type: none;
+      margin: 0;
       li {
         margin-right: 30px;
         .nav-link {
@@ -53,6 +55,7 @@ header {
       color: #fff;
       border: 1px solid #fff;
       font-size: 12px;
+      padding: 7px 15px;
       &:hover {
         color: $mainColor;
         background-color: $secondaryColor;
