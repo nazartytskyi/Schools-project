@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';         
 import {makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,11 +9,12 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
+import {Redirect} from 'react-router';
 
 
 
-function createData(name, zno, vacant, carbs, protein) {
-  return { name, zno, vacant, carbs, protein };
+function createData(id, name, zno, vacant, carbs, protein) {
+  return { id, name, zno, vacant, carbs, protein };
 }
 
 let rows = [];
@@ -155,8 +156,11 @@ export default function ListSearch(props) {
     setOrderBy(property);
   }
 
-  function handleClick(event) {
-    //open school page
+  const [redirectElement, redirect] = React.useState('');
+
+  function handleClick(event, id) {
+    //providing route to school page by its id in database
+    redirect(<Redirect push to={'/schoolpage/' + id}/>);
   }
 
   function handleChangePage(event, newPage) {
@@ -171,7 +175,7 @@ export default function ListSearch(props) {
   
   if(props.schools){
     rows = [];
-    props.schools.map(school => rows.push(createData(school.name, 305, 3.7, 67, 4.3)))
+    props.schools.forEach(school => rows.push(createData(school.id, school.name, school.avgZno, school.firstGrade.free, 67, 4.3)))
   }
 
   const isSelected = name => selected.indexOf(name) !== -1;
@@ -179,6 +183,7 @@ export default function ListSearch(props) {
 
   return (
     <div className={classes.root}>
+      {redirectElement}
       <Paper className={classes.paper}>   
         <div className={classes.tableWrapper}>
           <Table
@@ -198,20 +203,20 @@ export default function ListSearch(props) {
               {stableSort(rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.name)}
+                      onClick={event => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                     <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.zno}</TableCell>
