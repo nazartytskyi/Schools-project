@@ -8,10 +8,22 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getSchools } from '../../../actions/getSchools';
+
+
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  getSchools: () => dispatch(getSchools())
+});
 
 export class Carousel extends Component {
 
   render() {
+    const schools = this.props.schools.data || [];
     const styles = {
       card: {
         maxWidth: 800,
@@ -23,7 +35,7 @@ export class Carousel extends Component {
       <div className="cont">
         <h1>Latest News</h1>
          <Slider autoplay={2000}>
-          {this.props.schools.map(school =>
+          {schools.map(school =>
             <div key={school.id}>
             {school.news.map(item => (
               <div key={item.title} className="item">
@@ -59,4 +71,7 @@ Carousel.propTypes = {
   schools: PropTypes.array.isRequired
 }
 
-export default Carousel
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Carousel);

@@ -119,7 +119,7 @@ class App extends Component {
               );
             })}
         </div>
-        <Carousel schools={schools}></Carousel>
+        <Carousel />
       </div>
     );
   }
