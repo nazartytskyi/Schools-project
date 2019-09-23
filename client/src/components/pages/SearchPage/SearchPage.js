@@ -83,7 +83,7 @@ class SearchPage extends React.Component {
       <>   
         <main>
           <div className="searchbar">
-            <SearchInput/>
+            <SearchInput schools={this.state.schools}/>
           </div>
          
           <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
