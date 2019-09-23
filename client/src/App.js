@@ -4,6 +4,7 @@ import './App.scss';
 import { getSchools } from './actions/getSchools';
 import propTypes from 'prop-types';
 import axios from 'axios';
+import Carousel from './components/shared/Carousel/Carousel';
 //import AppBar from '@material-ui/core/AppBar';
 //import { Link }from 'react-router-dom'
 
@@ -118,6 +119,7 @@ class App extends Component {
               );
             })}
         </div>
+        <Carousel schools={schools}></Carousel>
       </div>
     );
   }
