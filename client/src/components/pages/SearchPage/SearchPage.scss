@@ -4,6 +4,10 @@ main {
     flex-direction: column;
     padding: 25px;
 
+    .searchbar > * {
+        height: 48px;
+    }
+
     .search-content-wrapper {
         width: 100%;
         display: flex;

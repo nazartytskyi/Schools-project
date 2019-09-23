@@ -2,12 +2,11 @@ import React from 'react';
 //import { connect } from 'react-redux';
 import './SearchPage.scss';
 // import propTypes from 'prop-types';
-// import AppBar from '@material-ui/core/AppBar';
 // import { Link } from 'react-router-dom';
 import MapSearch from './MapSearch/MapSearch';
 import Filters from './Filters/Filters';
 import ListSearch from './ListSearch/ListSearch';
-import AppBar from '@material-ui/core/AppBar';
+import SearchInput from './SearchInput/SearchInput';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -15,6 +14,14 @@ import Box from '@material-ui/core/Box';
 import { getSchools } from './../../../actions/getSchools';
 import { connect } from 'react-redux';
 
+
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  getSchools: () => dispatch(getSchools())
+});
 
 
 function TabPanel(props) {
@@ -45,10 +52,19 @@ function a11yProps(index) {
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: 0}; 
-  }  
+    this.state = {value: 0, schools: this.props.schools.data}; 
+  } 
+  
+  getSchools = event => {
+    // in this method we launch action
+    this.props.getSchools();
+  };
+  
 
   componentDidMount() {
+    // this.getSchools().then(() => {
+    //   this.setState({...this.state, schools:this.props.schools.data})
+    // });
     fetch('http://localhost:3001/api/getData')
       .then(data => {
         return data.json()
@@ -67,7 +83,7 @@ class SearchPage extends React.Component {
       <>   
         <main>
           <div className="searchbar">
-
+            <SearchInput/>
           </div>
          
           <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
@@ -93,4 +109,7 @@ class SearchPage extends React.Component {
   }
 }
 
-export default SearchPage;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchPage);
