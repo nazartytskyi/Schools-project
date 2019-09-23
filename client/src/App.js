@@ -27,7 +27,11 @@ class App extends Component {
     // in this method we launch action
     this.props.getSchools();
   };
-
+  
+  componentDidMount() {
+    //here we launch method getSchools from App
+    this.getSchools();
+  }
   updateSchools = (idToUpdate, keyToUpdate, keyValueToUpdate) => {
     let objIdToUpdate = null;
     let objectUpdate = {};
@@ -47,10 +51,6 @@ class App extends Component {
     });
   };
 
-  componentDidMount() {
-    //here we launch method getSchools from App
-    this.getSchools();
-  }
 
   // componentWillUnmount() {
   // }
