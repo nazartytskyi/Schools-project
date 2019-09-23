@@ -8,7 +8,7 @@ class Footer extends Component {
       <footer className="footer">
         <div className="footer-items">
           <div className="logo">
-            <Link to='/hi'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
+            <Link to='/app'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
             <p>Schools</p>
           </div>
           <div className="footer-copy">

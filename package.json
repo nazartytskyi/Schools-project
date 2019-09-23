@@ -17,7 +17,9 @@
     "url": "https://github.com/nazartytskyi/Schools-project/issues"
   },
   "homepage": "https://github.com/nazartytskyi/Schools-project#readme",
-  "dependencies": {},
+  "dependencies": {
+    "react-animated-slider": "^1.1.4"
+  },
   "devDependencies": {
     "babel-eslint": "10.0.2",
     "concurrently": "^4.1.2",

@@ -1,0 +1,57 @@
+@import '../../Variables.scss';
+
+h1 {
+  text-align: center;
+  color: $mainColor;
+  font-family: $mainFont;
+}
+
+.slider {
+  width: 70%;
+  height: 530px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.previousButton, .nextButton {
+  border-radius: 50%;
+  background-color: #fff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.previousButton {
+  transform: translate(50%, -50%)
+}
+
+
+.previousButton svg, .nextButton svg {
+  display: block;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+
+.item img{
+  width: 100%;
+  height: 400px;
+  
+}
+
+.news-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.media {
+  height: 300px;
+}
+
+.cont .card {
+  width: 100%;
+  height: 500px;
+}
