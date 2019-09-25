@@ -43,8 +43,11 @@ router.get('/getData', (req, res) => {
 
 // this is our update method
 // this method overwrites existing data in our database
-router.post('/updateData', (req, res) => {
-  const { id, update } = req.body;
+router.post('/updateData/schools/:id', (req, res) => {
+  const id = req.params.id;
+  const { update } = req.body;
+  console.log(id);
+  console.log(update);
   Schools.findByIdAndUpdate(id, update, err => {
     if (err) {
       return res.json({ success: false, error: err });
