@@ -46,8 +46,6 @@ router.get('/getData', (req, res) => {
 router.post('/updateData/schools/:id', (req, res) => {
   const id = req.params.id;
   const { update } = req.body;
-  console.log(id);
-  console.log(update);
   Schools.findByIdAndUpdate(id, update, err => {
     if (err) {
       return res.json({ success: false, error: err });
