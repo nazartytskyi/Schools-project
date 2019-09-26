@@ -1,8 +1,16 @@
 .news-cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  margin: 40px;
 }
-.clsx {
-  align-self: center;
+.card {
+  min-height: 563px;
+}
+span {
+  display: inline-block;
+  width: 750px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis
 }
