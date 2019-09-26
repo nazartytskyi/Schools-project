@@ -52,6 +52,7 @@ function a11yProps(index) {
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
+    this.filters = {};
     this.state = {value: 0, schools: this.props.schools.data}; 
   } 
   
@@ -70,8 +71,40 @@ class SearchPage extends React.Component {
         return data.json()
       })
       .then(schools => {
-        return this.setState({...this.state, schools:schools.data})
+        this.schools = schools.data;
+        this.setState({...this.state, filteredSchools:schools.data})
       });
+  }
+
+  setFilter(filterMixin) {
+    this.filters = Object.assign({}, this.filters, filterMixin);
+    this.setState({...this.state, filteredSchools: this.filterSchools(this.filters)});
+  }
+
+  filterSchools(filters) {
+    let filteredSchools = [...this.schools];
+
+    //name (search) filter
+    if(filters.name) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.name.toUpperCase().includes(filters.name.toUpperCase());
+      })
+    }
+
+    //range filter
+    if(filters.range !== undefined) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.avgZno >= filters.range[0] && school.avgZno <= filters.range[1];
+      })
+    }
+
+    //... other filters
+
+    return filteredSchools;
+  }
+
+  setFilteredSchools(schools) {
+    this.setState({...this.state, filteredSchools:schools})
   }
 
   render() {
@@ -79,11 +112,12 @@ class SearchPage extends React.Component {
     const handleChange = (event, newValue) => {
       this.setState({...this.state, value:newValue});
     }
+
     return (
       <>   
         <main>
           <div className="searchbar">
-            <SearchInput schools={this.state.schools}/>
+            <SearchInput setFilter={this.setFilter.bind(this)} schools={this.schools} />
           </div>
          
           <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
@@ -93,10 +127,10 @@ class SearchPage extends React.Component {
           
         
           <div className="search-content-wrapper">
-            <Filters className="filtrers"/>
+            <Filters setFilter={this.setFilter.bind(this)} schools={this.schools} className="filtrers"/>
 
             <TabPanel value={value} index={0}>
-             <ListSearch schools={this.state.schools} className="search-results"/>
+             <ListSearch schools={this.state.filteredSchools} className="search-results"/>
             </TabPanel>
             <TabPanel value={value} index={1}>
               <MapSearch className="search-results"/>
