@@ -77,8 +77,8 @@ class SearchPage extends React.Component {
   }
 
   setFilter(filterMixin) {
-    this.filters = Object.assign({}, this.filters, filterMixin);
-    this.setState({...this.state, filteredSchools: this.filterSchools(this.filters)});
+    this.filters = {...this.filters, ...filterMixin};
+    this.setState({filteredSchools: this.filterSchools(this.filters)});
   }
 
   filterSchools(filters) {
