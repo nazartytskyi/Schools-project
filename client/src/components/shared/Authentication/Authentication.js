@@ -6,7 +6,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import propTypes from 'prop-types';
-// var firebaseui = require('firebaseui');
+const firebaseui = require('firebaseui');
 
 
 // const firebase = require('firebase/app');
@@ -42,6 +42,9 @@ const uiConfig = {
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
+  credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+  signInFlow : 'redirect',
+  immediateFederatedRedirect : false,
   // tosUrl and privacyPolicyUrl accept either url string or a callback
   // function.
   // Terms of service url/callback.
