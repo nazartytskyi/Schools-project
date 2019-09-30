@@ -160,6 +160,7 @@ export default function ListSearch(props) {
 
   function handleClick(event, id) {
     //providing route to school page by its id in database
+    console.log(event)
     redirect(<Redirect push to={'/schoolpage/' + id}/>);
   }
 
@@ -253,3 +254,5 @@ export default function ListSearch(props) {
     </div>
   );
 }
+
+
