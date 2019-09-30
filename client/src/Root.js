@@ -6,6 +6,7 @@ import App from './App'
 import Header from './components/shared/header/Header'
 import Footer from './components/shared/footer/Footer'
 import Search from './components/pages/SearchPage/SearchPage'
+import Vacancies from './components/pages/Vacancies/Vacancies'
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -14,6 +15,7 @@ const Root = ({ store }) => (
       <Route path='/app' component={App} />
       <Route path='/' component={Footer} />
       <Route path='/search' component={Search} />
+      <Route path='/vacancies' component={Vacancies} />
     </Router>
   </Provider>
 )

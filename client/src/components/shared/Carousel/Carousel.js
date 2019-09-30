@@ -32,36 +32,32 @@ export class Carousel extends Component {
     };
 
     return (
-      <div className="cont">
+      <div className="news-card">
         <h1>Latest News</h1>
-         <Slider autoplay={2000}>
-          {schools.map(school =>
-            <div key={school.id}>
-            {school.news.map(item => (
-              <div key={item.title} className="item">
-                <div className='news-cards'>
-                  <Card className='card' style={styles.card}>
-                    <CardHeader
-                      title={item.title}
-                      subheader={item.date}
-                    />
-                    <CardMedia
-                      className="media"
-                      image={item.img}
-                      title={item.title}
-                    />
-                    <CardContent>
-                      <Typography variant="body2" color="textSecondary" component="p">
-                        {item.description}
-                      </Typography>
-                    </CardContent>
-                  </Card>
+      <Slider>
+        {schools.map(school =>    
+          school.news.map(item => (
+            <div key={item.title} className="item">
+              <Card className='card' style={styles.card}>
+                <CardHeader
+                  title={item.title}
+                  subheader={item.date}
+                />
+                <CardMedia
+                  className="media"
+                  image={item.img}
+                  title={item.title}
+                />
+                <CardContent>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {item.description}
+                  </Typography>
+                </CardContent>
+              </Card> 
               </div>
-              </div>
-            ))}
-            </div>
+            ))      
           )}
-         </Slider> 
+        </Slider>
       </div>
     )
   }
