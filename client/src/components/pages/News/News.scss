@@ -5,12 +5,27 @@
   margin: 40px;
 }
 .card {
+  max-width: 768px;
+  margin: 10px;
   min-height: 563px;
 }
-span {
-  display: inline-block;
-  width: 750px;
-  white-space: nowrap;
-  overflow: hidden !important;
-  text-overflow: ellipsis
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 16px;    
+  max-height: 57px;     
+  -webkit-line-clamp: 3; /* Write the number of lines you want to be displayed */
+  -webkit-box-orient: vertical;
+}
+.media {
+  height: 0px;
+  padding-top: 56.25%; // 16:9
+}
+.expand {
+  transform: rotate(0deg);
+  margin-left: auto;
+} 
+.expandOpen {
+  transform: rotate(180deg);
 }
