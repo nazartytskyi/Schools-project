@@ -24,21 +24,16 @@ export class Carousel extends Component {
 
   render() {
     const schools = this.props.schools.data || [];
-    const styles = {
-      card: {
-        maxWidth: 800,
-        margin: 10
-      }
-    };
 
     return (
       <div className="news-card">
         <h1>Latest News</h1>
-      <Slider autoplay={2000}>
+        <div className="news-slider">
+        <Slider>
         {schools.map(school =>    
           school.news.map(item => (
-            <div key={item.title} className="item">
-              <Card style={styles.card} className='card'>
+            <div key={item.title} className="slider-card">
+              <Card className='slider-item'>
                 <CardHeader
                   title={item.title}
                   subheader={item.date}
@@ -58,6 +53,8 @@ export class Carousel extends Component {
             ))      
           )}
         </Slider>
+        </div>
+     
       </div>
     )
   }

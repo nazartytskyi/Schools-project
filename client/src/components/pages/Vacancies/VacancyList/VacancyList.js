@@ -18,10 +18,6 @@ RecipeReviewCard.propTypes = {
 }
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    maxWidth: 800,
-    marginBottom: 30
-  },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -48,7 +44,7 @@ export default function RecipeReviewCard(props) {
     
       {props.vacancies.map((vacancy, index) => (
        
-           <Card className={classes.card} key={index}>
+           <Card className="vacancy-card" key={index}>
              <div className="card-header">
               <CardHeader
                   title={vacancy.title}
