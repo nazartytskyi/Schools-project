@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Vacancies.scss';
-import List from './List/List';
+import VacancyList from './VacancyList/VacancyList';
 import { connect } from 'react-redux';
 import { getSchools } from '../../../actions/getSchools';
 import propTypes from 'prop-types';
@@ -137,7 +137,7 @@ export class Vacancies extends Component {
 
   render() {
     return (
-      <div className="vacantions">
+      <div className="vacancies">
         <div className="search">
           <div>
             <label>Оберіть місто</label>
@@ -159,13 +159,12 @@ export class Vacancies extends Component {
         </div>
         <div className="main">
           <SpreadSearch schools={this.state.schools} 
-                        // vacancies={this.vacancies}
                         filterBySchool={this.filterBySchool} 
                         filterByEmployment={this.filterByEmployment} 
                         className="sidebar"
                         setFilter={this.setFilter.bind(this)}
           />
-          <List vacancies={this.state.filteredVacancies} className="list"/>
+          <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
         </div>
       </div>
     )
@@ -173,8 +172,8 @@ export class Vacancies extends Component {
 }
 
 Vacancies.propTypes = {
-  getSchools: propTypes.func,
-  schools: propTypes.object
+  getSchools: propTypes.func.isRequired,
+  schools: propTypes.object.isRequired
 };
 
 
