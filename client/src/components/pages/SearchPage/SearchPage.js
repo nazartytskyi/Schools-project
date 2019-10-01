@@ -133,7 +133,7 @@ class SearchPage extends React.Component {
              <ListSearch schools={this.state.filteredSchools} className="search-results"/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <MapSearch className="search-results"/>
+              <MapSearch schools={this.state.filteredSchools} className="search-results"/>
             </TabPanel>
           </div>
         </main>
