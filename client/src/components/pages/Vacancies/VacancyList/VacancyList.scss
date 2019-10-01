@@ -1,0 +1,20 @@
+.list {
+  width: 70%;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  .salary {
+    margin: 10px;
+    text-align: right;
+  }
+}
+
+.card-content {
+  padding-bottom: 0 !important;
+}
+
+.card-footer {
+  height: 30px;
+}
