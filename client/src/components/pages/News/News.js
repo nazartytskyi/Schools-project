@@ -24,8 +24,7 @@ const mapDispatchToProps = dispatch => ({
 class News extends Component {
   constructor(props) {
     super(props)
-    let set = new Set();
-    this.state = {expanded: set};
+    this.state = {expanded: new Set()};
   }
   getSchools = event => {
     // in this method we launch action
@@ -57,8 +56,7 @@ class News extends Component {
     return false;
   }
   render() {
-    const schools = this.props.schools.data || [];
-    
+    const schools = this.props.schools.data || [];  
   return (
     <div className='news-cards'>
       {schools.map((school, indexSchool) =>
