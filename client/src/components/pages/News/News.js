@@ -10,59 +10,32 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import './News.scss'
 import { connect } from 'react-redux';
-import { getSchools } from '../../../actions/getSchools';
 import PropTypes from 'prop-types';
 
 const mapStateToProps = state => ({
-  ...state
+  schools: state.schools
 });
-
-const mapDispatchToProps = dispatch => ({
-  getSchools: () => dispatch(getSchools())
-});
-
 class News extends Component {
   constructor(props) {
     super(props)
     this.state = {expanded: new Set()};
   }
-  getSchools = event => {
-    // in this method we launch action
-    this.props.getSchools();
-  };
-  
-  componentDidMount() {
-    //here we launch method getSchools from App
-    this.getSchools();
-  }
 
-  handleExpandClick = (indexSchool, indexNews) => {
+  handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
-    let newObj = {[indexSchool]: indexNews};
-    if(this.checkObject(newObj)) {
-      expanded.forEach(item => JSON.stringify(item) === JSON.stringify(newObj) ? expanded.delete(item) : '');
-      this.setState({expanded: expanded});
-      return;
-    }
-    expanded.add(newObj);
+    !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
     this.setState({expanded: expanded});
   }
-  checkObject = (obj) => {
-    for(let elem of this.state.expanded) { 
-      if(JSON.stringify(elem) === JSON.stringify(obj)){
-        return true; 
-      }
-    }
-    return false;
-  }
   render() {
-    const schools = this.props.schools.data || [];  
+    const schools = this.props.schools.data || [];
+      
   return (
     <div className='news-cards'>
-      {schools.map((school, indexSchool) =>
-        <div key={school.name}>
-          {school.news.map((item, indexNews) => (
-            <div key={item.name} >
+      {schools.map((school, indexSchool) => {
+        return <div key={school.name}>
+          {school.news.map((item, indexNews) => {
+            let SchoolNewsId = `${indexSchool}${indexNews}`;
+            return <div key={item.name} >
               <Card className='card' key={item.name}>
                 <CardHeader
                   title={item.title}
@@ -80,16 +53,16 @@ class News extends Component {
                 </CardContent>
                 <CardActions disableSpacing>
                   <IconButton
-                    className={ this.checkObject({[indexSchool]: indexNews})
+                    className={ this.state.expanded.has(SchoolNewsId)
                       ? 'expandOpen' : 'expand' }
-                    onClick={()=>{this.handleExpandClick(indexSchool, indexNews)}}
+                    onClick={()=>{this.handleExpandClick(SchoolNewsId)}}
                     aria-expanded={this.state.expanded}
                     aria-label="show more"
                   >
                     <ExpandMoreIcon />
                   </IconButton>
                 </CardActions>
-                <Collapse in={ this.checkObject({[indexSchool]: indexNews}) ? 
+                <Collapse in={ this.state.expanded.has(SchoolNewsId) ? 
                   true : 
                   false} timeout="auto" unmountOnExit>
                   <CardContent>
@@ -100,9 +73,9 @@ class News extends Component {
                 </Collapse> 
               </Card>
             </div>
-          ))}
+          })}
         </div>
-      )}
+      })}
   </div>
   );
   }
@@ -111,7 +84,4 @@ class News extends Component {
 News.propTypes = {
   schools: PropTypes.object.isRequired
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(News);
+export default connect(mapStateToProps)(News);
