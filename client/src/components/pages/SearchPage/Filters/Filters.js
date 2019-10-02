@@ -18,10 +18,6 @@ class Filters extends Component {
     this.onlyFree = false;
   }
 
-  freeChangeHandler() {
-    console.log('hi')
-  }
-
 
   render() {
     return (
