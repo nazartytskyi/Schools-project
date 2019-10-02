@@ -14,8 +14,8 @@ header {
 .logo {
   text-align: center;
   color: $secondaryColor;
-  margin-left: 20px;	
-  div i{
+  margin-left: 20px;
+  div i {
     font-size: 50px;
   }
   p {
@@ -44,12 +44,13 @@ header {
             border-bottom: 2px solid $secondaryColor;
           }
         }
-      }  
+      }
     }
   }
- 
+
   .sign {
     display: flex;
+    align-items: center;
     .sign-btn {
       margin-right: 10px;
       color: #fff;
@@ -65,4 +66,13 @@ header {
 }
 a {
   color: $secondaryColor;
+}
+.btn-link {
+  color: white;
+}
+.userGreeting {
+  display: inline-block;
+  width: 250px;
+  padding: 0px 10px;
+  text-align: right;
 }
