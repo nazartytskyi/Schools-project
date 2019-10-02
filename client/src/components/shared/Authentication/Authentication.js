@@ -52,10 +52,22 @@ export class Authentication extends Component {
     this.props.setUser(user);
   };
 
+  setMyRole = () => {
+    auth().currentUser.getIdToken().then((idTokenResult) => {
+      console.log(idTokenResult);
+    })
+    auth().currentUser.getIdTokenResult().then((idTokenResult) => {
+      console.log(idTokenResult);
+    })
+    
+    // firebase.auth().setUserClaim(auth().currentUser.uid, {teacher: true});
+  }
+
   render() {
     return (
       <div className="signup-form">
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth()} />
+        <button onClick={this.setMyRole}>Set my role</button>
       </div>
     );
   }
