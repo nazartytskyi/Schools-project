@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import './Vacancies.scss';
-import List from './List/List';
+import VacancyList from './VacancyList/VacancyList';
 import { connect } from 'react-redux';
 import { getSchools } from '../../../actions/getSchools';
 import propTypes from 'prop-types';
 import SpreadSearch from './SpreadSearch/SpreadSearch';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import CitySelect from './CitySelect';
+import SortVacancies from './SortVacancies';
 
 
 const mapStateToProps = state => ({
@@ -31,6 +37,13 @@ export class Vacancies extends Component {
 
   filterVacancies = (filters) => {
     let filteredVacancies = [...this.vacancies];
+    if(filters.city !== 'Всі міста') {
+      if(filters.city !== undefined) {
+        filteredVacancies = filteredVacancies.filter(vacancy => {
+          return vacancy.adress.indexOf(filters.city) >= 0;
+        });
+      }
+    }
     if(filters.title !== undefined) {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return vacancy.title.toUpperCase().includes(filters.title.toUpperCase());
@@ -134,47 +147,52 @@ export class Vacancies extends Component {
     }
   }
 
+  selectCity = (e) => {
+    console.log(e.target.value);
+  }
+
 
   render() {
     return (
-      <div className="vacantions">
+      <div className="vacancies">
         <div className="search">
-          <div>
-            <label>Оберіть місто</label>
-            <select>
-              <option value="Lviv">Львів</option>
-            </select>
+          <div className="city">
+          <CitySelect 
+            selectCity={this.selectCity}
+            setFilter={this.setFilter.bind(this)}/>
+          </div>
+          <div className="search-input">
+            <TextField
+              className="input"
+              id="standard-search"
+              label="Пошук вакансій"
+              type="search"
+              margin="normal"
+              onChange={this.updateInput}
+            />
           </div>
           <div>
-            <label>Для пошуку введіть назву посади</label>
-            <input type="text" className="searchInput" onChange={this.updateInput}/>
+            <SortVacancies/>
           </div>
-          <div>
-            <select onChange={this.sortVacancies}>
-              <option value="byDate">За датою</option>
-              <option value="bySalary">За зарплатою</option>
-            </select>
-          </div>
-
         </div>
         <div className="main">
           <SpreadSearch schools={this.state.schools} 
-                        // vacancies={this.vacancies}
                         filterBySchool={this.filterBySchool} 
                         filterByEmployment={this.filterByEmployment} 
                         className="sidebar"
                         setFilter={this.setFilter.bind(this)}
           />
-          <List vacancies={this.state.filteredVacancies} className="list"/>
+          <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
         </div>
+
       </div>
     )
   }
 }
 
 Vacancies.propTypes = {
-  getSchools: propTypes.func,
-  schools: propTypes.object
+  getSchools: propTypes.func.isRequired,
+  schools: propTypes.object.isRequired
 };
 
 

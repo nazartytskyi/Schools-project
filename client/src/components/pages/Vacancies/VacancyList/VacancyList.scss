@@ -1,0 +1,25 @@
+.list {
+  width: 70%;
+}
+
+.vacancy-card {
+  max-width: 800px;
+  margin-bottom: 30px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  .salary {
+    margin: 10px;
+    text-align: right;
+  }
+}
+
+.card-content {
+  padding-bottom: 0 !important;
+}
+
+.card-footer {
+  height: 30px;
+}
