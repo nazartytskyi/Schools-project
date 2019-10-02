@@ -34,20 +34,15 @@ class App extends Component {
   }
   updateSchools = (idToUpdate, keyToUpdate, keyValueToUpdate) => {
     let objIdToUpdate = null;
-    let objectUpdate = {};
-    objectUpdate[keyToUpdate] = keyValueToUpdate;
-
+    const update = {};
+    update[keyToUpdate] = keyValueToUpdate;
     this.props.schools.data.forEach(school => {
       if (school.id === idToUpdate) {
         objIdToUpdate = school._id;
       }
     });
-    console.log(this.props.schools.data);
-    console.log(objectUpdate);
-    console.log(objIdToUpdate);
-    axios.post('http://localhost:3001/api/updateData', {
-      id: objIdToUpdate,
-      update: objectUpdate
+    axios.post(`http://localhost:3001/api/updateData/schools/${objIdToUpdate}/`, {
+      update 
     });
   };
 
