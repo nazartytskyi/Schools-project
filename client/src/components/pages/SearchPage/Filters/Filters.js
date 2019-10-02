@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Select, InputLabel, FormControl } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+//import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 
 class Filters extends Component {
   constructor(props) {

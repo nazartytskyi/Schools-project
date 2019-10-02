@@ -65,7 +65,16 @@ class MapSearch extends Component {
       height: '100%'
     };
 
-    const markersArr = this.props.schools && this.props.schools.map(school => <Marker key={school.id} onClick={this.onMarkerClick} name={school.name} position={school.coordinates}/>);
+    const markersArr = this.props.schools && this.props.schools.map(school => {
+      return <Marker 
+        key={school.id}
+        onClick={this.onMarkerClick} 
+        name={school.name} 
+        free={school.firstGrade.free}
+        adress={`${school.adress.city}, ${school.adress.street} ${school.adress.building}`}
+        position={school.coordinates}
+      />
+    });
  
     return (
       <div className="map-wrapper">
@@ -79,9 +88,10 @@ class MapSearch extends Component {
           {markersArr}
           <InfoWindowEx marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
             <div>
-              <h3>{this.state.activeMarker.name}</h3>
-              <p>{this.state.activeMarker.adress || 'Adress'}</p>
-             <p>Вільні місця: {/*  {this.state.activeMarker.firstGrade.free}*/}</p>  
+              {/* <Link to='/app'>{this.state.activeMarker.name}</Link>  */}
+              <h2>{this.state.activeMarker.name}</h2>
+              <p>{this.state.activeMarker.adress}</p>
+             <p>Вільні місця: {this.state.activeMarker.free}</p>  
             </div>                
           
           </InfoWindowEx>

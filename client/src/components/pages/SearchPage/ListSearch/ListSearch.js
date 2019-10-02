@@ -13,8 +13,8 @@ import {Redirect} from 'react-router';
 
 
 
-function createData(id, name, zno, vacant, carbs, protein) {
-  return { id, name, zno, vacant, carbs, protein };
+function createData(id, name, zno, vacant, rate, distance) {
+  return { id, name, zno, vacant, rate, distance};
 }
 
 let rows = [];
@@ -65,8 +65,8 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Назва' },
   { id: 'zno', numeric: true, disablePadding: false, label: 'ЗНО' },
   { id: 'vacant', numeric: true, disablePadding: false, label: 'Вільні місця' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' }
+  { id: 'rate', numeric: true, disablePadding: false, label: 'Відгуки' },
+  { id: 'distance', numeric: true, disablePadding: false, label: 'Віддаленість' }
 ];
 
 function EnhancedTableHead(props) {
@@ -173,10 +173,18 @@ export default function ListSearch(props) {
     setPage(0);
   }
 
+  function getAvgFeedbackRate(school) {
+    let rateSum = 0;
+    school.feedbacks.forEach(feedback => {
+      rateSum += feedback.rate;
+    })
+    
+    return Math.round(10 * rateSum / school.feedbacks.length) / 10;
+  }
   
   if(props.schools){
     rows = [];
-    props.schools.forEach(school => rows.push(createData(school.id, school.name, school.avgZno, school.firstGrade.free, 67, 4.3)))
+    props.schools.forEach(school => rows.push(createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-')))
   }
 
   const isSelected = name => selected.indexOf(name) !== -1;
@@ -222,8 +230,8 @@ export default function ListSearch(props) {
                       </TableCell>
                       <TableCell align="right">{row.zno}</TableCell>
                       <TableCell align="right">{row.vacant}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.rate}</TableCell>
+                      <TableCell align="right">{row.distance}</TableCell>
                     </TableRow>
                   );
                 })}
