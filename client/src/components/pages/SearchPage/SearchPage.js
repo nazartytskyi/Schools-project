@@ -56,10 +56,7 @@ class SearchPage extends React.Component {
     this.state = {value: 0, schools: this.props.schools.data}; 
   } 
   
-  getSchools = event => {
-    // in this method we launch action
-    this.props.getSchools();
-  };
+
   
 
   componentDidMount() {
@@ -74,6 +71,7 @@ class SearchPage extends React.Component {
         this.schools = schools.data;
         this.setState({...this.state, filteredSchools:schools.data})
       });
+    //this.setState({...this.state, filteredSchools:this.props.schools.data})
   }
 
   setFilter(filterMixin) {
@@ -82,7 +80,7 @@ class SearchPage extends React.Component {
   }
 
   filterSchools(filters) {
-    let filteredSchools = [...this.schools];
+    let filteredSchools = [...this.props.schools.data];
 
     //name (search) filter
     if(filters.name) {
@@ -91,16 +89,48 @@ class SearchPage extends React.Component {
       })
     }
 
-    //range filter
-    if(filters.range !== undefined) {
+    //zno range filter
+    if(filters.znoRange !== undefined) {
       filteredSchools = filteredSchools.filter(school => {
-        return school.avgZno >= filters.range[0] && school.avgZno <= filters.range[1];
+        return school.avgZno >= filters.znoRange[0] && school.avgZno <= filters.znoRange[1];
       })
     }
+
+    //feedback range filter
+    if(filters.feedbackRange ) {
+      filteredSchools = filteredSchools.filter(school => {
+        return this._getAvgFeedbackRate(school) >= filters.feedbackRange[0] && this._getAvgFeedbackRate(school) <= filters.feedbackRange[1];
+      })
+    }
+
+
+    //onlyFree filter
+    if(filters.onlyFree) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.firstGrade.free > 0;
+      })
+    }
+
+    //language filter
+    if(filters.language) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.language.toUpperCase().includes(filters.language.toUpperCase());
+      })
+    }
+
 
     //... other filters
 
     return filteredSchools;
+  }
+
+  _getAvgFeedbackRate(school) {
+    let rateSum = 0;
+    school.feedbacks.forEach(feedback => {
+      rateSum += feedback.rate;
+    })
+   
+    return Math.round(10 * rateSum / school.feedbacks.length) / 10;
   }
 
   setFilteredSchools(schools) {

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './MapSearch.scss';
 // import propTypes from 'prop-types';
 // import AppBar from '@material-ui/core/AppBar';
-// import { Link }from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { InfoWindow } from 'google-maps-react'
 import ReactDOM from 'react-dom'
@@ -77,13 +77,14 @@ class MapSearch extends Component {
           initialCenter={this.initialCenter}
         >
           {markersArr}
-
           <InfoWindowEx marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
-                            <div>
-                                <h1>{this.state.activeMarker.name}</h1>
-                               
-                            </div>
-                        </InfoWindowEx>
+            <div>
+              <h3>{this.state.activeMarker.name}</h3>
+              <p>{this.state.activeMarker.adress || 'Adress'}</p>
+             <p>Вільні місця: {/*  {this.state.activeMarker.firstGrade.free}*/}</p>  
+            </div>                
+          
+          </InfoWindowEx>
         </Map>
         {/*<Footer/>*/}
       </div>

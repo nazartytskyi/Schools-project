@@ -9,7 +9,8 @@ const DataSchema = new SchemaSchools(
     description : String,
     phoneNumber : String,
     adress : String,
-    language : String
+    language : String,
+    firstGrade: Object
   },
   { collection: 'schools' }
 );
