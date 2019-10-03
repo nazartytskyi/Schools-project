@@ -5,6 +5,7 @@ import { getSchools } from './actions/getSchools';
 import propTypes from 'prop-types';
 import axios from 'axios';
 import Carousel from './components/shared/Carousel/Carousel';
+import firebase from './components/shared/Authentication/firebase-service';
 //import AppBar from '@material-ui/core/AppBar';
 //import { Link }from 'react-router-dom'
 
@@ -46,6 +47,30 @@ class App extends Component {
     });
   };
 
+  setRoleForCurrentUser = function (role) {
+    const update = {};
+    update[role] = true;
+    axios.post(`http://localhost:3001/api/setrole/${this.props.users.user.uid}/`, {
+      update
+    });
+  }
+
+  getPrivateData = function () {
+    console.log('getPrivateData');
+    if(firebase.auth().currentUser) {
+      console.log('logged');
+      firebase.auth().currentUser.getIdToken()
+      .then((idToken) => {
+        axios.get(`http://localhost:3001/api/protectedarticle/`, {
+          headers: {authorization : idToken}
+        });
+      });
+    } else {
+      axios.get(`http://localhost:3001/api/protectedarticle/`, {
+        headers: {authorization : ' '}
+      });
+    }
+  }
 
   // componentWillUnmount() {
   // }
@@ -54,6 +79,31 @@ class App extends Component {
     const schools = this.props.schools.data || [];
     return (
       <div className='container'>
+        <div style={{ padding: '30px' }}> 
+        <input
+            type="text"
+            onChange={e => {
+              this.setState({ role: e.target.value });
+            }}
+            placeholder="role"
+            style={{ width: '200px' }}
+          />
+          <button
+            onClick={() =>
+              this.setRoleForCurrentUser(
+                this.state.role
+              )
+            }
+          >
+            setRoleForCurrentUser
+          </button>
+          <br/>
+          <button
+            onClick={this.getPrivateData.bind(this)}
+          >
+            getPrivateData
+          </button>
+        </div>
         <div style={{ padding: '10px' }}>
           <input
             type="text"
@@ -123,7 +173,8 @@ class App extends Component {
 App.propTypes = {
   getSchools: propTypes.func,
   schools: propTypes.object,
-  updateSchools: propTypes.func
+  updateSchools: propTypes.func,
+  users: propTypes.object
 };
 
 export default connect(
