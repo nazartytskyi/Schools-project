@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { InfoWindow } from 'google-maps-react'
 import ReactDOM from 'react-dom'
 
+
 class InfoWindowEx extends Component {
     constructor(props) {
         super(props)
@@ -71,7 +72,7 @@ class MapSearch extends Component {
         onClick={this.onMarkerClick} 
         name={school.name} 
         free={school.firstGrade.free}
-        adress={`${school.adress.city}, ${school.adress.street} ${school.adress.building}`}
+       
         position={school.coordinates}
       />
     });
@@ -105,5 +106,3 @@ class MapSearch extends Component {
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBHomne1KPE5WDiE8kzxEt9p2Ue5xM1Fkg'
 })(MapSearch);
-
-
