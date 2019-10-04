@@ -20,7 +20,7 @@ router.post('/setrole/:uid', setUserRole);
 
 // this is our get method
 // this method fetches all available data in our database
-router.get('/getSchools', getSchools);
+router.get('/getData', getSchools);
 
 // this is our update method
 // this method overwrites existing data in our database
