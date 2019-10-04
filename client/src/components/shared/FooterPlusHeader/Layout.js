@@ -3,18 +3,28 @@ import Footer from '../footer/Footer';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import { auth } from '../firebase-service/firebase-service';
 import { getSchools } from '../../../actions/getSchools';
+import { setUser } from '../../../actions/setUser';
 
 const mapStateToProps = state => ({
   ...state
 });
 const mapDispatchToProps = dispatch => ({
-  getSchools: () => dispatch(getSchools())
+  getSchools: () => dispatch(getSchools()),
+  setUser: user => {
+    return dispatch(setUser(user));
+  }
 });
 
 class Layout extends Component {
   getSchools = () => {
     this.props.getSchools();
+    auth().onAuthStateChanged(this.setUser);
+  };
+
+  setUser = user => {
+    this.props.setUser(user);
   };
 
   componentDidMount() {
@@ -40,6 +50,7 @@ class Layout extends Component {
 
 Layout.propTypes = {
   getSchools: propTypes.func,
+  setUser: propTypes.func,
   children: propTypes.array,
   users: propTypes.object
 };

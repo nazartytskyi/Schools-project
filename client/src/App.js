@@ -5,7 +5,7 @@ import { getSchools } from './actions/getSchools';
 import propTypes from 'prop-types';
 import axios from 'axios';
 import Carousel from './components/shared/Carousel/Carousel';
-import firebase from './components/shared/Authentication/firebase-service';
+import firebase from './components/shared/firebase-service/firebase-service';
 //import AppBar from '@material-ui/core/AppBar';
 //import { Link }from 'react-router-dom'
 
@@ -42,7 +42,7 @@ class App extends Component {
         objIdToUpdate = school._id;
       }
     });
-    axios.post(`http://localhost:3001/api/updateData/schools/${objIdToUpdate}/`, {
+    axios.post(`http://localhost:3001/api/update/schools/${objIdToUpdate}/`, {
       update 
     });
   };
@@ -71,9 +71,6 @@ class App extends Component {
       });
     }
   }
-
-  // componentWillUnmount() {
-  // }
 
   render() {
     const schools = this.props.schools.data || [];

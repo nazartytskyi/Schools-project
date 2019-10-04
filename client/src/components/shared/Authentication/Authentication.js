@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setUser } from '../../../actions/setUser';
-import firebase from './firebase-service';
-import { auth } from './firebase-service';
+import firebase from '../firebase-service/firebase-service';
+import { auth } from '../firebase-service/firebase-service';
 import 'firebase/firestore';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import propTypes from 'prop-types';
@@ -42,16 +42,6 @@ const uiConfig = {
 };
 
 export class Authentication extends Component {
-  constructor(props) {
-    super(props);
-    auth().onAuthStateChanged(this.setUser);
-  }
-
-  setUser = user => {
-    // in this method we launch action
-    this.props.setUser(user);
-  };
-
   render() {
     return (
       <div className="signup-form">
