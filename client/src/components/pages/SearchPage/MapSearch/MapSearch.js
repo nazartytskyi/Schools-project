@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './MapSearch.scss';
 // import propTypes from 'prop-types';
 // import AppBar from '@material-ui/core/AppBar';
-// import { Link }from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { InfoWindow } from 'google-maps-react'
 import ReactDOM from 'react-dom'
@@ -65,7 +65,16 @@ class MapSearch extends Component {
       height: '100%'
     };
 
-    const markersArr = this.props.schools && this.props.schools.map(school => <Marker key={school.id} onClick={this.onMarkerClick} name={school.name} position={school.coordinates}/>);
+    const markersArr = this.props.schools && this.props.schools.map(school => {
+      return <Marker 
+        key={school.id}
+        onClick={this.onMarkerClick} 
+        name={school.name} 
+        free={school.firstGrade.free}
+        adress={`${school.adress.city}, ${school.adress.street} ${school.adress.building}`}
+        position={school.coordinates}
+      />
+    });
  
     return (
       <div className="map-wrapper">
@@ -77,13 +86,15 @@ class MapSearch extends Component {
           initialCenter={this.initialCenter}
         >
           {markersArr}
-
           <InfoWindowEx marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
-                            <div>
-                                <h1>{this.state.activeMarker.name}</h1>
-                               
-                            </div>
-                        </InfoWindowEx>
+            <div>
+              {/* <Link to='/app'>{this.state.activeMarker.name}</Link>  */}
+              <h2>{this.state.activeMarker.name}</h2>
+              <p>{this.state.activeMarker.adress}</p>
+             <p>Вільні місця: {this.state.activeMarker.free}</p>  
+            </div>                
+          
+          </InfoWindowEx>
         </Map>
         {/*<Footer/>*/}
       </div>
