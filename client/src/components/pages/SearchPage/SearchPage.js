@@ -52,13 +52,13 @@ function a11yProps(index) {
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: 0, schools: this.props.schools.data}; 
+    this.filters = {};
+    this.state = {
+      value: 0,
+      schools: this.props.schools.data,
+      userCoordinates: {}
+    }; 
   } 
-  
-  getSchools = event => {
-    // in this method we launch action
-    this.props.getSchools();
-  };
   
 
   componentDidMount() {
@@ -70,8 +70,77 @@ class SearchPage extends React.Component {
         return data.json()
       })
       .then(schools => {
-        return this.setState({...this.state, schools:schools.data})
+        this.schools = schools.data;
+        this.setState({...this.state, filteredSchools:schools.data})
       });
+    //this.setState({...this.state, filteredSchools:this.props.schools.data})
+  }
+
+  setFilter(filterMixin) {
+    this.filters = {...this.filters, ...filterMixin};
+    this.setState({filteredSchools: this.filterSchools(this.filters)});
+  }
+
+  filterSchools(filters) {
+    let filteredSchools = [...this.props.schools.data];
+
+    //name (search) filter
+    if(filters.name) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.name.toUpperCase().includes(filters.name.toUpperCase());
+      })
+    }
+
+    //zno range filter
+    if(filters.znoRange !== undefined) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.avgZno >= filters.znoRange[0] && school.avgZno <= filters.znoRange[1];
+      })
+    }
+
+    //feedback range filter
+    if(filters.feedbackRange ) {
+      filteredSchools = filteredSchools.filter(school => {
+        return this._getAvgFeedbackRate(school) >= filters.feedbackRange[0] && this._getAvgFeedbackRate(school) <= filters.feedbackRange[1];
+      })
+    }
+
+
+    //onlyFree filter
+    if(filters.onlyFree) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.firstGrade.free > 0;
+      })
+    }
+
+    //language filter
+    if(filters.language) {
+      filteredSchools = filteredSchools.filter(school => {
+        return school.language.toUpperCase().includes(filters.language.toUpperCase());
+      })
+    }
+
+
+    //... other filters
+
+    return filteredSchools;
+  }
+
+  _getAvgFeedbackRate(school) {
+    let rateSum = 0;
+    school.feedbacks.forEach(feedback => {
+      rateSum += feedback.rate;
+    })
+   
+    return Math.round(10 * rateSum / school.feedbacks.length) / 10;
+  }
+
+  setFilteredSchools(schools) {
+    this.setState({...this.state, filteredSchools:schools})
+  }
+
+  setUserCoordinates(coordinates) {
+    this.setState({...this.state, userCoordinates: coordinates});
   }
 
   render() {
@@ -79,11 +148,12 @@ class SearchPage extends React.Component {
     const handleChange = (event, newValue) => {
       this.setState({...this.state, value:newValue});
     }
+
     return (
       <>   
         <main>
           <div className="searchbar">
-            <SearchInput schools={this.state.schools}/>
+            <SearchInput setFilter={this.setFilter.bind(this)} schools={this.schools} />
           </div>
          
           <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
@@ -93,13 +163,14 @@ class SearchPage extends React.Component {
           
         
           <div className="search-content-wrapper">
-            <Filters className="filtrers"/>
+            <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>
 
             <TabPanel value={value} index={0}>
-             <ListSearch schools={this.state.schools} className="search-results"/>
+             <ListSearch userCoordinates={this.state.userCoordinates} schools={this.state.filteredSchools} className="search-results"/>
             </TabPanel>
+
             <TabPanel value={value} index={1}>
-              <MapSearch className="search-results"/>
+              <MapSearch schools={this.state.filteredSchools} className="search-results"/>
             </TabPanel>
           </div>
         </main>

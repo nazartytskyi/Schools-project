@@ -9,7 +9,26 @@ import Container from '@material-ui/core/Container';
 
 
 export class Header extends Component {
+  logout = () => {
+    auth().signOut();
+  };
   render() {
+    let sign;
+    if(this.props.username){
+      sign = <div className="sign">
+      <span className="userGreeting" > Вітаю, {this.props.username}</span>
+      <Button onClick={this.logout} variant="outlined" className="sign-btn">
+        Вийти
+      </Button>
+    </div>
+    } else {
+      sign = <div className="sign">
+      <span className="userGreeting" >  </span>
+      <Button variant="outlined" className="sign-btn">
+        <Link to='/auth' className="btn-link">Увійти</Link>
+      </Button>
+    </div>
+    }
     return (
       <header>
         <React.Fragment>
@@ -30,14 +49,7 @@ export class Header extends Component {
               <li><Link to='/app' className="nav-link">Про проект</Link></li>
             </ul>
           </nav>
-          <div className="sign">
-            <Button variant="outlined" className="sign-btn">
-              Зареєструватися
-            </Button>
-            <Button variant="outlined" className="sign-btn">
-              Увійти
-            </Button>
-          </div>
+          {sign}
         </div>
       </Container>
     </React.Fragment>
@@ -46,5 +58,8 @@ export class Header extends Component {
     )
   }
 }
+Header.propTypes = {
+  username: propTypes.string
+};
 
 export default Header

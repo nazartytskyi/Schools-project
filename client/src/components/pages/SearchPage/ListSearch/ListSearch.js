@@ -10,11 +10,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import {Redirect} from 'react-router';
+import {GoogleApiWrapper} from 'google-maps-react';
 
 
 
-function createData(id, name, zno, vacant, carbs, protein) {
-  return { id, name, zno, vacant, carbs, protein };
+function createData(id, name, zno, vacant, rate, distance) {
+  return { id, name, zno, vacant, rate, distance};
 }
 
 let rows = [];
@@ -65,8 +66,8 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Назва' },
   { id: 'zno', numeric: true, disablePadding: false, label: 'ЗНО' },
   { id: 'vacant', numeric: true, disablePadding: false, label: 'Вільні місця' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' }
+  { id: 'rate', numeric: true, disablePadding: false, label: 'Відгуки' },
+  { id: 'distance', numeric: true, disablePadding: false, label: 'Віддаленість' }
 ];
 
 function EnhancedTableHead(props) {
@@ -141,14 +142,45 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ListSearch(props) {
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyBHomne1KPE5WDiE8kzxEt9p2Ue5xM1Fkg'
+})(ListSearch)
+
+function ListSearch(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected] = React.useState([]);
   const [page, setPage] = React.useState(0);
+  const [distances, setDistance] = React.useState({});
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const distanceMatrixService = new props.google.maps.DistanceMatrixService();
+  //const distanceMap = new Map();
+
+  function calculateDistance(userCoords, schoolCoords, id) {
+    if (!userCoords.lat) {
+      return '-';
+    }
+    const origin = new props.google.maps.LatLng(userCoords.lat, userCoords.lng);
+    const destination = new props.google.maps.LatLng(schoolCoords.lat, schoolCoords.lng);
+
+    distanceMatrixService.getDistanceMatrix({
+      origins: [origin],
+      destinations: [destination],
+      travelMode: 'DRIVING'
+    }, callback);
+
+    function callback(response, status) {
+      if (status == 'OK') {
+        const origin = response.originAddresses[0];
+        const destination = response.destinationAddresses[0];
+        setDistance({...distances, [id]: response.rows[0].elements[0].distance.text});
+      }
+    
+    } 
+  }
+
 
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
@@ -172,10 +204,22 @@ export default function ListSearch(props) {
     setPage(0);
   }
 
+
+  function getAvgFeedbackRate(school) {
+    let rateSum = 0;
+    school.feedbacks.forEach(feedback => {
+      rateSum += feedback.rate;
+    })
+    
+    return Math.round(10 * rateSum / school.feedbacks.length) / 10;
+  }
   
-  if(props.schools){
+  if(props.schools) {
     rows = [];
-    props.schools.forEach(school => rows.push(createData(school.id, school.name, school.avgZno, school.firstGrade.free, 67, 4.3)))
+    const schools = [...props.schools]
+    schools.forEach(school => {
+      rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), distances[school.id.toString()] || calculateDistance(props.userCoordinates, school.coordinates, school.id.toString())));
+    });
   }
 
   const isSelected = name => selected.indexOf(name) !== -1;
@@ -221,8 +265,8 @@ export default function ListSearch(props) {
                       </TableCell>
                       <TableCell align="right">{row.zno}</TableCell>
                       <TableCell align="right">{row.vacant}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.rate}</TableCell>
+                      <TableCell align="right">{row.distance}</TableCell>
                     </TableRow>
                   );
                 })}

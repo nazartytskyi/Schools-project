@@ -1,119 +1,49 @@
 import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import './News.scss'
 import { connect } from 'react-redux';
-import { getSchools } from '../../../actions/getSchools';
 import PropTypes from 'prop-types';
+import NewsCard from './NewsCard';
 
 const mapStateToProps = state => ({
-  ...state
+  schools: state.schools
 });
-
-const mapDispatchToProps = dispatch => ({
-  getSchools: () => dispatch(getSchools())
-});
-
 class News extends Component {
   constructor(props) {
     super(props)
-    let set = new Set();
-    this.state = {expanded: set};
-  }
-  getSchools = event => {
-    // in this method we launch action
-    this.props.getSchools();
-  };
-  
-  componentDidMount() {
-    //here we launch method getSchools from App
-    this.getSchools();
+    this.state = {expanded: new Set()};
   }
 
-  handleExpandClick = (indexSchool, indexNews) => {
+  handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
-    let newObj = {[indexSchool]: indexNews};
-    if(this.checkObject(newObj)) {
-      expanded.forEach(item => JSON.stringify(item) === JSON.stringify(newObj) ? expanded.delete(item) : '');
-      this.setState({expanded: expanded});
-      return;
-    }
-    expanded.add(newObj);
+    !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
     this.setState({expanded: expanded});
-  }
-  checkObject = (obj) => {
-    for(let elem of this.state.expanded) { 
-      if(JSON.stringify(elem) === JSON.stringify(obj)){
-        return true; 
-      }
-    }
-    return false;
   }
   render() {
     const schools = this.props.schools.data || [];
-    
-  return (
-    <div className='news-cards'>
-      {schools.map((school, indexSchool) =>
-        <div key={school.name}>
-          {school.news.map((item, indexNews) => (
-            <div key={item.name} >
-              <Card className='card' key={item.name}>
-                <CardHeader
-                  title={item.title}
-                  subheader={item.date}
+      
+    return (
+      <div className='news-cards'>
+        {schools.map((school, indexSchool) => {
+          return <div key={school.name}>
+            {school.news.map((item, indexNews) => {
+              let SchoolNewsId = `${indexSchool}${indexNews}`;
+              return <div key={item.name} >
+                <NewsCard 
+                  item={item} 
+                  SchoolNewsId={SchoolNewsId} 
+                  state={this.state} 
+                  handleExpandClick={this.handleExpandClick}
                 />
-                <CardMedia
-                  className='media'
-                  image={item.img}
-                  title={item.title}
-                />
-                <CardContent>
-                  <Typography className='text-ellipsis' variant="body2" color="textSecondary" component="span">
-                      {item.description}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton
-                    className={ this.checkObject({[indexSchool]: indexNews})
-                      ? 'expandOpen' : 'expand' }
-                    onClick={()=>{this.handleExpandClick(indexSchool, indexNews)}}
-                    aria-expanded={this.state.expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </IconButton>
-                </CardActions>
-                <Collapse in={ this.checkObject({[indexSchool]: indexNews}) ? 
-                  true : 
-                  false} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>
-                      {item.description}
-                    </Typography>
-                  </CardContent>
-                </Collapse> 
-              </Card>
-            </div>
-          ))}
-        </div>
-      )}
-  </div>
-  );
+              </div>
+            })}
+          </div>
+        })}
+    </div>
+    );
   }
 }
 
 News.propTypes = {
   schools: PropTypes.object.isRequired
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(News);
+export default connect(mapStateToProps)(News);

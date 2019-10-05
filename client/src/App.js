@@ -5,6 +5,7 @@ import { getSchools } from './actions/getSchools';
 import propTypes from 'prop-types';
 import axios from 'axios';
 import Carousel from './components/shared/Carousel/Carousel';
+import firebase from './components/shared/firebase-service/firebase-service';
 //import AppBar from '@material-ui/core/AppBar';
 //import { Link }from 'react-router-dom'
 
@@ -34,31 +35,72 @@ class App extends Component {
   }
   updateSchools = (idToUpdate, keyToUpdate, keyValueToUpdate) => {
     let objIdToUpdate = null;
-    let objectUpdate = {};
-    objectUpdate[keyToUpdate] = keyValueToUpdate;
-
+    const update = {};
+    update[keyToUpdate] = keyValueToUpdate;
     this.props.schools.data.forEach(school => {
       if (school.id === idToUpdate) {
         objIdToUpdate = school._id;
       }
     });
-    console.log(this.props.schools.data);
-    console.log(objectUpdate);
-    console.log(objIdToUpdate);
-    axios.post('http://localhost:3001/api/updateData', {
-      id: objIdToUpdate,
-      update: objectUpdate
+    axios.post(`http://localhost:3001/api/update/schools/${objIdToUpdate}/`, {
+      update 
     });
   };
 
+  setRoleForCurrentUser = function (role) {
+    const update = {};
+    update[role] = true;
+    axios.post(`http://localhost:3001/api/setrole/${this.props.users.user.uid}/`, {
+      update
+    });
+  }
 
-  // componentWillUnmount() {
-  // }
+  getPrivateData = function () {
+    console.log('getPrivateData');
+    if(firebase.auth().currentUser) {
+      console.log('logged');
+      firebase.auth().currentUser.getIdToken()
+      .then((idToken) => {
+        axios.get(`http://localhost:3001/api/protectedarticle/`, {
+          headers: {authorization : idToken}
+        });
+      });
+    } else {
+      axios.get(`http://localhost:3001/api/protectedarticle/`, {
+        headers: {authorization : ' '}
+      });
+    }
+  }
 
   render() {
     const schools = this.props.schools.data || [];
     return (
       <div className='container'>
+        <div style={{ padding: '30px' }}> 
+        <input
+            type="text"
+            onChange={e => {
+              this.setState({ role: e.target.value });
+            }}
+            placeholder="role"
+            style={{ width: '200px' }}
+          />
+          <button
+            onClick={() =>
+              this.setRoleForCurrentUser(
+                this.state.role
+              )
+            }
+          >
+            setRoleForCurrentUser
+          </button>
+          <br/>
+          <button
+            onClick={this.getPrivateData.bind(this)}
+          >
+            getPrivateData
+          </button>
+        </div>
         <div style={{ padding: '10px' }}>
           <input
             type="text"
@@ -128,7 +170,8 @@ class App extends Component {
 App.propTypes = {
   getSchools: propTypes.func,
   schools: propTypes.object,
-  updateSchools: propTypes.func
+  updateSchools: propTypes.func,
+  users: propTypes.object
 };
 
 export default connect(

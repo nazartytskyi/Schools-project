@@ -4,11 +4,6 @@
   justify-content: space-evenly;
   margin: 40px;
 }
-.card {
-  max-width: 768px;
-  margin: 10px;
-  min-height: 563px;
-}
 .text-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -28,4 +23,25 @@
 } 
 .expandOpen {
   transform: rotate(180deg);
+}
+@media only screen and (min-width: 1673px) {
+  .card {
+    max-width: 768px;
+    margin: 10px;
+    min-height: 563px;
+  }
+}
+@media only screen and (min-width: 1273px)and (max-width: 1672px) {
+  .card {
+    max-width: 568px;
+    margin: 10px;
+    min-height: 563px;
+  }
+}
+@media only screen and (min-width: 568px)and (max-width: 1272px) {
+  .card {
+    max-width: auto;
+    margin: 10px;
+    min-height: 563px;
+  }
 }
