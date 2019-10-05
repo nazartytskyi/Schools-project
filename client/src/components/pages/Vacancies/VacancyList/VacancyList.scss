@@ -1,9 +1,9 @@
 .list {
   width: 70%;
+  margin: 0 auto;
 }
 
 .vacancy-card {
-  max-width: 800px;
   margin-bottom: 30px;
 }
 
@@ -22,4 +22,12 @@
 
 .card-footer {
   height: 30px;
+}
+
+.expand {
+  transform: rotate(0deg);
+  margin-left: auto;
+} 
+.expandOpen {
+  transform: rotate(180deg);
 }

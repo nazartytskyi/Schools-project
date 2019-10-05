@@ -26,7 +26,7 @@ export class Carousel extends Component {
     const schools = this.props.schools.data || [];
 
     return (
-      <div className="news-card">
+      <div className="news-card-slider">
         <h1>Latest News</h1>
         <div className="news-slider">
         <Slider>
