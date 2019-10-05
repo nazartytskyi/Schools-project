@@ -44,7 +44,7 @@ class SchoolInfo extends Component {
             <Grid container spacing={3}>
               <Grid item xs={6}>
                 <CardMedia
-                  className='media'
+                  className='media-school-photo'
                   image={schools[0] ? schools[0].news[0].img : 'loading...'}
                 />
               </Grid>
