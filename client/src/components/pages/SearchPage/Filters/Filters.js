@@ -12,7 +12,14 @@ import { Select, InputLabel, FormControl } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 //import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import { geocodeByAddress } from 'react-places-autocomplete';
 
+// `results` is an entire payload from Google API.
+debugger
+geocodeByAddress('Lviv')
+  .then(results => console.log(results[0].geometry.location.lat(), results[0].geometry.location.lng()))
+  .catch(error => console.error(error));
+  
 class Filters extends Component {
   constructor(props) {
     super(props);
