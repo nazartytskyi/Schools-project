@@ -6,6 +6,7 @@ import propTypes from 'prop-types';
 import { auth } from '../firebase-service/firebase-service';
 import { getSchools } from '../../../actions/getSchools';
 import { setUser } from '../../../actions/setUser';
+import { setUserRole } from '../../../actions/setUserRole';
 
 const mapStateToProps = state => ({
   ...state
@@ -14,6 +15,9 @@ const mapDispatchToProps = dispatch => ({
   getSchools: () => dispatch(getSchools()),
   setUser: user => {
     return dispatch(setUser(user));
+  },
+  setUserRole: userRole => {
+    return dispatch(setUserRole(userRole));
   }
 });
 
@@ -25,6 +29,23 @@ class Layout extends Component {
 
   setUser = user => {
     this.props.setUser(user);
+    if (auth().currentUser) {
+      auth().currentUser.getIdTokenResult()
+        .then(idTokenResult => {
+          if (idTokenResult.claims.parent) {
+            this.props.setUserRole('parent');
+          }
+          if (idTokenResult.claims.superadmin) {
+            this.props.setUserRole('superadmin');
+          }
+          if (idTokenResult.claims.administration) {
+            this.props.setUserRole('administration');
+          }
+        })
+        .catch(() => {
+          console.log('Role not set');
+        });
+    }
   };
 
   componentDidMount() {
@@ -51,6 +72,7 @@ class Layout extends Component {
 Layout.propTypes = {
   getSchools: propTypes.func,
   setUser: propTypes.func,
+  setUserRole: propTypes.func,
   children: propTypes.array,
   users: propTypes.object
 };

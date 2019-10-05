@@ -5,6 +5,11 @@ export default (state = {}, action) => {
         ...state,
         user: action.payload
       };
+    case 'SET_USER_ROLE':
+    return {
+      ...state,
+      userRole: action.payload
+    };
     default:
       return state;
   }
