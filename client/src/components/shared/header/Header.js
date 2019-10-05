@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import SchoolIcon from '@material-ui/icons/School';
 import {auth} from '../firebase-service/firebase-service';
 import propTypes from 'prop-types';
+import Container from '@material-ui/core/Container';
 
 
 export class Header extends Component {
@@ -30,7 +31,9 @@ export class Header extends Component {
     }
     return (
       <header>
-        <div className="logo">
+        <React.Fragment>
+      <Container maxWidth="lg" className="header-container">
+      <div className="logo">
           <Link to='/app'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
           <p>Schools</p>
         </div>
@@ -48,6 +51,9 @@ export class Header extends Component {
           </nav>
           {sign}
         </div>
+      </Container>
+    </React.Fragment>
+        
       </header>
     )
   }

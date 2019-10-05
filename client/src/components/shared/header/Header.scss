@@ -1,14 +1,20 @@
 @import '../../Variables.scss';
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  
   background-color: $mainColor;
   color: #fff;
   padding: 10px;
   font-family: $mainFont;
   font-size: $mainFontSize;
+  position: fixed;
+  z-index: 2000;
+  width: 100%;
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .logo {
@@ -47,7 +53,6 @@ header {
       }
     }
   }
-
   .sign {
     display: flex;
     align-items: center;
@@ -67,6 +72,9 @@ header {
 a {
   color: $secondaryColor;
 }
+<<<<<<< HEAD
+
+=======
 .btn-link {
   color: white;
 }
@@ -76,3 +84,4 @@ a {
   padding: 0px 10px;
   text-align: right;
 }
+>>>>>>> 3cc17d7d3c5bcad75a1163b0091f093d489be3ab
