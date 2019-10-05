@@ -3,6 +3,8 @@ import './Header.scss';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
 import SchoolIcon from '@material-ui/icons/School';
+import {auth} from '../firebase-service/firebase-service';
+import propTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
 
 
