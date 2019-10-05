@@ -5,13 +5,14 @@ import './Filters.scss';
 // import AppBar from '@material-ui/core/AppBar';
 // import { Link } from 'react-router-dom';
 //import MapSearch from './MapSearch/MapSearch';
+import LocationSearchInput from './LocationSearchInput/LocationSearchInput'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
 import { Select, InputLabel, FormControl } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-//import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+
 
 class Filters extends Component {
   constructor(props) {
@@ -61,6 +62,8 @@ class Filters extends Component {
 
         <ZnoRangeSlider setFilter={this.props.setFilter} schools={this.props.schools}/>
         <FeedbackRangeSlider setFilter={this.props.setFilter} schools={this.props.schools}/>
+        <LocationSearchInput setUserCoordinates={this.props.setUserCoordinates}/>
+       
       </div>
       );
   }

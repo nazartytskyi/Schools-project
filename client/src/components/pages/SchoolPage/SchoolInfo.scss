@@ -1,0 +1,29 @@
+.school-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.school-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.school-name {
+  padding-top: 100px;
+}
+.school-btns {
+  margin: 50px;
+}
+.paper-info {
+  padding: 30px;
+}
+.paper-info-bottom {
+  padding: 10px;
+}
+.info.h5 {
+  display: flex;
+  justify-content: center;
+}
+.media-school-photo {
+  height: 387px;
+}

@@ -53,10 +53,12 @@ class SearchPage extends React.Component {
   constructor(props) {
     super(props);
     this.filters = {};
-    this.state = {value: 0, schools: this.props.schools.data}; 
+    this.state = {
+      value: 0,
+      schools: this.props.schools.data,
+      userCoordinates: {}
+    }; 
   } 
-  
-
   
 
   componentDidMount() {
@@ -137,6 +139,10 @@ class SearchPage extends React.Component {
     this.setState({...this.state, filteredSchools:schools})
   }
 
+  setUserCoordinates(coordinates) {
+    this.setState({...this.state, userCoordinates: coordinates});
+  }
+
   render() {
     const value = this.state.value;  
     const handleChange = (event, newValue) => {
@@ -157,11 +163,12 @@ class SearchPage extends React.Component {
           
         
           <div className="search-content-wrapper">
-            <Filters setFilter={this.setFilter.bind(this)} schools={this.schools} className="filtrers"/>
+            <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>
 
             <TabPanel value={value} index={0}>
-             <ListSearch schools={this.state.filteredSchools} className="search-results"/>
+             <ListSearch userCoordinates={this.state.userCoordinates} schools={this.state.filteredSchools} className="search-results"/>
             </TabPanel>
+
             <TabPanel value={value} index={1}>
               <MapSearch schools={this.state.filteredSchools} className="search-results"/>
             </TabPanel>

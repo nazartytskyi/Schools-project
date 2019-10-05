@@ -8,6 +8,7 @@ import Layout from './components/shared/FooterPlusHeader/Layout';
 import News from './components/pages/News/News';
 import Authentication from './components/shared/Authentication/Authentication';
 import Vacancies from './components/pages/Vacancies/Vacancies';
+import SchoolInfo from './components/pages/SchoolPage/SchoolInfo';
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -18,6 +19,7 @@ const Root = ({ store }) => (
         <Route path='/news' component={News} />
         <Route path='/auth' component={Authentication} />
         <Route path='/vacancies' component={Vacancies} />
+        <Route path='/school' component={SchoolInfo} />
       </Layout>
     </Router>
   </Provider>

@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import {Redirect} from 'react-router';
+import {GoogleApiWrapper} from 'google-maps-react';
 
 
 
@@ -141,14 +142,45 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ListSearch(props) {
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyBHomne1KPE5WDiE8kzxEt9p2Ue5xM1Fkg'
+})(ListSearch)
+
+function ListSearch(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected] = React.useState([]);
   const [page, setPage] = React.useState(0);
+  const [distances, setDistance] = React.useState({});
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const distanceMatrixService = new props.google.maps.DistanceMatrixService();
+  //const distanceMap = new Map();
+
+  function calculateDistance(userCoords, schoolCoords, id) {
+    if (!userCoords.lat) {
+      return '-';
+    }
+    const origin = new props.google.maps.LatLng(userCoords.lat, userCoords.lng);
+    const destination = new props.google.maps.LatLng(schoolCoords.lat, schoolCoords.lng);
+
+    distanceMatrixService.getDistanceMatrix({
+      origins: [origin],
+      destinations: [destination],
+      travelMode: 'DRIVING'
+    }, callback);
+
+    function callback(response, status) {
+      if (status == 'OK') {
+        const origin = response.originAddresses[0];
+        const destination = response.destinationAddresses[0];
+        setDistance({...distances, [id]: response.rows[0].elements[0].distance.text});
+      }
+    
+    } 
+  }
+
 
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
@@ -160,7 +192,6 @@ export default function ListSearch(props) {
 
   function handleClick(event, id) {
     //providing route to school page by its id in database
-    console.log(event)
     redirect(<Redirect push to={'/schoolpage/' + id}/>);
   }
 
@@ -173,6 +204,7 @@ export default function ListSearch(props) {
     setPage(0);
   }
 
+
   function getAvgFeedbackRate(school) {
     let rateSum = 0;
     school.feedbacks.forEach(feedback => {
@@ -182,9 +214,12 @@ export default function ListSearch(props) {
     return Math.round(10 * rateSum / school.feedbacks.length) / 10;
   }
   
-  if(props.schools){
+  if(props.schools) {
     rows = [];
-    props.schools.forEach(school => rows.push(createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-')))
+    const schools = [...props.schools]
+    schools.forEach(school => {
+      rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), distances[school.id.toString()] || calculateDistance(props.userCoordinates, school.coordinates, school.id.toString())));
+    });
   }
 
   const isSelected = name => selected.indexOf(name) !== -1;
@@ -262,5 +297,3 @@ export default function ListSearch(props) {
     </div>
   );
 }
-
-
