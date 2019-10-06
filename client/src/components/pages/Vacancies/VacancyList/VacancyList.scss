@@ -1,9 +1,8 @@
 .list {
-  width: 70%;
+  width: 75%;
 }
 
 .vacancy-card {
-  max-width: 800px;
   margin-bottom: 30px;
 }
 
@@ -14,6 +13,9 @@
     margin: 10px;
     text-align: right;
   }
+  .vacancy-title {
+    padding: 15px 0 0 15px;
+  }
 }
 
 .card-content {
@@ -22,4 +24,19 @@
 
 .card-footer {
   height: 30px;
+}
+
+.expand {
+  transform: rotate(0deg);
+  margin-left: auto;
+} 
+
+.expandOpen {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+  .list {
+    width: 100%;
+  }
 }

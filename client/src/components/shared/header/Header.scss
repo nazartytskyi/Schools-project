@@ -1,14 +1,20 @@
 @import '../../Variables.scss';
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  
   background-color: $mainColor;
   color: #fff;
   padding: 10px;
   font-family: $mainFont;
   font-size: $mainFontSize;
+  position: fixed;
+  z-index: 2000;
+  width: 100%;
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .logo {
@@ -48,21 +54,6 @@ header {
     }
   }
 
-  // .sign {
-  //   display: flex;
-  //   align-items: center;
-  //   .sign-btn {
-  //     margin-right: 10px;
-  //     color: #fff;
-  //     border: 1px solid #fff;
-  //     font-size: 12px;
-  //     padding: 7px 15px;
-  //     &:hover {
-  //       color: $mainColor;
-  //       background-color: $secondaryColor;
-  //     }
-  //   }
-  // }
 }
 a {
   color: $secondaryColor;

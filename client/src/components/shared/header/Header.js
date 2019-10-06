@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import './Header.scss';
 import { Link } from 'react-router-dom'
 import SchoolIcon from '@material-ui/icons/School';
-// import propTypes from 'prop-types';
 import Login from './Login/Login';
+import propTypes from 'prop-types';
+import Container from '@material-ui/core/Container';
+
 
 export class Header extends Component {
   render() {
     return (
       <header>
-        <div className="logo">
+        <React.Fragment>
+      <Container maxWidth="lg" className="header-container">
+      <div className="logo">
           <Link to='/app'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
           <p>Schools</p>
         </div>
@@ -26,6 +30,9 @@ export class Header extends Component {
           </nav>
         </div>
         <Login />
+      </Container>
+    </React.Fragment>
+        
       </header>
     )
   }
