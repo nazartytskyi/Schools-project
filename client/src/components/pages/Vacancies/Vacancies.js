@@ -3,13 +3,13 @@ import './Vacancies.scss';
 import VacancyList from './VacancyList/VacancyList';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import SpreadSearch from './SpreadSearch/SpreadSearch';
+import Filters from './Filters/Filters';
 import TextField from '@material-ui/core/TextField';
 import CitySelect from './CitySelect/CitySelect';
 import SortVacancies from './SortVacancies/SortVacancies';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import TemporaryDrawer from './Drawer';
+import TemporaryDrawer from './Drawer/Drawer';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -186,80 +186,76 @@ export class Vacancies extends Component {
 
   render() {
     return (
-        <React.Fragment>
-          <CssBaseline />
-          <Container maxWidth="lg">
-            <div className="vacancies">
-              <div className="search">
-                <div className="city">
-                  <CitySelect 
-                    className="city-form"
+      <React.Fragment>
+        <CssBaseline />
+        <Container maxWidth="lg">
+          <div className="vacancies">
+            <div className="search">
+              <div className="city">
+                <CitySelect 
+                  className="city-form"
+                  setFilter={this.setFilter.bind(this)}
+                  uniqueCities={this.createUniqueCities()}
+                  createUniqueDistricts={this.createUniqueDistricts.bind(this)}
+                  changeCityStatus={this.changeCityStatus.bind(this)}
+                />
+                <div className="filter-btn">
+                  <TemporaryDrawer 
+                    schools={this.state.schools}
+                    uniqueDistricts={this.uniqueDistricts}
+                    filterByEmployment={this.filterByEmployment} 
                     setFilter={this.setFilter.bind(this)}
-                    uniqueCities={this.createUniqueCities()}
-                    createUniqueDistricts={this.createUniqueDistricts.bind(this)}
-                    changeCityStatus={this.changeCityStatus.bind(this)}
-                  />
-                  <div className="filter-btn">
-                    <TemporaryDrawer 
-                      schools={this.state.schools}
-                      uniqueDistricts={this.uniqueDistricts}
-                      filterByEmployment={this.filterByEmployment} 
-                      setFilter={this.setFilter.bind(this)}
-                      isCityChosen={this.isCityChosen}
-                      vacancies={this.state.filteredVacancies}
-                    />
-                  </div>
-                </div>
-                <div className="main-search">
-                  <TextField
-                    className="input"
-                    label="Пошук вакансій"
-                    type="search"
-                    margin="normal"
-                    onChange={this.updateInput}
+                    isCityChosen={this.isCityChosen}
+                    vacancies={this.state.filteredVacancies}
                   />
                 </div>
               </div>
-            
-              <div className="vacancy-amount">
-                <div className="amount-output">
-                  <Typography variant="body1" 
-                    color="textSecondary"
-                    className="vacancy-amount-text"
-                  
-                  
-                  >{this.generateVacancyMessage()}</Typography>
-                </div>
-                <div className="sort">
-                  <SortVacancies setFilter={this.setFilter.bind(this)}/> 
-                </div>
-              </div>
-              <div className="main">
-                <div className="sidebar">
-                  <Card>
-                    <CardContent>
-                    <SpreadSearch 
-                      schools={this.state.schools}
-                      uniqueDistricts={this.uniqueDistricts}
-                      filterByEmployment={this.filterByEmployment} 
-                      setFilter={this.setFilter.bind(this)}
-                      isCityChosen={this.isCityChosen}
-                    />
-                    </CardContent>
-                  </Card>
-                
-                </div>
-                <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
+              <div className="main-search">
+                <TextField
+                  className="input"
+                  label="Пошук вакансій"
+                  type="search"
+                  margin="normal"
+                  onChange={this.updateInput}
+                />
               </div>
             </div>
-          </Container>
-        </React.Fragment>  
+          
+            <div className="vacancy-amount">
+              <div className="amount-output">
+                <Typography variant="body1" 
+                  color="textSecondary"
+                  className="vacancy-amount-text"
+                >{this.generateVacancyMessage()}</Typography>
+              </div>
+              <div className="sort">
+                <SortVacancies setFilter={this.setFilter.bind(this)}/> 
+              </div>
+            </div>
+            <div className="main">
+              <div className="sidebar">
+                <Card>
+                  <CardContent>
+                  <Filters 
+                    schools={this.state.schools}
+                    uniqueDistricts={this.uniqueDistricts}
+                    filterByEmployment={this.filterByEmployment} 
+                    setFilter={this.setFilter.bind(this)}
+                    isCityChosen={this.isCityChosen}
+                  />
+                  </CardContent>
+                </Card>
+              </div>
+              <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
+            </div>
+          </div>
+        </Container>
+      </React.Fragment>  
     )
   }
 }
 
 Vacancies.propTypes = {
-  getSchools: propTypes.func.isRequired,
   schools: propTypes.object.isRequired
 };
 

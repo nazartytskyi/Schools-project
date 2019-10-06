@@ -10,9 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-
 export class VacancyList extends Component {
-
   constructor(props) {
     super(props)
     this.state = {expanded: new Set()};
@@ -27,10 +25,10 @@ export class VacancyList extends Component {
   render() {
     return (
       <div className="list">
-      {this.props.vacancies.map((vacancy, index) => {
-        let SchoolNewsId = index;
-          return <Card className="vacancy-card" key={index}>
-             <div className="card-header">
+        {this.props.vacancies.map((vacancy, index) => {
+          let SchoolNewsId = index;
+    return <Card className="vacancy-card" key={index}>
+            <div className="card-header">
               <CardHeader
                 title={vacancy.title}
                 subheader={vacancy.date}
@@ -40,7 +38,7 @@ export class VacancyList extends Component {
                 <div><Typography>{vacancy.salary} грн</Typography></div>
                 <div><Typography variant="body2" color="textSecondary">{vacancy.employment}</Typography></div>
               </div>
-             </div>
+            </div>
             <CardContent className="card-content">
               <Typography variant="body1" color="textPrimary">{vacancy.school}</Typography>
               <Typography variant="body2" color="textSecondary">вул: 
@@ -52,29 +50,27 @@ export class VacancyList extends Component {
               <Typography variant="body1" color="textPrimary">тел: {vacancy.phoneNumber}</Typography>
             </CardContent>
             <CardActions disableSpacing className="card-footer">
-            <IconButton
-              className={ this.state.expanded.has(SchoolNewsId)
-                ? 'expandOpen' : 'expand' }
-              onClick={() => this.handleExpandClick(SchoolNewsId)}
-              aria-expanded = {this.state.expanded}
-              aria-label = "show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
+              <IconButton
+                className={ this.state.expanded.has(SchoolNewsId)
+                  ? 'expandOpen' : 'expand' }
+                onClick={() => this.handleExpandClick(SchoolNewsId)}
+                aria-expanded = {this.state.expanded}
+                aria-label = "show more"
+              >
+                <ExpandMoreIcon />
+              </IconButton>
             </CardActions>
             <Collapse in={ this.state.expanded.has(SchoolNewsId) ? 
               true : 
-              false} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>
-                <div className="vacancy-content">{vacancy.description}</div>
-              </Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
-      
-      })}
-    </div>
+              false} timeout="auto" unmountOnExit
+            >
+              <CardContent>
+                <Typography paragraph>{vacancy.description}</Typography>
+              </CardContent>
+            </Collapse>
+          </Card>
+        })}
+      </div>
     )
   }
 }
