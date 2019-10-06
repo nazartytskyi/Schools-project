@@ -10,95 +10,12 @@ import SortVacancies from './SortVacancies/SortVacancies';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import TemporaryDrawer from './Drawer';
-
-
-
-import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import Button from '@material-ui/core/Button';
-
-
 
 const mapStateToProps = state => ({
   schools: state.schools
-});
-
-// const mapDispatchToProps = dispatch => ({
-//   getSchools: () => dispatch(getSchools())
-// });
-
-
-const drawerWidth = 240;
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }
 });
 
 export class Vacancies extends Component {
@@ -106,18 +23,14 @@ export class Vacancies extends Component {
     super(props);
     this.state = {
       schools: [],
-      filteredVacancies: [],
-      open: false 
-      
+      filteredVacancies: []
+
     };
     this.vacancies = [];
     this.filters = {sortedByDate: true}; 
     this.uniqueCities = [];
     this.uniqueDistricts = [];
     this.isCityChosen = false;
-    this.myRef=null;
-    this.width = 0;
-
   }
 
   createUniqueCities = () => {
@@ -141,17 +54,12 @@ export class Vacancies extends Component {
   }
 
  
-
-
   filterVacancies = (filters) => {
     let filteredVacancies = [...this.vacancies];
-  
-    if(filters.city) {
-      if(filters.city !== 'Вибрати місто') {
-        filteredVacancies = filteredVacancies.filter(vacancy => {
-          return vacancy.adress.city === filters.city;
-        })
-      }
+    if(filters.city && filters.city !== 'Вибрати місто') {
+      filteredVacancies = filteredVacancies.filter(vacancy => {
+        return vacancy.adress.city === filters.city;
+      })
     }
     
     if(filters.district && filters.district !== 'Вибрати район') {
@@ -183,23 +91,20 @@ export class Vacancies extends Component {
         return vacancy.employment === filters.employment;
       })  
     }
-
-    
   
     if(filters.sortedByDate || filters.date === 'byDate') {
       filteredVacancies = filteredVacancies.sort((a, b) => {
         return +new Date(b.date) - +new Date(a.date);
       });
     }
+
     if(filters.date === 'bySalary') {
       filteredVacancies = filteredVacancies.sort((a, b) => {
         return b.salary - a.salary;
       });
     }
-
       return filteredVacancies;
     }
-
 
   setFilter(filterMixin) {
     this.filters = {...this.filters, ...filterMixin};
@@ -208,7 +113,6 @@ export class Vacancies extends Component {
 
   createFullVacancyArray = (data) => {
     const fullVacancyArray = [];
-    
       data.forEach(school => {
         school.vacancies.forEach(vacancy => {
           const fullVacancy = {
@@ -242,7 +146,6 @@ export class Vacancies extends Component {
        const fullVacancies = this.createFullVacancyArray(schools.data);
       
        this.vacancies = fullVacancies;
-       this.width = this.myRef.offsetWidth;
         this.setState({
           ...this.state, 
           schools: schools.data, 
@@ -251,19 +154,9 @@ export class Vacancies extends Component {
       });
   }
 
-
-
   updateInput = (e) => {
     this.setFilter({title: e.target.value.trim()});
   }
-
-  filterBySchool = (e) => {
-    this.setFilter({school: e.target.value}); 
-  }
-
-  // filterByEmployment = (e) => {
-  //   this.setFilter({employment: e.target.value});
-  // }
 
   changeCityStatus = (e) => {
     if(e !== 'Вибрати місто') {
@@ -273,99 +166,51 @@ export class Vacancies extends Component {
     }
   }
 
-  handleDrawerOpen = () => {
-    this.setState({...this.state, open: true});
-  };
-
-  handleDrawerClose = () => {
-    this.setState({...this.state, open: false});
-  };
-
-  chooseSide = (e) => {
-    return e < 800 ? 'top' : 'left'
+  generateVacancyMessage = () => {
+    let message = ''
+    let lastDigit =this.state.filteredVacancies.length % 10
+    switch (lastDigit) {
+      case 1:
+        message = `Знайдено ${this.state.filteredVacancies.length} вакансію`;
+        break;
+      case 2:
+      case 3:
+      case 4:
+        message = `Знайдено ${this.state.filteredVacancies.length} вакансії`;
+        break;
+      default:
+        message = `Знайдено ${this.state.filteredVacancies.length} вакансій`;
+    }
+    return message;
   }
 
-
- 
-
   render() {
-    const { classes } = this.props;
-    const theme = '';
     return (
-      <div ref={ (ref) => this.myRef=ref }>
-        
-
-<div className={classes.root}>
-        <div className="filter-drawer ">
-        <Button
-            variant="contained"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={this.handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, this.state.open && classes.hide)}
-          >
-            Розширений пошук
-          </Button>
-        </div>
-        
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="top"
-          open={this.state.open}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon /> 
-            </IconButton>
-          </div>
-          <Divider />
-          <SpreadSearch schools={this.state.schools}
-                              uniqueDistricts={this.uniqueDistricts}
-                              filterByEmployment={this.filterByEmployment} 
-                              className="sidebar"
-                              setFilter={this.setFilter.bind(this)}
-                              //filterByDistrict={this.filterByDistrict}
-                              filterBySchool={this.filterBySchool} 
-                              isCityChosen={this.isCityChosen}
-                />
-        </Drawer>
-        <main
-          className={clsx(classes.content, {
-            [classes.contentShift]: this.state.open,
-          })}
-        >
-         <React.Fragment>
+        <React.Fragment>
           <CssBaseline />
           <Container maxWidth="lg">
-          {/* <TemporaryDrawer 
-              width={this.width}
-              schools={this.state.schools}
-              uniqueDistricts={this.uniqueDistricts}
-              filterByEmployment={this.filterByEmployment} 
-              className="sidebar"
-              setFilter={this.setFilter.bind(this)}
-              filterBySchool={this.filterBySchool} 
-              isCityChosen={this.isCityChosen}
-              vacancies={this.state.filteredVacancies}
-            /> */}
             <div className="vacancies">
               <div className="search">
                 <div className="city">
-                <CitySelect 
-                  className="city-form"
-                  setFilter={this.setFilter.bind(this)}
-                  uniqueCities={this.createUniqueCities()}
-                  createUniqueDistricts={this.createUniqueDistricts.bind(this)}
-                  changeCityStatus={this.changeCityStatus.bind(this)}
-                />
+                  <CitySelect 
+                    className="city-form"
+                    setFilter={this.setFilter.bind(this)}
+                    uniqueCities={this.createUniqueCities()}
+                    createUniqueDistricts={this.createUniqueDistricts.bind(this)}
+                    changeCityStatus={this.changeCityStatus.bind(this)}
+                  />
+                  <div className="filter-btn">
+                    <TemporaryDrawer 
+                      schools={this.state.schools}
+                      uniqueDistricts={this.uniqueDistricts}
+                      filterByEmployment={this.filterByEmployment} 
+                      setFilter={this.setFilter.bind(this)}
+                      isCityChosen={this.isCityChosen}
+                      vacancies={this.state.filteredVacancies}
+                    />
+                  </div>
                 </div>
                 <div className="main-search">
-                <div className="search-input">
                   <TextField
                     className="input"
                     label="Пошук вакансій"
@@ -374,36 +219,41 @@ export class Vacancies extends Component {
                     onChange={this.updateInput}
                   />
                 </div>
+              </div>
+            
+              <div className="vacancy-amount">
+                <div className="amount-output">
+                  <Typography variant="body1" 
+                    color="textSecondary"
+                    className="vacancy-amount-text"
+                  
+                  
+                  >{this.generateVacancyMessage()}</Typography>
                 </div>
                 <div className="sort">
                   <SortVacancies setFilter={this.setFilter.bind(this)}/> 
                 </div>
-              
               </div>
               <div className="main">
-                {/* <SpreadSearch schools={this.state.schools}
-                              uniqueDistricts={this.uniqueDistricts}
-                              filterByEmployment={this.filterByEmployment} 
-                              className="sidebar"
-                              setFilter={this.setFilter.bind(this)}
-                              //filterByDistrict={this.filterByDistrict}
-                              filterBySchool={this.filterBySchool} 
-                              isCityChosen={this.isCityChosen}
-                /> */}
+                <div className="sidebar">
+                  <Card>
+                    <CardContent>
+                    <SpreadSearch 
+                      schools={this.state.schools}
+                      uniqueDistricts={this.uniqueDistricts}
+                      filterByEmployment={this.filterByEmployment} 
+                      setFilter={this.setFilter.bind(this)}
+                      isCityChosen={this.isCityChosen}
+                    />
+                    </CardContent>
+                  </Card>
+                
+                </div>
                 <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
               </div>
             </div>
           </Container>
-        </React.Fragment>
-        </main>
-      </div>
-
-
-
-        
-      </div>
-     
-     
+        </React.Fragment>  
     )
   }
 }
@@ -413,5 +263,4 @@ Vacancies.propTypes = {
   schools: propTypes.object.isRequired
 };
 
-export default withStyles(styles)(Vacancies);
-               connect(mapStateToProps)(Vacancies);
+export default connect(mapStateToProps)(Vacancies);
