@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import './SalaryRange.scss';
 import Typography from '@material-ui/core/Typography';
 
-
 function valuetext(value) {
   return `${value}грн`;
 }

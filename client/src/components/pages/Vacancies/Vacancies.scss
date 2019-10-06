@@ -18,20 +18,17 @@
   }
 }
 
-
-
 .vacancy-amount {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  .amount-output {
+    width: 30%;
+  }
 }
 
 .sort {
   width: 15%;
-}
-
-.amount-output {
-  width: 30%;
 }
 
 .sidebar {
@@ -46,18 +43,17 @@
 }
 
 @media (max-width: 768px) {
-
   .search {
     display: block;
-  }
 
-  .city {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .main-search {
-    width: 100%;
+    .city {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .main-search {
+      width: 100%;
+    }
   }
 
   .sidebar {

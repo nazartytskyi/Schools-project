@@ -6,21 +6,22 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import SpreadSearch from './SpreadSearch/SpreadSearch';
+import Filters from './../Filters/Filters';
 import './Drawer.scss';
 import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   hide: {
-    display: 'none',
+    display: 'none'
   },
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   }
 }));
 
@@ -62,10 +63,9 @@ export default function PersistentDrawerLeft(props) {
             </IconButton>
           </div>
           <Divider/>
-          <SpreadSearch 
+          <Filters 
             schools={props.schools}
             uniqueDistricts={props.uniqueDistricts}
-            filterByEmployment={props.filterByEmployment} 
             setFilter={props.setFilter}
             isCityChosen={props.isCityChosen}                  
           />
@@ -74,3 +74,10 @@ export default function PersistentDrawerLeft(props) {
     </div>
   );
 }
+
+PersistentDrawerLeft.propTypes = {
+  setFilter: PropTypes.func.isRequired,
+  schools: PropTypes.array.isRequired,
+  uniqueDistricts: PropTypes.array.isRequired,
+  isCityChosen: PropTypes.bool.isRequired
+};
