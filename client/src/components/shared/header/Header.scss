@@ -48,31 +48,22 @@ header {
     }
   }
 
-  .sign {
-    display: flex;
-    align-items: center;
-    .sign-btn {
-      margin-right: 10px;
-      color: #fff;
-      border: 1px solid #fff;
-      font-size: 12px;
-      padding: 7px 15px;
-      &:hover {
-        color: $mainColor;
-        background-color: $secondaryColor;
-      }
-    }
-  }
+  // .sign {
+  //   display: flex;
+  //   align-items: center;
+  //   .sign-btn {
+  //     margin-right: 10px;
+  //     color: #fff;
+  //     border: 1px solid #fff;
+  //     font-size: 12px;
+  //     padding: 7px 15px;
+  //     &:hover {
+  //       color: $mainColor;
+  //       background-color: $secondaryColor;
+  //     }
+  //   }
+  // }
 }
 a {
   color: $secondaryColor;
-}
-.btn-link {
-  color: white;
-}
-.userGreeting {
-  display: inline-block;
-  width: 250px;
-  padding: 0px 10px;
-  text-align: right;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.scss';
-import propTypes from 'prop-types';
+// import propTypes from 'prop-types';
 // import axios from 'axios';
 import Carousel from './components/shared/Carousel/Carousel';
 
