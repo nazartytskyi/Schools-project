@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './VacancyList.scss';
 import propTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -69,7 +67,7 @@ export class VacancyList extends Component {
               false} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
-                {vacancy.description}
+                <div className="vacancy-content">{vacancy.description}</div>
               </Typography>
             </CardContent>
           </Collapse>

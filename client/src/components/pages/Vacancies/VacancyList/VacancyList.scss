@@ -1,6 +1,5 @@
 .list {
-  width: 70%;
-  margin: 0 auto;
+  width: 75%;
 }
 
 .vacancy-card {
@@ -13,6 +12,9 @@
   .salary {
     margin: 10px;
     text-align: right;
+  }
+  .vacancy-title {
+    padding: 15px 0 0 15px;
   }
 }
 
@@ -30,4 +32,14 @@
 } 
 .expandOpen {
   transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+  .list {
+    width: 100%;
+  }
+
+  .vacancy-content {
+    font-size: 13px;
+  }
 }

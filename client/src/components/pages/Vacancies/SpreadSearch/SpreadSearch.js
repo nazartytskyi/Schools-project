@@ -4,11 +4,9 @@ import RangeSlider from './SalaryRange/SalaryRange';
 import propTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import DistrictSelect from './DistrictSelect/DistrictSelect'
-import CardHeader from '@material-ui/core/CardHeader';
 
-import Card from '@material-ui/core/Card';
 
-import CardContent from '@material-ui/core/CardContent';
+
 
 import Typography from '@material-ui/core/Typography';
 import EmploymentSelect from './EmploymentSelect/EmploymentSelect';
@@ -16,9 +14,8 @@ import EmploymentSelect from './EmploymentSelect/EmploymentSelect';
 export class SpreadSearch extends Component {
   render() {
     return (
-      <div className="sidebar">
-          <CardContent>
-          
+      <div>
+
             <div>
               <DistrictSelect
                 uniqueDistricts={this.props.uniqueDistricts}
@@ -34,7 +31,7 @@ export class SpreadSearch extends Component {
                 label="Введіть школу"
                 type="search"
                 margin="normal"
-                onChange={this.props.filterBySchool}
+                onChange={(e) => {this.props.setFilter({school: e.target.value})}}
               />
             </div>
             <div>
@@ -42,7 +39,7 @@ export class SpreadSearch extends Component {
                 setFilter={this.props.setFilter}
               />
             </div>
-          </CardContent>
+
       
       </div>
     )
@@ -52,7 +49,6 @@ export class SpreadSearch extends Component {
 SpreadSearch.propTypes = {
   setFilter: propTypes.func,
   filterByEmployment: propTypes.func,
-  filterBySchool: propTypes.func,
   filterByDistrict: propTypes.func,
   schools: propTypes.array,
   uniqueDistricts: propTypes.array
