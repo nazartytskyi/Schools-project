@@ -33,10 +33,12 @@ export class Carousel extends Component {
           {schools.map(school =>    
             school.news.map((item, index) => (
               <Card className='slider-item' key={index}>
-                <CardHeader
-                  title={item.title}
-                  subheader={item.date}
-                />
+                <Typography>
+                <div className="slider-item-header">
+                  <div className="slider-item-header-title">{item.title}</div>
+                  <div className="slider-item-header-date">{item.date}</div>
+                </div>
+                </Typography>
                 <CardMedia
                   className="slider-media"
                   image={item.img}

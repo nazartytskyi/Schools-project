@@ -1,11 +1,5 @@
 @import '../../Variables.scss';
 
-h1 {
-  text-align: center;
-  color: $mainColor;
-  font-family: $mainFont;
-}
-
 .slider {
   height: 640px;
 }
@@ -22,7 +16,15 @@ h1 {
 
 .slider-item {
   margin-top: 50px;
-  height: 570px;
+  height: 580px;
+}
+
+.slider-item-header {
+  padding: 15px;
+}
+
+.slider-item-header-title {
+ font-size: 24px;
 }
 
 .previousButton, .nextButton {
@@ -62,5 +64,62 @@ h1 {
   -webkit-box-orient: vertical;
 }
 
+@media (max-width: 768px) {
 
+  .slider {
+    height: 540px;
+  }
+  
+  .slider-media {
+    height: 300px;
+  }
+  
+  .slider-item {
+    margin-top: 50px;
+    height: 470px;
+  }
 
+  .slider-item-header {
+    padding: 10px;
+  }
+
+  .slider-item-header-title {
+    font-size: 20px;
+   }
+}
+
+@media (max-width: 480px) {
+
+  .slider {
+    height: 440px;
+  }
+
+  .slider-item-header {
+    padding: 5px;
+  }
+
+  .slider-item-header-date {
+    font-size: 12px;
+  }
+
+  .slider-item-header-title {
+    font-size: 16px;
+   }
+  
+  .slider-media {
+    height: 200px;
+  }
+  
+  .slider-item {
+    margin-top: 50px;
+    height: 345px;
+  }
+  .previousButton svg, .nextButton svg {
+    width: 20px;
+    height: 20px;
+  }
+  .previousButton, .nextButton {
+    width: 30px;
+    height: 30px;
+  }
+}
