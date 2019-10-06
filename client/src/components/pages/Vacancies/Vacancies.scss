@@ -22,9 +22,10 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  .amount-output {
-    width: 30%;
-  }
+}
+
+.amount-output {
+  width: 30%;
 }
 
 .sort {
@@ -68,7 +69,7 @@
     width: 30%;
   }
   .amount-output {
-    width: 50%;
+    width: 55%;
     font-size: 10px;
   }
 }
@@ -77,10 +78,7 @@
   .sort {
     width: 40%;
   }
-  .amount-output {
-    font-size: 10px;
-  }
-  .vacancy-amount-text {
-    font-size: 0.8rem !important;
+  .amount-output p {
+    font-size: 14px;
   }
 }

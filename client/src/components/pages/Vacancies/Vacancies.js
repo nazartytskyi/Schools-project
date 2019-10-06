@@ -24,7 +24,6 @@ export class Vacancies extends Component {
     this.state = {
       schools: [],
       filteredVacancies: []
-
     };
     this.vacancies = [];
     this.filters = {sortedByDate: true}; 
