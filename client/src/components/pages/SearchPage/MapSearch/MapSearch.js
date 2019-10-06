@@ -38,7 +38,7 @@ class InfoWindowEx extends Component {
 class MapSearch extends Component {
   constructor(props) {
     super(props);
-    this.initialCenter = {lat: 49.8, lng: 24.0};
+    this.initialCenter = {lat: 49.833, lng: 24.006};
     this.state = {
       data: [],
       showingInfoWindow: false,
@@ -82,7 +82,7 @@ class MapSearch extends Component {
         {/*<Header/>*/}
         <Map
           google={this.props.google}
-          zoom={13}
+          zoom={14}
           style={mapStyles}
           initialCenter={this.initialCenter}
         >
@@ -102,6 +102,7 @@ class MapSearch extends Component {
       );
   }
 }
+
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBHomne1KPE5WDiE8kzxEt9p2Ue5xM1Fkg'

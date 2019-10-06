@@ -1,0 +1,27 @@
+.filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    padding: 10px;
+
+    .filters-heading {
+        align-self: center;
+        text-align: center;
+    }
+
+    > * {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .slider {
+        box-sizing: border-box;
+        padding: 5px 10px;
+        height: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+
+}

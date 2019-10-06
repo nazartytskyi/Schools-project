@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { getSchools } from './../../../actions/getSchools';
 import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
 
 
 const mapStateToProps = state => ({
@@ -54,11 +57,20 @@ class SearchPage extends React.Component {
     super(props);
     this.filters = {};
     this.state = {
+      drawerOpen:false,
       value: 0,
       schools: this.props.schools.data,
       userCoordinates: {}
     }; 
+    this.toggleDrawer = (side, open) => event => {
+      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+      }
+
+      this.setState({drawerOpen: open });
+    };
   } 
+  
   
 
   componentDidMount() {
@@ -152,8 +164,13 @@ class SearchPage extends React.Component {
     return (
       <>   
         <main>
+          <Drawer open={this.state.drawerOpen} onClose={this.toggleDrawer('left', false)}>
+            <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>      
+          </Drawer>
+          
           <div className="searchbar">
             <SearchInput setFilter={this.setFilter.bind(this)} schools={this.schools} />
+            <Button onClick={this.toggleDrawer('left', true)}>Open Left</Button>
           </div>
          
           <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">

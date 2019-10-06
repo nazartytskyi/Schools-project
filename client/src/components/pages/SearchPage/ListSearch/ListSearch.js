@@ -162,6 +162,7 @@ function ListSearch(props) {
     if (!userCoords.lat) {
       return '-';
     }
+    //setDistance({...distances, [id]: ''});
     const origin = new props.google.maps.LatLng(userCoords.lat, userCoords.lng);
     const destination = new props.google.maps.LatLng(schoolCoords.lat, schoolCoords.lng);
 
@@ -176,6 +177,7 @@ function ListSearch(props) {
         const origin = response.originAddresses[0];
         const destination = response.destinationAddresses[0];
         setDistance({...distances, [id]: response.rows[0].elements[0].distance.text});
+        console.log(this)
       }
     
     } 
