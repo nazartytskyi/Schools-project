@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import PropTypes from 'prop-types';         
 import {makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -147,24 +147,29 @@ export default GoogleApiWrapper({
   apiKey: 'AIzaSyBHomne1KPE5WDiE8kzxEt9p2Ue5xM1Fkg'
 })(ListSearch)
 
+function useForceUpdate(){
+  const [value, set] = useState(true); //boolean state
+  return () => set(value => !value); // toggle the state to force render
+}
+let lastUserCoordinates = {};
+const distances = {};
+
 function ListSearch(props) {
-  const lastUserCoordinates = props.userCoordinates;
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [distances, setDistance] = React.useState({});
+  const [hasChanged, change] = React.useState(false);
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+ // const [distances, setDistance] = React.useState({});
   const distanceMatrixService = new props.google.maps.DistanceMatrixService();
-  //const distanceMap = new Map();
 
   function calculateDistance(userCoords, schoolCoords, id) {
     if (!userCoords.lat) {
       return '-';
     }
-    //setDistance({...distances, [id]: ''});
     const origin = new props.google.maps.LatLng(userCoords.lat, userCoords.lng);
     const destination = new props.google.maps.LatLng(schoolCoords.lat, schoolCoords.lng);
 
@@ -174,44 +179,46 @@ function ListSearch(props) {
       travelMode: 'DRIVING'
     }, callback);
 
-
     function callback(response, status) {
       if (status == 'OK') {
         const origin = response.originAddresses[0];
         const destination = response.destinationAddresses[0];
-        setDistance({...distances, [id]: response.rows[0].elements[0].distance.text});
+        //setDistance({...distances, [id]: response.rows[0].elements[0].distance.text});
+        distances[id] = response.rows[0].elements[0].distance.text;
+        
         //console.log(this)
       }
     } 
+
   }
 
-  const getDistance = async (start, end) => {
+  // const getDistance = async (start, end) => {
     
-    const origin = new props.google.maps.LatLng(start.lat, start.lng);
-    const final = new props.google.maps.LatLng(end.lat, end.lng);
-    const service = new props.google.maps.DistanceMatrixService();
-    const result = await getDistanceMatrix(
-      service,
-      {
-        origins: [origin],
-        destinations: [final],
-        travelMode: 'DRIVING'
-      }
-    )
-    console.log(result.rows[0].elements[0].distance.text);
-    return { distance: result.rows[0].elements[0].distance.text};
-  }
+  //   const origin = new props.google.maps.LatLng(start.lat, start.lng);
+  //   const final = new props.google.maps.LatLng(end.lat, end.lng);
+  //   const service = new props.google.maps.DistanceMatrixService();
+  //   const result = await getDistanceMatrix(
+  //     service,
+  //     {
+  //       origins: [origin],
+  //       destinations: [final],
+  //       travelMode: 'DRIVING'
+  //     }
+  //   )
+  //   //console.log(result.rows[0].elements[0].distance.text);
+  //   return result;
+  // }
     
 
-      const getDistanceMatrix = (service, data) => new Promise((resolve, reject) => {
-        service.getDistanceMatrix(data, (response, status) => {
-          if(status === 'OK') {
-            resolve(response)
-          } else {
-            reject(response);
-          }
-        })
-      })
+  //     const getDistanceMatrix = (service, data) => new Promise((resolve, reject) => {
+  //       service.getDistanceMatrix(data, (response, status) => {
+  //         if(status === 'OK') {
+  //           resolve(response)
+  //         } else {
+  //           reject(response);
+  //         }
+  //       })
+  //     })
     
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
@@ -245,21 +252,58 @@ function ListSearch(props) {
     return Math.round(10 * rateSum / school.feedbacks.length) / 10;
   }
   
-  if(props.schools ) {
+  
+  if(props.schools) {
     rows = [];
-    const schools = [...props.schools]
-    
-    schools.forEach(  (school) => {
-      if(props.userCoordinates.hasOwnProperty('lat')){
+    const schools = [...props.schools];
 
-        getDistance(props.userCoordinates, school.coordinates).then( data => {
-          
-          rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), data.distance ));
-        });
-     } else {
-      rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-'));
-     }
+    if(props.userCoordinates.hasOwnProperty('lat') && lastUserCoordinates.lat !== props.userCoordinates.lat && lastUserCoordinates.lng !== props.userCoordinates.lng){
+      schools.forEach(school => {
+        calculateDistance(props.userCoordinates, school.coordinates, school.id);
+      });
+
+      lastUserCoordinates.lat = props.userCoordinates.lat;
+      lastUserCoordinates.lng = props.userCoordinates.lng;
+      //change(!hasChanged);
+    }
+    
+    schools.forEach((school, index) => { 
+      if(props.userCoordinates.hasOwnProperty('lat')){    
+        rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), distances[school.id]) || '-');
+      } else {
+        rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-'));
+      }
     });
+
+  
+
+    // const distanceArr = [];
+    // schools.forEach(school => distanceArr.push(getDistance(props.userCoordinates, school.coordinates)));
+    // debugger
+    // Promise.all(distanceArr).then(distanceArr => {
+    //   console.log(distanceArr);
+    //   schools.forEach((school, index) => { 
+    //    if(props.userCoordinates.hasOwnProperty('lat')) {
+    //         rows.push(createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), distanceArr[index].rows[0].elements[0].distance.text || '0'))
+    //     } else {
+    //       rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-'));
+    //     }
+    //   });
+      
+    //   forceUpdate();
+    // });
+    
+    // schools.forEach(  (school) => {
+    //   if(props.userCoordinates.hasOwnProperty('lat')){
+
+    //     getDistance(props.userCoordinates, school.coordinates).then( data => {
+          
+    //       rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), data.distance ));
+    //     });
+    //  } else {
+    //   rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-'));
+    //  }
+    // });
   }
 
   const isSelected = name => selected.indexOf(name) !== -1;
