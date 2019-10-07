@@ -84,8 +84,7 @@ class MapSearch extends Component {
         onClick={this.onMarkerClick} 
         name={school.name} 
         free={school.firstGrade.free}
-       
- 
+        adress={school.adress}
         position={school.coordinates}
       />
     });
@@ -105,7 +104,7 @@ class MapSearch extends Component {
             <div>
               {/* <Link to='/app'>{this.state.activeMarker.name}</Link>  */}
               <h2>{this.state.activeMarker.name}</h2>
-              <p>{this.state.activeMarker.adress}</p>
+              <p>{this.state.activeMarker.adress && this.state.activeMarker.adress.city + this.state.activeMarker.adress.street + this.state.activeMarker.adress.building}</p>
              <p>Вільні місця: {this.state.activeMarker.free}</p>  
             </div>                
           
