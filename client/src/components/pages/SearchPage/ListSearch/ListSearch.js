@@ -11,10 +11,11 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import {Redirect} from 'react-router';
 import {GoogleApiWrapper} from 'google-maps-react';
-
+import './ListSearch.scss'
 
 
 function createData(id, name, zno, vacant, rate, distance) {
+  
   return { id, name, zno, vacant, rate, distance};
 }
 
@@ -147,6 +148,7 @@ export default GoogleApiWrapper({
 })(ListSearch)
 
 function ListSearch(props) {
+  const lastUserCoordinates = props.userCoordinates;
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -172,18 +174,45 @@ function ListSearch(props) {
       travelMode: 'DRIVING'
     }, callback);
 
+
     function callback(response, status) {
       if (status == 'OK') {
         const origin = response.originAddresses[0];
         const destination = response.destinationAddresses[0];
         setDistance({...distances, [id]: response.rows[0].elements[0].distance.text});
-        console.log(this)
+        //console.log(this)
       }
-    
     } 
   }
 
+  const getDistance = async (start, end) => {
+    
+    const origin = new props.google.maps.LatLng(start.lat, start.lng);
+    const final = new props.google.maps.LatLng(end.lat, end.lng);
+    const service = new props.google.maps.DistanceMatrixService();
+    const result = await getDistanceMatrix(
+      service,
+      {
+        origins: [origin],
+        destinations: [final],
+        travelMode: 'DRIVING'
+      }
+    )
+    console.log(result.rows[0].elements[0].distance.text);
+    return { distance: result.rows[0].elements[0].distance.text};
+  }
+    
 
+      const getDistanceMatrix = (service, data) => new Promise((resolve, reject) => {
+        service.getDistanceMatrix(data, (response, status) => {
+          if(status === 'OK') {
+            resolve(response)
+          } else {
+            reject(response);
+          }
+        })
+      })
+    
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
     setOrder(isDesc ? 'asc' : 'desc');
@@ -216,11 +245,20 @@ function ListSearch(props) {
     return Math.round(10 * rateSum / school.feedbacks.length) / 10;
   }
   
-  if(props.schools) {
+  if(props.schools ) {
     rows = [];
     const schools = [...props.schools]
-    schools.forEach(school => {
-      rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), distances[school.id.toString()] || calculateDistance(props.userCoordinates, school.coordinates, school.id.toString())));
+    
+    schools.forEach(  (school) => {
+      if(props.userCoordinates.hasOwnProperty('lat')){
+
+        getDistance(props.userCoordinates, school.coordinates).then( data => {
+          
+          rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), data.distance ));
+        });
+     } else {
+      rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-'));
+     }
     });
   }
 
@@ -228,7 +266,7 @@ function ListSearch(props) {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root + ' list-wrapper'}>
       {redirectElement}
       <Paper className={classes.paper}>   
         <div className={classes.tableWrapper}>

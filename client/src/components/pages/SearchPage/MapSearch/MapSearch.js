@@ -8,6 +8,10 @@ import { Link } from 'react-router-dom'
 
 import { InfoWindow } from 'google-maps-react'
 import ReactDOM from 'react-dom'
+import { relative } from 'path';
+import { makeStyles } from '@material-ui/core/styles';
+import { blue, red } from '@material-ui/core/colors';
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 
 class InfoWindowEx extends Component {
@@ -66,6 +70,14 @@ class MapSearch extends Component {
       height: '100%'
     };
 
+    const homeMarker = this.props.userCoordinates && (
+      <Marker 
+        key={'homeMarker'}       
+        position={this.props.userCoordinates}
+      />
+    )
+  
+
     const markersArr = this.props.schools && this.props.schools.map(school => {
       return <Marker 
         key={school.id}
@@ -73,6 +85,7 @@ class MapSearch extends Component {
         name={school.name} 
         free={school.firstGrade.free}
        
+ 
         position={school.coordinates}
       />
     });
@@ -87,6 +100,7 @@ class MapSearch extends Component {
           initialCenter={this.initialCenter}
         >
           {markersArr}
+          {homeMarker}
           <InfoWindowEx marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
             <div>
               {/* <Link to='/app'>{this.state.activeMarker.name}</Link>  */}

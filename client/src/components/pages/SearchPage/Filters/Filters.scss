@@ -1,17 +1,20 @@
 .filters-wrapper {
+    margin-top: 10px;;
     display: flex;
     flex-direction: column;
-    width: 250px;
-    padding: 10px;
+    width: 260px;
+    height: 370px;
+    padding: 0 10px;
 
     .filters-heading {
         align-self: center;
         text-align: center;
+        margin-bottom: 20px;
     }
 
     > * {
         width: 100%;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 
     .slider {
@@ -24,4 +27,28 @@
         
     }
 
+    ul {
+        position: absolute;
+        width: 240px;
+        
+        li {
+            padding: 5px;
+            width: 240px;
+            box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            line-height: 40px;    
+            max-height: 57px;     
+            -webkit-line-clamp: 1; /* Write the number of lines you want to be displayed */
+            -webkit-box-orient: vertical;
+            
+        }
+    }
+
+}
+
+main .filters-wrapper {
+    border-radius: 5px;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
 }
