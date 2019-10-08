@@ -13,6 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { getSchools } from './../../../actions/getSchools';
 import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 
 
 const mapStateToProps = state => ({
@@ -54,11 +58,20 @@ class SearchPage extends React.Component {
     super(props);
     this.filters = {};
     this.state = {
+      drawerOpen:false,
       value: 0,
       schools: this.props.schools.data,
       userCoordinates: {}
     }; 
+    this.toggleDrawer = (side, open) => event => {
+      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+      }
+
+      this.setState({drawerOpen: open });
+    };
   } 
+  
   
 
   componentDidMount() {
@@ -77,12 +90,13 @@ class SearchPage extends React.Component {
   }
 
   setFilter(filterMixin) {
+
     this.filters = {...this.filters, ...filterMixin};
     this.setState({filteredSchools: this.filterSchools(this.filters)});
   }
 
   filterSchools(filters) {
-    let filteredSchools = [...this.props.schools.data];
+    let filteredSchools = [...this.schools];
 
     //name (search) filter
     if(filters.name) {
@@ -151,29 +165,41 @@ class SearchPage extends React.Component {
 
     return (
       <>   
-        <main>
-          <div className="searchbar">
-            <SearchInput setFilter={this.setFilter.bind(this)} schools={this.schools} />
-          </div>
-         
-          <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
-            <Tab label="List" {...a11yProps(0)} />
-            <Tab label="Map" {...a11yProps(1)} />
-          </Tabs>
+        <Container maxWidth="lg">
+          <main>
+            <Drawer open={this.state.drawerOpen} onClose={this.toggleDrawer('left', false)}>
+              <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>      
+            </Drawer>
+            
+            <div className="searchbar">
+              <SearchInput setFilter={this.setFilter.bind(this)} schools={this.schools} />
+              <Button color="primary" size="small" onClick={this.toggleDrawer('left', true)}>Фільтри</Button>
+              
+            </div>
+            <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
+              <Tab label="Список" {...a11yProps(0)} />
+              <Tab label="Карта" {...a11yProps(1)} />
+            </Tabs>
           
-        
-          <div className="search-content-wrapper">
-            <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>
 
-            <TabPanel value={value} index={0}>
-             <ListSearch userCoordinates={this.state.userCoordinates} schools={this.state.filteredSchools} className="search-results"/>
-            </TabPanel>
+            
+          
+            <div className="search-content-wrapper">
+              <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>
+              
+              <div className="tabs">
+                <TabPanel value={value} index={0}>
+                  <ListSearch userCoordinates={this.state.userCoordinates} schools={this.state.filteredSchools} className="search-results"/>
+                </TabPanel>
 
-            <TabPanel value={value} index={1}>
-              <MapSearch schools={this.state.filteredSchools} className="search-results"/>
-            </TabPanel>
-          </div>
-        </main>
+                <TabPanel value={value} index={1}>
+                  <MapSearch schools={this.state.filteredSchools} userCoordinates={this.state.userCoordinates}  className="search-results"/>
+                </TabPanel>
+              </div>
+
+            </div>
+          </main>
+        </Container>
         
       </>
       );

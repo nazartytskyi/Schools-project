@@ -23,8 +23,8 @@ class Filters extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Вкажіть фільтри</h3>
+      <div className="filters-wrapper">
+        <h3 className="filters-heading">Вкажіть фільтри</h3>
 
         <FormControlLabel
           control={
@@ -73,18 +73,11 @@ export default Filters;
 
 
 
-const useStyles = makeStyles({
-  root: {
-    width: 200,
-  },
-});
-
 function valuetext(value) {
   return `${value}`;
 }
 
 function ZnoRangeSlider(props) {
-  const classes = useStyles();
   const [value, setRange] = React.useState([100, 200]);
 
   const handleChange = (event, value) => {
@@ -97,7 +90,7 @@ function ZnoRangeSlider(props) {
   }
 
   return (
-    <div  className={classes.root}>
+    <div  className="slider">
       <Typography id="range-slider" gutterBottom>
         Бал ЗНО
       </Typography>
@@ -115,7 +108,6 @@ function ZnoRangeSlider(props) {
 }
 
 function FeedbackRangeSlider(props) {
-  const classes = useStyles();
   const [value, setRange] = React.useState([0, 10]);
 
   const handleChange = (event, value) => {
@@ -128,7 +120,7 @@ function FeedbackRangeSlider(props) {
   }
 
   return (
-    <div  className={classes.root}>
+    <div  className="slider">
       <Typography id="range-slider" gutterBottom>
         Рейтинг відгуків
       </Typography>

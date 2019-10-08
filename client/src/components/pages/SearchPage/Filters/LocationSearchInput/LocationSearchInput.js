@@ -1,6 +1,10 @@
 import React from 'react';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {GoogleApiWrapper} from 'google-maps-react';
+import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import './LocationSearchInput.scss'
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
@@ -31,14 +35,14 @@ class LocationSearchInput extends React.Component {
         onSelect={this.handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
-            <input
+          <div className="search-wrapper">
+            <TextField
               {...getInputProps({
-                placeholder: 'Search Places ...',
+                placeholder: 'Введіть вашу адресу',
                 className: 'location-search-input',
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <List className="autocomplete-dropdown-container">
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
@@ -49,17 +53,17 @@ class LocationSearchInput extends React.Component {
                   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                   : { backgroundColor: '#ffffff', cursor: 'pointer' };
                 return (
-                  <div
+                  <ListItem
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style,
                     })}
                   >
                     <span>{suggestion.description}</span>
-                  </div>
+                  </ListItem>
                 );
               })}
-            </div>
+            </List>
           </div>
         )}
       </PlacesAutocomplete>

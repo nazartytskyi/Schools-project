@@ -1,0 +1,21 @@
+div.list-wrapper {
+    margin: 0;
+    
+    .MuiTableCell-root {
+        text-align: center;
+        width: 25%;
+        padding: 16px 5px;
+
+        
+    }
+
+    .MuiTableCell-head {
+        span{
+            margin-left: -30px;
+        }
+
+        &:first-child span{
+            margin-left: 5px;
+        }
+    }
+}
