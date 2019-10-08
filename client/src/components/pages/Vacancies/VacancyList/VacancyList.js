@@ -53,15 +53,8 @@ export class VacancyList extends Component {
               </Typography>
               <Typography variant="body1" color="textPrimary">тел: {vacancy.phoneNumber}</Typography>
               <div className="respond">
-              <Login/>  
-                {/* <Button 
-                  variant="contained" 
-                  className="respond-btn"
-                >
-                  Відгукнутися
-                </Button> */}
-              </div> 
-                        
+              <Login email={vacancy.email}/>  
+              </div>       
             </CardContent>
             <CardActions disableSpacing className="card-footer">
               <IconButton
