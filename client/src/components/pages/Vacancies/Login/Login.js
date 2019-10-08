@@ -10,7 +10,6 @@ import propTypes from 'prop-types';
 import { setUser } from '../../../../actions/setUser';
 import { setUserRole } from '../../../../actions/setUserRole';
 import './Login.scss';
-import DialogForm from './Dialog/Dialog';
 const firebaseui = require('firebaseui');
 
 const mapStateToProps = state => ({
@@ -65,6 +64,16 @@ export class Login extends Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
+
+
+
+  createEmail = (email) => {
+    if(email) {
+      return `mailto:${email}`;
+    }
+  }
+
+
   
   setUser = user => {
     this.props.setUser(user);
@@ -98,11 +107,14 @@ export class Login extends Component {
     }
     if (username) {
       login = (
-        <div>
-          <DialogForm 
-          id={id}
-          />
-        </div>
+        <Button
+            variant="contained"
+            className="respond-btn"
+            aria-describedby={id}
+            href={this.createEmail(this.props.email)}
+          >
+            Відправити резюме
+          </Button>
       );
     } else {
       login = (
@@ -143,7 +155,8 @@ export class Login extends Component {
 Login.propTypes = {
   setUser: propTypes.func,
   setUserRole: propTypes.func,
-  users: propTypes.object
+  users: propTypes.object,
+  email: propTypes.string
 };
 
 export default connect(

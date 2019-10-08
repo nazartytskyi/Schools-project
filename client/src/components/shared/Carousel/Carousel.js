@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSchools } from '../../../actions/getSchools';
+import { Link } from 'react-router-dom'
+
+
 
 const mapStateToProps = state => ({
   ...state
@@ -24,15 +27,15 @@ export class Carousel extends Component {
     const schools = this.props.schools.data || [];
 
     return (
-      <div className="news-card-slider">
-        <h1>Latest News</h1>
+
         <div className="news-slider">
         <Slider 
           autoplay={2000}
         >
           {schools.map(school =>    
             school.news.map((item, index) => (
-              <Card className='slider-item' key={index}>
+              <Link to='/news' className="slider-link" key={index}>
+              <Card className='slider-item'>
                 <Typography>
                 <div className="slider-item-header">
                   <div className="slider-item-header-title">{item.title}</div>
@@ -50,11 +53,12 @@ export class Carousel extends Component {
                   </Typography>
                 </CardContent>
               </Card> 
+              </Link>
               ))      
             )}
           </Slider>
         </div>
-      </div>
+
     )
   }
 }
