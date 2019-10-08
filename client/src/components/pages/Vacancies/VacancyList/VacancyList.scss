@@ -35,6 +35,11 @@
   transform: rotate(180deg);
 }
 
+.respond {
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media (max-width: 768px) {
   .list {
     width: 100%;

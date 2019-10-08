@@ -126,6 +126,7 @@ export class Vacancies extends Component {
               street: school.adress.street,
               building: school.adress.building
             },
+            email: school.email,
             phoneNumber: school.phoneNumber,
             date: vacancy.date,
             schoolId: school.id
@@ -249,6 +250,7 @@ export class Vacancies extends Component {
             </div>
           </div>
         </Container>
+        <div name="#bottom">hello</div>
       </React.Fragment>  
     )
   }
