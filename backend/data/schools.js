@@ -9,7 +9,14 @@ const schoolsSchema = new SchoolsSchema(
     description: String,
     phoneNumber: String,
     adress: Object,
-    language: String
+    language: String, 
+    news: [{
+      _id: false,
+      img: String,
+      title: String,
+      description: String,
+      date: String
+    }]
   },
   { collection: 'schools' }
 );
