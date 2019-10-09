@@ -10,6 +10,11 @@ export default (state = {}, action) => {
       ...state,
       userRole: action.payload
     };
+    case 'SET_USER_FROM_MONGO':
+    return {
+      ...state,
+      userFromMongo: action.payload
+    };
     default:
       return state;
   }
