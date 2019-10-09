@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSchools } from '../../../actions/getSchools';
-
+import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => ({
   ...state
@@ -21,40 +21,39 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export class Carousel extends Component {
-
   render() {
     const schools = this.props.schools.data || [];
 
     return (
-      <div className="news-card">
-        <h1>Latest News</h1>
-        <div className="news-slider">
-        <Slider>
-        {schools.map(school =>    
-          school.news.map(item => (
-            <div key={item.title} className="slider-card">
-              <Card className='slider-item'>
-                <CardHeader
-                  title={item.title}
-                  subheader={item.date}
-                />
-                <CardMedia
-                  className="media"
-                  image={item.img}
-                  title={item.title}
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {item.description}
+      <div className="news-slider">
+        <Slider 
+          autoplay={2000}
+        >
+          {schools.map(school =>    
+            school.news.map((item, index) => (
+              <Link to='/news' className="slider-link" key={index}>
+                <Card className='slider-item'>
+                  <Typography>
+                  <div className="slider-item-header">
+                    <div className="slider-item-header-title">{item.title}</div>
+                    <div className="slider-item-header-date">{item.date}</div>
+                  </div>
                   </Typography>
-                </CardContent>
-              </Card> 
-              </div>
+                  <CardMedia
+                    className="slider-media"
+                    image={item.img}
+                    title={item.title}
+                  />
+                  <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p" className="slider-text">
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </Card> 
+              </Link>
             ))      
           )}
         </Slider>
-        </div>
-     
       </div>
     )
   }

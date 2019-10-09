@@ -1,0 +1,34 @@
+@import '../../../Variables.scss';
+
+.login-container {
+  width: 280px;
+}
+.btn-link {
+  color: white;
+}
+
+.userGreeting {
+  display: inline-block;
+  width: 250px;
+  padding: 0px 10px;
+  text-align: right;
+}
+
+.login {
+  display: flex;
+  align-items: center;
+  .login-btn {
+    margin-right: 10px;
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 12px;
+    padding: 7px 15px;
+    &:hover {
+      color: $mainColor;
+      background-color: $secondaryColor;
+    }
+  }
+}
+.firebaseui-tos {
+  display: none;
+}

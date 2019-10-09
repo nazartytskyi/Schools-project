@@ -2,21 +2,70 @@ main {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    padding: 25px;
+    padding: 0;
+    padding-top: 70px;
 
-    .searchbar > * {
-        height: 48px;
+    .searchbar {
+        display: flex;
+        align-items: center;
+        
+        > * {
+            height: 48px;
+        }
+
+        button {
+            display: none;
+            height: 40px;
+            align-self: flex-end;
+            margin: 0 10px;
+        }
     }
 
     .search-content-wrapper {
         width: 100%;
         display: flex;
         justify-content: space-between;
+
+        .tabs {
+            width: 80%;
+            display: flex;
+            justify-content: flex-end;
+
+            .MuiTypography-root.MuiTypography-body1 {
+                width: 100%;
+            }
+
+            table {
+                min-width: 500px;
+                width: 100%;
+            }
+        }
+        
+    }
+}
+
+@media (max-width: 1024px) {
+    .search-content-wrapper .filters-wrapper {
+        display: none;
+    }
+    main .filters-wrapper {
+        border: none;
+        box-shadow: none;
     }
 
-    
+    main .search-content-wrapper .tabs {
+        width:100%;
+    }
 
-    .tabs {
-        height: 0;
+    .MuiBox-root.MuiBox-root-250 {
+        padding: 0;
+    }
+
+    main {    
+        .searchbar {
+            button {
+                display: flex;
+            }
+        }
     }
 }

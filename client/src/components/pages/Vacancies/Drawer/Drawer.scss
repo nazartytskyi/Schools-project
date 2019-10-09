@@ -1,0 +1,16 @@
+@import '../../../Variables.scss';
+
+.filter-btn {
+  display: none;
+}
+
+.filter-drawer {
+  margin-top: 70px;
+  width: 250px;
+}
+
+@media (max-width: 768px) {
+  .filter-btn {
+    display: block;
+  }
+}

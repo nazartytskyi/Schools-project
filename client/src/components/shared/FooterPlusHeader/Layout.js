@@ -22,15 +22,9 @@ class Layout extends Component {
   }
 
   render() {
-    let username = '';
-    if (Object.keys(this.props.users).length !== 0) {
-      if (this.props.users.user !== null) {
-        username = this.props.users.user.displayName;
-      }
-    }
     return (
       <>
-        <Header username={username} />
+        <Header />
         {this.props.children}
         <Footer />
       </>
@@ -40,8 +34,7 @@ class Layout extends Component {
 
 Layout.propTypes = {
   getSchools: propTypes.func,
-  children: propTypes.array,
-  users: propTypes.object
+  children: propTypes.array
 };
 
 export default connect(

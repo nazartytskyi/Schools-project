@@ -8,6 +8,11 @@ import { Link } from 'react-router-dom'
 
 import { InfoWindow } from 'google-maps-react'
 import ReactDOM from 'react-dom'
+import { relative } from 'path';
+import { makeStyles } from '@material-ui/core/styles';
+import { blue, red } from '@material-ui/core/colors';
+import SvgIcon from '@material-ui/core/SvgIcon';
+
 
 class InfoWindowEx extends Component {
     constructor(props) {
@@ -37,7 +42,7 @@ class InfoWindowEx extends Component {
 class MapSearch extends Component {
   constructor(props) {
     super(props);
-    this.initialCenter = {lat: 49.8, lng: 24.0};
+    this.initialCenter = {lat: 49.833, lng: 24.006};
     this.state = {
       data: [],
       showingInfoWindow: false,
@@ -65,13 +70,21 @@ class MapSearch extends Component {
       height: '100%'
     };
 
+    const homeMarker = this.props.userCoordinates && (
+      <Marker 
+        key={'homeMarker'}       
+        position={this.props.userCoordinates}
+      />
+    )
+  
+
     const markersArr = this.props.schools && this.props.schools.map(school => {
       return <Marker 
         key={school.id}
         onClick={this.onMarkerClick} 
         name={school.name} 
         free={school.firstGrade.free}
-        adress={`${school.adress.city}, ${school.adress.street} ${school.adress.building}`}
+        adress={school.adress}
         position={school.coordinates}
       />
     });
@@ -81,16 +94,17 @@ class MapSearch extends Component {
         {/*<Header/>*/}
         <Map
           google={this.props.google}
-          zoom={13}
+          zoom={14}
           style={mapStyles}
           initialCenter={this.initialCenter}
         >
           {markersArr}
+          {homeMarker}
           <InfoWindowEx marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
             <div>
               {/* <Link to='/app'>{this.state.activeMarker.name}</Link>  */}
               <h2>{this.state.activeMarker.name}</h2>
-              <p>{this.state.activeMarker.adress}</p>
+              <p>{this.state.activeMarker.adress && this.state.activeMarker.adress.city + this.state.activeMarker.adress.street + this.state.activeMarker.adress.building}</p>
              <p>Вільні місця: {this.state.activeMarker.free}</p>  
             </div>                
           
@@ -102,8 +116,7 @@ class MapSearch extends Component {
   }
 }
 
+
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBHomne1KPE5WDiE8kzxEt9p2Ue5xM1Fkg'
 })(MapSearch);
-
-

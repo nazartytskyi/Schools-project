@@ -1,32 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-
-const useStyles = makeStyles({
-  root: {
-    width: 300
-  }
-});
+import PropTypes from 'prop-types';
+import './SalaryRange.scss';
+import Typography from '@material-ui/core/Typography';
 
 function valuetext(value) {
   return `${value}грн`;
 }
 
 export default function RangeSlider(props) {
-  const classes = useStyles();
   const [value, setValue] = React.useState([5000, 20000]);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
     props.setFilter({'range': newValue});
   };
   
-
   return (
-    <div className={classes.root}>
-      
-        Вкажіть розмір заробітньої плати
-   
+    <div className="salary-range">
+      <Typography variant="body2">Пошук за зарплатою</Typography>
       <Slider
         value={value}
         onChange={handleChange}
@@ -39,3 +30,7 @@ export default function RangeSlider(props) {
     </div>
   );
 }
+
+RangeSlider.propTypes = {
+  setFilter: PropTypes.func.isRequired
+};

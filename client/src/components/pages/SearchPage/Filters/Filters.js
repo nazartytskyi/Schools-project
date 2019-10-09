@@ -5,6 +5,7 @@ import './Filters.scss';
 // import AppBar from '@material-ui/core/AppBar';
 // import { Link } from 'react-router-dom';
 //import MapSearch from './MapSearch/MapSearch';
+import LocationSearchInput from './LocationSearchInput/LocationSearchInput'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,10 +16,7 @@ import Slider from '@material-ui/core/Slider';
 import { geocodeByAddress } from 'react-places-autocomplete';
 
 // `results` is an entire payload from Google API.
-debugger
-geocodeByAddress('Lviv')
-  .then(results => console.log(results[0].geometry.location.lat(), results[0].geometry.location.lng()))
-  .catch(error => console.error(error));
+
   
 class Filters extends Component {
   constructor(props) {
@@ -29,8 +27,8 @@ class Filters extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Вкажіть фільтри</h3>
+      <div className="filters-wrapper">
+        <h3 className="filters-heading">Вкажіть фільтри</h3>
 
         <FormControlLabel
           control={
@@ -68,6 +66,8 @@ class Filters extends Component {
 
         <ZnoRangeSlider setFilter={this.props.setFilter} schools={this.props.schools}/>
         <FeedbackRangeSlider setFilter={this.props.setFilter} schools={this.props.schools}/>
+        <LocationSearchInput setUserCoordinates={this.props.setUserCoordinates}/>
+       
       </div>
       );
   }
@@ -77,18 +77,11 @@ export default Filters;
 
 
 
-const useStyles = makeStyles({
-  root: {
-    width: 200,
-  },
-});
-
 function valuetext(value) {
   return `${value}`;
 }
 
 function ZnoRangeSlider(props) {
-  const classes = useStyles();
   const [value, setRange] = React.useState([100, 200]);
 
   const handleChange = (event, value) => {
@@ -101,7 +94,7 @@ function ZnoRangeSlider(props) {
   }
 
   return (
-    <div  className={classes.root}>
+    <div  className="slider">
       <Typography id="range-slider" gutterBottom>
         Бал ЗНО
       </Typography>
@@ -119,7 +112,6 @@ function ZnoRangeSlider(props) {
 }
 
 function FeedbackRangeSlider(props) {
-  const classes = useStyles();
   const [value, setRange] = React.useState([0, 10]);
 
   const handleChange = (event, value) => {
@@ -132,7 +124,7 @@ function FeedbackRangeSlider(props) {
   }
 
   return (
-    <div  className={classes.root}>
+    <div  className="slider">
       <Typography id="range-slider" gutterBottom>
         Рейтинг відгуків
       </Typography>
