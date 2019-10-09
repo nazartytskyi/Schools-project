@@ -11,7 +11,6 @@ const mapStateToProps = state => ({
   users: state.users
 });
 
-
 export class AddNews extends Component {
   // constructor(props) {
   //   super(props);
@@ -24,7 +23,7 @@ export class AddNews extends Component {
   //   };
   // }
   // state = {
-    
+
   //   id: 0,
   //   message: null,
   //   intervalIsSet: false,
@@ -33,8 +32,6 @@ export class AddNews extends Component {
   //   objectToUpdate: null,
   //   updateToApply: null
   // };
-
-
 
   // updateDB = (idToUpdate, updateToApply) => {
   //   let objIdToUpdate = null;
@@ -51,7 +48,6 @@ export class AddNews extends Component {
   //   });
   // };
 
-
   addNews = () => {
     if (auth().currentUser) {
       auth()
@@ -59,7 +55,14 @@ export class AddNews extends Component {
         .then(idToken => {
           axios.post(
             'http://localhost:3001/api/schools/5d8259d20dafb81f14fc859e/addNews',
-            { news: {title: 'test'} },
+            {
+              news: {
+                img: 'testIMG',
+                title: 'testTITLE',
+                description: 'testDESC',
+                date: 'testDATE'
+              }
+            },
             { headers: { authorization: idToken } }
           );
         });
@@ -67,17 +70,10 @@ export class AddNews extends Component {
     console.log(1);
   };
 
-
- 
-
   // setTitle = (e) => {
   //   this.setState({...this.state, ...this.state.newsObject, newsObject: {title: e.target.value}});
   //   console.log(e.target.value);
   // }
-
-  
-
-
 
   // displayForm = () => {
   //   if(this.state.isDialogOpened) {
@@ -104,29 +100,29 @@ export class AddNews extends Component {
 
   //     );
   //   }
-   
+
   // }
 
   handleClick = () => {
-    this.setState({...this.state, isDialogOpened: true})
-  }
-  
- 
+    this.setState({ ...this.state, isDialogOpened: true });
+  };
+
   render() {
     // if(this.props.users.user !== null) {
-      return (
-        <div className="add-news">
-        <Button variant="contained" onClick={this.addNews}>Додати новину</Button>
-       {/* {this.displayForm()} */}
-        </div> 
-      );
+    return (
+      <div className="add-news">
+        <Button variant="contained" onClick={this.addNews}>
+          Додати новину
+        </Button>
+        {/* {this.displayForm()} */}
+      </div>
+    );
     // }else {
     //   return (
     //     <div className="add-news">
-          
+
     //     </div>
     //   )
-
   }
 }
 
