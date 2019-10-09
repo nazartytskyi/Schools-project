@@ -12,8 +12,6 @@ import { connect } from 'react-redux';
 import { getSchools } from '../../../actions/getSchools';
 import { Link } from 'react-router-dom'
 
-
-
 const mapStateToProps = state => ({
   ...state
 });
@@ -27,38 +25,36 @@ export class Carousel extends Component {
     const schools = this.props.schools.data || [];
 
     return (
-
-        <div className="news-slider">
+      <div className="news-slider">
         <Slider 
           autoplay={2000}
         >
           {schools.map(school =>    
             school.news.map((item, index) => (
               <Link to='/news' className="slider-link" key={index}>
-              <Card className='slider-item'>
-                <Typography>
-                <div className="slider-item-header">
-                  <div className="slider-item-header-title">{item.title}</div>
-                  <div className="slider-item-header-date">{item.date}</div>
-                </div>
-                </Typography>
-                <CardMedia
-                  className="slider-media"
-                  image={item.img}
-                  title={item.title}
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary" component="p" className="slider-text">
-                    {item.description}
+                <Card className='slider-item'>
+                  <Typography>
+                  <div className="slider-item-header">
+                    <div className="slider-item-header-title">{item.title}</div>
+                    <div className="slider-item-header-date">{item.date}</div>
+                  </div>
                   </Typography>
-                </CardContent>
-              </Card> 
+                  <CardMedia
+                    className="slider-media"
+                    image={item.img}
+                    title={item.title}
+                  />
+                  <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p" className="slider-text">
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </Card> 
               </Link>
-              ))      
-            )}
-          </Slider>
-        </div>
-
+            ))      
+          )}
+        </Slider>
+      </div>
     )
   }
 }
