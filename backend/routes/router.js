@@ -7,7 +7,8 @@ const {
   updateSchool,
   getUser,
   createUser,
-  addFavoriteSchool
+  addFavoriteSchool,
+  addNews
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
@@ -33,5 +34,6 @@ router.post('/update/schools/:id', updateSchool);
 router.get('/user', checkIfAuthenticated, getUser, createUser);
 
 router.post('/addFavoriteSchool', checkIfAuthenticated, addFavoriteSchool);
+router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
 
 module.exports = router;

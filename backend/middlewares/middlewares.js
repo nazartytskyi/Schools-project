@@ -93,3 +93,16 @@ module.exports.addFavoriteSchool = (req, res) => {
     }
   });
 };
+
+module.exports.addNews = (req, res) => {
+  const { news } = req.body;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      school.news.push(news);
+      school.save();
+      res.status(201).send('News added');
+    } else {
+      res.status(500).send('school not found in collection');
+    }
+  });
+};
