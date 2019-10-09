@@ -12,43 +12,25 @@ const mapStateToProps = state => ({
 });
 
 export class AddNews extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     isDialogOpened: false,
-  //     message: null,
-  //     newsObject: {
-  //       title: ''
-  //     }
-  //   };
-  // }
-  // state = {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDialogOpened: true, 
+      title: null,
+      description: null,
+      date: null
+  
+    };
+  }
 
-  //   id: 0,
-  //   message: null,
-  //   intervalIsSet: false,
-  //   idToDelete: null,
-  //   idToUpdate: null,
-  //   objectToUpdate: null,
-  //   updateToApply: null
-  // };
 
-  // updateDB = (idToUpdate, updateToApply) => {
-  //   let objIdToUpdate = null;
-  //   parseInt(idToUpdate);
-  //   this.props.schools.data.forEach((dat) => {
-  //     if (dat.id == idToUpdate) {
-  //       objIdToUpdate = dat._id;
-  //     }
-  //   });
+  getCurrentDate = () => {
 
-  //   axios.post('http://localhost:3001/hi/api/updateData', {
-  //     id: objIdToUpdate,
-  //     update: { name: updateToApply },
-  //   });
-  // };
+  }
 
-  addNews = () => {
+  addNews = (e) => {
+    e.preventDefault();
+    this.setState({...this.state, title: e.target.value});
     if (auth().currentUser) {
       auth()
         .currentUser.getIdToken()
@@ -58,8 +40,8 @@ export class AddNews extends Component {
             {
               news: {
                 img: 'testIMG',
-                title: 'testTITLE',
-                description: 'testDESC',
+                title: this.state.title,
+                description: this.state.title,
                 date: 'testDATE'
               }
             },
@@ -67,63 +49,63 @@ export class AddNews extends Component {
           );
         });
     }
-    console.log(1);
   };
 
-  // setTitle = (e) => {
-  //   this.setState({...this.state, ...this.state.newsObject, newsObject: {title: e.target.value}});
-  //   console.log(e.target.value);
-  // }
+  updateInput = (e) => {
+    this.setState({...this.state, title: e.target.value});
+  }
 
-  // displayForm = () => {
-  //   if(this.state.isDialogOpened) {
-  //     return (
-  //       <div style={{ padding: '10px' }}>
-  //         <input
-  //           type="text"
-  //           style={{ width: '200px' }}
-  //           onChange={(e) => this.setState({ idToUpdate: e.target.value })}
-  //           placeholder="id of item to update here"
-  //         />
-  //         <input
-  //           type="text"
-  //           style={{ width: '200px' }}
-  //           onChange={(e) => this.setState({ updateToApply: e.target.value })}
-  //           placeholder="put new value of the item here"
-  //         />
-  //         <button
-  //           onClick={this.addNews}
-  //         >
-  //           UPDATE
-  //         </button>
-  //       </div>
+  updateTextarea = (e) => {
+    this.setState({...this.state, description: e.target.value});
+  }
 
-  //     );
-  //   }
 
-  // }
+
+  displayForm = () => {
+    if(this.state.isDialogOpened) {
+      return (
+        
+        <form onSubmit={this.addNews}>
+          <h3>Додати новину</h3>
+          <div className="dialog-field">
+            <input type="text" placeholder="Введіть заголовок" onChange={this.updateInput}/>
+          </div>
+          <div className="dialog-field">
+            <textarea cols="30" rows="10" placeholder="Введіть текст новини" onChange={this.updateTextarea}></textarea>
+          </div> 
+          <button type="submit">Додати</button>
+        </form>
+
+      );
+    }
+
+  }
 
   handleClick = () => {
     this.setState({ ...this.state, isDialogOpened: true });
   };
 
   render() {
-    // if(this.props.users.user !== null) {
+    if(this.props.users.user !== null) {
     return (
-      <div className="add-news">
-        <Button variant="contained" onClick={this.addNews}>
+      <div>
+        <div className="add-news">
+        <Button variant="contained" onClick={this.addNews} >
           Додати новину
         </Button>
-        {/* {this.displayForm()} */}
+        </div>
+        
+        {this.displayForm()}
       </div>
     );
-    // }else {
-    //   return (
-    //     <div className="add-news">
+    }else {
+      return (
+        <div className="add-news">
 
-    //     </div>
-    //   )
+        </div>
+      )
   }
+}
 }
 
 export default connect(mapStateToProps)(AddNews);
