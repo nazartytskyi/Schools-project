@@ -16,7 +16,7 @@ const dbRoute =
   'mongodb+srv://teacher1:1q2w3e4r5t6y@clusterschools-mq7nd.mongodb.net/test?retryWrites=true&w=majority';
 
 // connects our back end code with the database
-mongoose.connect(dbRoute, { useNewUrlParser: true });
+mongoose.connect(dbRoute, { useNewUrlParser: true, autoIndex: false });
 
 let db = mongoose.connection;
 
