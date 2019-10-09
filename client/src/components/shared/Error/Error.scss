@@ -1,0 +1,24 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+}
+.error-text {
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  padding: 30px;
+  .error-text-header {
+    text-align: center;
+    font-size: 2rem;
+    color: #ff4d4d;
+  }
+  .error-text-body {
+    font-size: 1.5rem;
+  }
+  .error-link{
+    display: block;
+    text-align: right;
+  }
+}

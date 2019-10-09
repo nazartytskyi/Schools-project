@@ -9,6 +9,11 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom'
+
+
+import Login from '../Login/Login';
 
 export class VacancyList extends Component {
   constructor(props) {
@@ -40,7 +45,9 @@ export class VacancyList extends Component {
               </div>
             </div>
             <CardContent className="card-content">
+              <Link className="news-link" to={`/school/${vacancy.schoolId}`}>
               <Typography variant="body1" color="textPrimary">{vacancy.school}</Typography>
+              </Link>
               <Typography variant="body2" color="textSecondary">вул: 
                                                                   {' '}{vacancy.adress.street} 
                                                                   {' '}{vacancy.adress.building}, 
@@ -48,6 +55,9 @@ export class VacancyList extends Component {
                                                                   {' '}{vacancy.adress.city}
               </Typography>
               <Typography variant="body1" color="textPrimary">тел: {vacancy.phoneNumber}</Typography>
+              <div className="respond">
+              <Login email={vacancy.email}/>  
+              </div>       
             </CardContent>
             <CardActions disableSpacing className="card-footer">
               <IconButton
