@@ -11,6 +11,7 @@ const schoolsSchema = new SchoolsSchema(
     adress: Object,
     language: String, 
     news: [{
+      _id: false,
       img: String,
       title: String,
       description: String,
