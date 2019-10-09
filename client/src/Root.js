@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import App from './App'
 import MainPage from './components/pages/MainPage/MainPage';
 import Search from './components/pages/SearchPage/SearchPage';
 import Layout from './components/shared/FooterPlusHeader/Layout';
@@ -14,8 +13,7 @@ const Root = ({ store }) => (
   <Provider store={store}>
     <Router>
       <Layout>
-        <Route path='/main' component={MainPage} />
-        <Route path='/app' component={App} />
+        <Route path='/app' component={MainPage} />
         <Route path='/search' component={Search} />
         <Route path='/news' component={News} />
         <Route path='/vacancies' component={Vacancies} />
