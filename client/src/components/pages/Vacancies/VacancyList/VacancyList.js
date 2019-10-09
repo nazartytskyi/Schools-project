@@ -9,6 +9,10 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
+
+
+import Login from '../Login/Login';
 
 export class VacancyList extends Component {
   constructor(props) {
@@ -48,6 +52,9 @@ export class VacancyList extends Component {
                                                                   {' '}{vacancy.adress.city}
               </Typography>
               <Typography variant="body1" color="textPrimary">тел: {vacancy.phoneNumber}</Typography>
+              <div className="respond">
+              <Login email={vacancy.email}/>  
+              </div>       
             </CardContent>
             <CardActions disableSpacing className="card-footer">
               <IconButton

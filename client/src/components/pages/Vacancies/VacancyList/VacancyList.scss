@@ -19,7 +19,7 @@
 }
 
 .card-content {
-  padding-bottom: 0 !important;
+  padding-bottom: 0;
 }
 
 .card-footer {
@@ -33,6 +33,11 @@
 
 .expandOpen {
   transform: rotate(180deg);
+}
+
+.respond {
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (max-width: 768px) {

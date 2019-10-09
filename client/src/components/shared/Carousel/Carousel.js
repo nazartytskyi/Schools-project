@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSchools } from '../../../actions/getSchools';
+import { Link } from 'react-router-dom'
+
 
 
 const mapStateToProps = state => ({
@@ -21,41 +23,42 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export class Carousel extends Component {
-
   render() {
     const schools = this.props.schools.data || [];
 
     return (
-      <div className="news-card-slider">
-        <h1>Latest News</h1>
+
         <div className="news-slider">
-        <Slider>
-        {schools.map(school =>    
-          school.news.map(item => (
-            <div key={item.title} className="slider-card">
+        <Slider 
+          autoplay={2000}
+        >
+          {schools.map(school =>    
+            school.news.map((item, index) => (
+              <Link to='/news' className="slider-link" key={index}>
               <Card className='slider-item'>
-                <CardHeader
-                  title={item.title}
-                  subheader={item.date}
-                />
+                <Typography>
+                <div className="slider-item-header">
+                  <div className="slider-item-header-title">{item.title}</div>
+                  <div className="slider-item-header-date">{item.date}</div>
+                </div>
+                </Typography>
                 <CardMedia
-                  className="media"
+                  className="slider-media"
                   image={item.img}
                   title={item.title}
                 />
                 <CardContent>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body2" color="textSecondary" component="p" className="slider-text">
                     {item.description}
                   </Typography>
                 </CardContent>
               </Card> 
-              </div>
-            ))      
-          )}
-        </Slider>
+              </Link>
+              ))      
+            )}
+          </Slider>
         </div>
-     
-      </div>
+
     )
   }
 }
