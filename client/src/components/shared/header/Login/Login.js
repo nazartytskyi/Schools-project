@@ -72,6 +72,20 @@ export class Login extends Component {
     this.setState({ anchorEl: null });
   };
 
+  // addNews = () => {
+  //   if (auth().currentUser) {
+  //     auth()
+  //       .currentUser.getIdToken()
+  //       .then(idToken => {
+  //         axios.post(
+  //           `http://localhost:3001/api/schools/${'сюди треба вставити довгий ID школи'}/addNews`,
+  //           { news: 'сюдиТребаВставитиОбєктНовин' },
+  //           { headers: { authorization: idToken } }
+  //         );
+  //       });
+  //   }
+  // };
+
   setUser = user => {
     this.props.setUser(user);
     if (auth().currentUser) {
