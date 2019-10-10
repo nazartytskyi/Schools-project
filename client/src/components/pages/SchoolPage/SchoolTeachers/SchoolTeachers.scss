@@ -1,0 +1,21 @@
+.school-teacher-card {
+  width: 250px;
+  margin-bottom: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.teachers-card-section {
+  float: right;
+  position: absolute;
+  right: 0px;
+  top: 275px;
+  padding-right: 40px;
+  text-align: center;
+}
+.teacher-avatar {
+  margin: 10px;
+  width: 110px !important;
+  height: 110px !important;
+  align-self: center;
+}
