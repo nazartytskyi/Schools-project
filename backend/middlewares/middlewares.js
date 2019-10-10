@@ -3,6 +3,7 @@ const Schools = require('../data/schools');
 const Users = require('../data/users');
 
 module.exports.checkIfAuthenticated = (req, res, next) => {
+  if(typeof req.headers.authorization === 'string') {
   admin
     .auth()
     .verifyIdToken(req.headers.authorization)
@@ -15,14 +16,20 @@ module.exports.checkIfAuthenticated = (req, res, next) => {
         .status(401)
         .send({ error: 'You are not authorized to make this request' });
     });
+  } else {
+    res
+        .status(401)
+        .send({ error: 'You are not authorized to make this request' });
+  }
 };
 
 module.exports.checkIfAdmin = (req, res, next) => {
+  if(typeof req.headers.authorization === 'string'){
   admin
     .auth()
     .verifyIdToken(req.headers.authorization)
     .then(user => {
-      if (user.admin) {
+      if (user.superadmin) {
         next();
       } else {
         res.status(401).send({ error: 'You are not admin' });
@@ -33,6 +40,11 @@ module.exports.checkIfAdmin = (req, res, next) => {
         .status(401)
         .send({ error: 'You are not authorized to make this request' });
     });
+  } else {
+    res
+        .status(401)
+        .send({ error: 'You are not authorized to make this request' });
+  }
 };
 
 module.exports.setUserRole = (req, res) => {
