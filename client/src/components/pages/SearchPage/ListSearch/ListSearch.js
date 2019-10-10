@@ -230,7 +230,7 @@ function ListSearch(props) {
 
   function handleClick(event, id) {
     //providing route to school page by its id in database
-    redirect(<Redirect push to={'/schoolpage/' + id}/>);
+    redirect(<Redirect push to={'/school/' + id}/>);
   }
 
   function handleChangePage(event, newPage) {

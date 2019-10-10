@@ -1,8 +1,12 @@
-.news-cards {
+.school-news {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 120px;
+  padding-bottom: 20px;
+}
+.school-news-card {
+  margin-top: 20px;
 }
 .text-ellipsis {
   overflow: hidden;
@@ -24,28 +28,21 @@
 .expandOpen {
   transform: rotate(180deg);
 }
-.news-link {
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.87);
-}
 @media only screen and (min-width: 1673px) {
-  .card {
-    max-width: 768px;
-    margin: 10px;
+  .school-news-card {
+    max-width: 568px;
     min-height: 563px;
   }
 }
 @media only screen and (min-width: 1273px)and (max-width: 1672px) {
-  .card {
+  .school-news-card {
     max-width: 568px;
-    margin: 10px;
     min-height: 563px;
   }
 }
 @media only screen and (min-width: 568px)and (max-width: 1272px) {
-  .card {
+  .school-news-card {
     max-width: auto;
-    margin: 10px;
     min-height: 563px;
   }
 }

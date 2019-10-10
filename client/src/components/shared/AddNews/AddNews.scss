@@ -1,10 +1,25 @@
 .add-news {
-  margin-top: 100px;
   width: 200px;
   height: 50px;
-
 }
 
 .dialog-field {
+  margin: 20px 0;
+}
+
+.dialog-field-input {
   margin: 20px;
+  width: 100%;
+}
+
+.dialog-form {
+  text-align: center;
+  padding: 20px;
+}
+
+.dialog-btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
