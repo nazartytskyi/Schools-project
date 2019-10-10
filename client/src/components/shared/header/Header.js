@@ -24,7 +24,7 @@ export class Header extends Component {
               <li><Link to='/news' className="nav-link">Новини</Link></li>
               <li><Link to='/hi' className="nav-link">Рейтинги</Link></li>
               <li><Link to='/vacancies' className="nav-link">Вакансії</Link></li>
-              <li><Link to='/hi' className="nav-link">Контакти</Link></li>
+              <li><Link to='/school/10000' className="nav-link">Контакти</Link></li>
               <li><Link to='/app' className="nav-link">Про проект</Link></li>
             </ul>
           </nav>

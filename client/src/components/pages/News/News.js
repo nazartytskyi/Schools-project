@@ -20,7 +20,6 @@ class News extends Component {
   }
   render() {
     const schools = this.props.schools.data || [];
-      
     return (
       <div className='news-cards'>
         {schools.map((school, indexSchool) => {
@@ -33,6 +32,7 @@ class News extends Component {
                   SchoolNewsId={SchoolNewsId} 
                   state={this.state} 
                   handleExpandClick={this.handleExpandClick}
+                  schoolId = {school.id}
                 />
               </div>
             })}
