@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
   users: state.users
 });
 
-export class AddNews extends Component {
+ class AddNews extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +59,7 @@ export class AddNews extends Component {
           .currentUser.getIdToken()
           .then(idToken => {
             axios.post(
-              'http://localhost:3001/api/schools/5d8259d20dafb81f14fc859e/addNews',
+              `http://localhost:3001/api/schools/${this.props.id}/addNews`,
               {
                 news: {
                   img: this.state.url,
@@ -146,11 +146,11 @@ export class AddNews extends Component {
     if(this.props.users.user !== null) {
     return (
       <div>
-        <div className="add-news">
+       
         <Button variant="contained" onClick={this.openDialog}>
           Додати новину
         </Button>
-        </div>
+        
         
         {this.displayForm()}
       </div>

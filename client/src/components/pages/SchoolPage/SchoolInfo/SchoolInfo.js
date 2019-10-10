@@ -24,6 +24,7 @@ import MessageIcon from '@material-ui/icons/Message';
 import PersonIcon from '@material-ui/icons/Person';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
+import AddNews from '../../../shared/AddNews/AddNews';
 
 const SchoolInfo = ({currentSchool, addSchool}) => (
       <React.Fragment>
@@ -44,7 +45,9 @@ const SchoolInfo = ({currentSchool, addSchool}) => (
                   <Button color="secondary" className='btn-send-doc'>
                     Send documents
                   </Button>
+                  
                 </ButtonGroup>
+                <AddNews id={currentSchool._id}/>
               </div>
               <div className='school-content'>
                 <Grid container spacing={3}>

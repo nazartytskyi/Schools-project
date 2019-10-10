@@ -10,6 +10,7 @@ import SchoolVacancies from './SchoolVacancies/SchoolVacancies';
 import SchoolTeachers from './SchoolTeachers/SchoolTeachers';
 import axios from 'axios';
 import { auth } from '../../shared/firebase-service/firebase-service';
+import AddNews from '../../shared/AddNews/AddNews';
 
 const mapStateToProps = state => ({
   schools: state.schools.data

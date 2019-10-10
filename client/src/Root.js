@@ -23,7 +23,7 @@ const Root = ({ store }) => (
         <Route path='/school/:schoolId' component={SchoolPage} />
         <Route path='/error/401' component={Unauthorized} />
         <Route path='/error/403' component={Forbidden} />
-        <Route path='/hi' component={AddNews} />
+        
       </Layout>
     </Router>
   </Provider>
