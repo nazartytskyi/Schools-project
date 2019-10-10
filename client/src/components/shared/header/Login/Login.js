@@ -6,9 +6,13 @@ import 'firebase/firestore';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import propTypes from 'prop-types';
 import { setUser } from '../../../../actions/setUser';
 import { setUserRole } from '../../../../actions/setUserRole';
+import { setUserFromMongo } from '../../../../actions/setUserFromMongo';
+
 import './Login.scss';
 const firebaseui = require('firebaseui');
 
@@ -21,6 +25,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setUserRole: userRole => {
     return dispatch(setUserRole(userRole));
+  },
+  setUserFromMongo: user => {
+    return dispatch(setUserFromMongo(user));
   }
 });
 const uiConfig = {
@@ -65,9 +72,35 @@ export class Login extends Component {
     this.setState({ anchorEl: null });
   };
 
+  // addNews = () => {
+  //   if (auth().currentUser) {
+  //     auth()
+  //       .currentUser.getIdToken()
+  //       .then(idToken => {
+  //         axios.post(
+  //           `http://localhost:3001/api/schools/${'сюди треба вставити довгий ID школи'}/addNews`,
+  //           { news: 'сюдиТребаВставитиОбєктНовин' },
+  //           { headers: { authorization: idToken } }
+  //         );
+  //       });
+  //   }
+  // };
+
   setUser = user => {
     this.props.setUser(user);
     if (auth().currentUser) {
+      firebase
+        .auth()
+        .currentUser.getIdToken()
+        .then(idToken => {
+          axios
+            .get(`http://localhost:3001/api/user`, {
+              headers: { authorization: idToken }
+            })
+            .then(user => {
+              this.props.setUserFromMongo(user.data);
+            });
+        });
       auth()
         .currentUser.getIdTokenResult()
         .then(idTokenResult => {
@@ -97,12 +130,15 @@ export class Login extends Component {
     }
     if (username) {
       login = (
-        <div className="login">
-          <span className="userGreeting"> Вітаю, {username}</span>
+        <div className='login'>
+          <span className='userGreeting'>
+            {' '}
+            Вітаю, <Link to='/profile'>{username}</Link>{' '}
+          </span>
           <Button
             onClick={this.logout}
-            variant="outlined"
-            className="login-btn"
+            variant='outlined'
+            className='login-btn'
           >
             Вийти
           </Button>
@@ -110,11 +146,11 @@ export class Login extends Component {
       );
     } else {
       login = (
-        <div className="login">
-          <span className="userGreeting"> </span>
+        <div className='login'>
+          <span className='userGreeting'> </span>
           <Button
-            variant="outlined"
-            className="login-btn"
+            variant='outlined'
+            className='login-btn'
             aria-describedby={id}
             onClick={this.handleClick}
           >
@@ -148,6 +184,7 @@ export class Login extends Component {
 Login.propTypes = {
   setUser: propTypes.func,
   setUserRole: propTypes.func,
+  setUserFromMongo: propTypes.func,
   users: propTypes.object
 };
 

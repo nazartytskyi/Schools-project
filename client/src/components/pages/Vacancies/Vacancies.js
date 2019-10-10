@@ -220,7 +220,6 @@ export class Vacancies extends Component {
                 />
               </div>
             </div>
-          
             <div className="vacancy-amount">
               <div className="amount-output">
                 <Typography variant="body1" 
@@ -250,7 +249,6 @@ export class Vacancies extends Component {
             </div>
           </div>
         </Container>
-        <div name="#bottom">hello</div>
       </React.Fragment>  
     )
   }

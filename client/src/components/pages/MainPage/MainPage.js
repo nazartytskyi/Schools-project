@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import ButtonBases from './ButtonBases/ButtonBases'
 import Container from '@material-ui/core/Container';
+import Carousel from './../../shared/Carousel/Carousel'
 
 export default class MainPage extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class MainPage extends React.Component {
       <Container maxWidth="lg">
         <main className="main-page">
           <ButtonBases></ButtonBases>
+          <Carousel/>
         </main>
       </Container>
     );

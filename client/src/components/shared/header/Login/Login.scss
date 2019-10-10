@@ -1,7 +1,7 @@
 @import '../../../Variables.scss';
 
-.login-container{
-  width: 350px;
+.login-container {
+  width: 280px;
 }
 .btn-link {
   color: white;
@@ -28,4 +28,7 @@
       background-color: $secondaryColor;
     }
   }
+}
+.firebaseui-tos {
+  display: none;
 }
