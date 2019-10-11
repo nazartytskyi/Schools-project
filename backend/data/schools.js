@@ -9,14 +9,38 @@ const schoolsSchema = new SchoolsSchema(
     description: String,
     phoneNumber: String,
     adress: Object,
-    language: String, 
-    news: [{
+    language: String,
+    news: [
+      {
+        _id: false,
+        img: String,
+        title: String,
+        description: String,
+        date: String
+      }
+    ],
+    firstGrade: {
       _id: false,
-      img: String,
-      title: String,
-      description: String,
-      date: String
-    }]
+      total: Number,
+      enrolled: Number,
+      requests: [
+        {
+          _id: false,
+          dateApply: String,
+          dateApprov: String,
+          studentName: String,
+          parentName: String,
+          status: String,
+          adress: {
+            _id: false,
+            city: String,
+            district: String,
+            street: String,
+            building: String
+          }
+        }
+      ]
+    }
   },
   { collection: 'schools' }
 );

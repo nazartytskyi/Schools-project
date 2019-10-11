@@ -7,7 +7,7 @@ import { Redirect } from 'react-router';
 import Container from '@material-ui/core/Container';
 // import axios from 'axios';
 import './Profile.scss';
-import { Paper, Typography, Button } from '@material-ui/core';
+import { Paper, Typography, Button, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 // import { Button } from '@material-ui/core';
 
 const mapStateToProps = state => ({
@@ -36,8 +36,26 @@ class Profile extends Component {
     let profileContainer;
     switch (this.state.menu) {
       case 'requests':
+        let requests = this.props.schools.data[0] ? this.props.schools.data[0].firstGrade.requests : [];
         profileContainer = (<Paper className="profile-card">
-          
+          <Table> 
+            <TableHead>
+              <TableRow>
+                <TableCell>Ім&#39;я</TableCell>
+                <TableCell>Дата подання</TableCell>
+                <TableCell>Статус</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {requests.map(request => {
+                return (<TableRow key={request._id}>
+                  <TableCell>{request.studentName}</TableCell>
+                  <TableCell>{request.dateApply}</TableCell>
+                  <TableCell> {request.status}</TableCell>
+                </TableRow>)
+              })}
+            </TableBody>
+          </Table>
         </Paper>)
         break;
       case 'mainInfo':
@@ -102,7 +120,8 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  users: propTypes.object
+  users: propTypes.object,
+  schools: propTypes.object
 };
 
 export default connect(
