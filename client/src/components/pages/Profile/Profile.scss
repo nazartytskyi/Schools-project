@@ -1,10 +1,19 @@
 .profile-container {
   margin-top: 100px;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  .profile-menu{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+  }
   .profile-card {
     padding: 10px 50px;
-    width: 500px;
-    margin: auto;
+    min-width: 500px;
+    margin: 0px 20px;
     .user-picture {
       display: block;
       max-width: 250px;
