@@ -1,0 +1,37 @@
+.school-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.school-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.school-name {
+  padding-top: 100px;
+}
+.school-btns {
+  margin: 50px;
+}
+.paper-info {
+  padding: 30px;
+}
+.paper-info-bottom {
+  padding: 10px;
+}
+.info.h5 {
+  display: flex;
+  justify-content: center;
+}
+.media-school-photo {
+  height: 480px;
+}
+.school-loader {
+  margin-top: 355px;
+  display: flex;
+  align-self: center;
+}
+button.MuiButton-contained.btn-chosen-sucess {
+  background-color: green;
+}

@@ -9,17 +9,14 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Link } from 'react-router-dom'
-import './News.scss'
+import './SchoolNews.scss'
 
-const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId}) => (
-  <Card className='card' key={item.name}>
-    <Link className='news-link' to={`/school/${schoolId}`}>
-      <CardHeader
-        title={item.title}
-        subheader={item.date}
-      />
-    </Link>
+const SchoolNews = ({item, SchoolNewsId,state,handleExpandClick}) => (
+  <Card className='school-news-card'>
+    <CardHeader
+      title={item.title}
+      subheader={item.date}
+    />
     <CardMedia
       className='media'
       image={item.img}
@@ -52,10 +49,10 @@ const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId}) => (
     </Collapse> 
   </Card>
 )
-NewsCard.propTypes = {
+SchoolNews.propTypes = {
   item: PropTypes.object.isRequired,
   SchoolNewsId: PropTypes.string.isRequired,
   state: PropTypes.object.isRequired,
   handleExpandClick: PropTypes.func.isRequired,
 }
-export default NewsCard;
+export default SchoolNews;
