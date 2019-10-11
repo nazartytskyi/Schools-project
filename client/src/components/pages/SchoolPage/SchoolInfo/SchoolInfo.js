@@ -25,9 +25,14 @@ import PersonIcon from '@material-ui/icons/Person';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
 import AddNews from '../../../shared/AddNews/AddNews';
+import DialogForm from './../DialogForm/DialogForm';
 
-const SchoolInfo = ({currentSchool, addSchool}) => (
-      <React.Fragment>
+const SchoolInfo = ({currentSchool, addSchool}) => {
+  const [isDialogOpen, openDialogForm] = React.useState(false);
+
+  return (
+    <React.Fragment>
+      <DialogForm close={() => openDialogForm(false)}open={isDialogOpen} />
         <CssBaseline />
             <Container maxWidth="lg">
               <div className="school-btn-container"> 
@@ -38,11 +43,11 @@ const SchoolInfo = ({currentSchool, addSchool}) => (
                   <Button 
                     color="primary" 
                     className='btn-chosen' 
-                    onClick= {() => {addSchool(currentSchool)}}
+                    onClick= {() => addSchool(currentSchool)}
                     >
                     Add to chosen
                   </Button>
-                  <Button color="secondary" className='btn-send-doc'>
+                  <Button onClick={() => openDialogForm(true)} color="secondary" className='btn-send-doc'>
                     Send documents
                   </Button>
                   
@@ -91,6 +96,7 @@ const SchoolInfo = ({currentSchool, addSchool}) => (
                 </Grid>
               </div>  
             </Container>
-            </React.Fragment>
-)
+            </React.Fragment> 
+  )
+}
 export default SchoolInfo;
