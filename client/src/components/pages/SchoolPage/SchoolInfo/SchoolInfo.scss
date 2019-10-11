@@ -1,3 +1,5 @@
+@import '../../../Variables.scss';
+
 .school-info-container {
   display: flex;
   flex-direction: column;
@@ -15,9 +17,16 @@
   margin: 50px;
 }
 .paper-info {
+  p {
+    font-size: $secondFontSize;
+  }
   padding: 30px;
+  font-size: $mainFontSize;
 }
 .paper-info-bottom {
+  p {
+  font-size: $secondFontSize;
+  }
   padding: 10px;
 }
 .info.h5 {
@@ -25,7 +34,7 @@
   justify-content: center;
 }
 .media-school-photo {
-  height: 480px;
+  height: 619px;
 }
 .school-loader {
   margin-top: 355px;

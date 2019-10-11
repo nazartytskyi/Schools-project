@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Container } from '@material-ui/core';
-import { Paper } from '@material-ui/core';
 import SchoolInfo from './SchoolInfo/SchoolInfo';
 import SchoolNews from './SchoolNews/SchoolNews';
 import SchoolVacancies from './SchoolVacancies/SchoolVacancies';
 import SchoolTeachers from './SchoolTeachers/SchoolTeachers';
 import axios from 'axios';
 import { auth } from '../../shared/firebase-service/firebase-service';
-import AddNews from '../../shared/AddNews/AddNews';
+import  Carousel  from '../../shared/Carousel/Carousel';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 const mapStateToProps = state => ({
   schools: state.schools.data
@@ -19,7 +20,7 @@ const mapStateToProps = state => ({
 class SchoolPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {expanded: new Set()};
+    this.state = {expanded: new Set(),isFavorite: false };
   }
   handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
@@ -36,9 +37,17 @@ class SchoolPage extends Component {
             { schoolId: currentSchool._id},
             { headers: { authorization: idToken } }
           );
+          this.setState({...this.state, isFavorite: true});
         });
     }
   };
+  changeHeart = () => {
+    if(this.state.isFavorite) {
+      return <FavoriteIcon/>
+    } else if(!this.state.isFavorite && !auth().currentUser) {
+      return <FavoriteBorderIcon/>
+    }
+  }
   render() {
     const schools = this.props.schools || [];
     const {schoolId} = this.props.match.params;
@@ -48,7 +57,9 @@ class SchoolPage extends Component {
       <div>
         <SchoolInfo
           addSchool={this.addSchool}
+          changeHeart={this.changeHeart}
           currentSchool={currentSchool}
+          isFavorite={this.state.isFavorite}
         />
         <Container className='school-news' maxWidth="lg">
           {currentSchool.news.map((item, indexNews) => {
@@ -88,6 +99,8 @@ class SchoolPage extends Component {
             </div>
           }) : 'Info missed'}
         </section>
+        <Carousel
+        />
       </div>
       : <CircularProgress className='school-loader' />
     )
