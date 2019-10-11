@@ -12,9 +12,16 @@ import { auth } from '../../shared/firebase-service/firebase-service';
 import  Carousel  from '../../shared/Carousel/Carousel';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 
 const mapStateToProps = state => ({
   schools: state.schools.data
+});
+
+const mapDispatchToProps = dispatch => ({
+  addFavoriteSchool: (schoolId) => {
+    return dispatch(addFavoriteSchool(schoolId));
+  }
 });
 
 class SchoolPage extends Component {
@@ -28,18 +35,7 @@ class SchoolPage extends Component {
     this.setState({expanded: expanded});
   }
   addSchool = (currentSchool) => {
-    if (auth().currentUser) {  
-       auth()
-        .currentUser.getIdToken()
-        .then(idToken => {
-          axios.post(
-            'http://localhost:3001/api/addFavoriteSchool',
-            { schoolId: currentSchool._id},
-            { headers: { authorization: idToken } }
-          );
-          this.setState({...this.state, isFavorite: true});
-        });
-    }
+    this.props.addFavoriteSchool(currentSchool._id);
   };
   changeHeart = () => {
     if(this.state.isFavorite) {
@@ -110,4 +106,4 @@ SchoolPage.propTypes = {
   schools: PropTypes.array,
   addSchool: PropTypes.func
 }
-export default connect(mapStateToProps,{auth})(SchoolPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SchoolPage);

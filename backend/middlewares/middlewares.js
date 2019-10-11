@@ -94,6 +94,24 @@ module.exports.addFavoriteSchool = (req, res) => {
   });
 };
 
+module.exports.deleteFavoriteSchool = (req, res) => {
+  const { schoolId } = req.body;
+  Users.findOne({ _id: req.authId }, function(err, user) {
+    if (user) {
+      let schoolIndex = user.choosedSchools.indexOf(schoolId);
+      if (schoolIndex === -1) {
+        res.status(500).send('School not found');
+      } else {
+        user.choosedSchools.splice(schoolIndex, 1);
+        user.save();
+        res.status(200).send('School removed from favorites');
+      }
+    } else {
+      res.status(500).send('User not found in collection users');
+    }
+  });
+};
+
 module.exports.addNews = (req, res) => {
   const { news } = req.body;
   Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
