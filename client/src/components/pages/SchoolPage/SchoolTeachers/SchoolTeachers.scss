@@ -1,9 +1,12 @@
+@import '../../../Variables.scss';
 .school-teacher-card {
   width: 300px;
   margin-bottom: 20px;
   padding: 15px;
   display: flex;
   flex-direction: column;
+  font-size: $secondFontSize;
+  font-family: $mainFont;
 }
 .teachers-card-section {
   float: right;
