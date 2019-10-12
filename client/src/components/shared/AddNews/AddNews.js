@@ -9,6 +9,7 @@ import propTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 //import TitleInput from './TitleInput/TitleInput';
 import TextField from '@material-ui/core/TextField';
+import {addNewsAction} from '../../../actions/addNewsAction';
 
 
 const mapStateToProps = state => ({
@@ -47,46 +48,13 @@ const mapStateToProps = state => ({
     }
   }
 
-  addNews = (e) => {
-    e.preventDefault();
-    this.setState({...this.state});
-
-      if (auth().currentUser && 
-                  this.state.title !== null && 
-                  this.state.description !== null && 
-                  this.state.url !== null) {
-        auth()
-          .currentUser.getIdToken()
-          .then(idToken => {
-            axios.post(
-              `http://localhost:3001/api/schools/${this.props.id}/addNews`,
-              {
-                news: {
-                  img: this.state.url,
-                  title: this.state.title,
-                  description: this.state.title,
-                  date: this.getCurrentDate()
-                }
-              },
-              { headers: { authorization: idToken } }
-            );
-          });
-          alert('Новина додана');
-          this.closeDialog();
-   
-    } else {
-      alert('Введіть усі поля')
-    }
-    
-  };
-
   updateInput = (e) => {
     this.setState({...this.state, title: e.target.value, date: new Date()});
+
   }
 
   updateTextarea = (e) => {
     this.setState({...this.state, description: e.target.value});
-    console.log(this.getCurrentDate());
   }
 
   getFiles = (e) => {
@@ -97,6 +65,45 @@ const mapStateToProps = state => ({
       self.setState({...this.state, url: oFREvent.target.result});
   };
   }
+
+  addNews = (e) => {
+    e.preventDefault();
+    this.setState({...this.state, date: new Date()});
+    if(this.state.title !== null && 
+      this.state.description !== null && 
+      this.state.url !== null) {
+
+        let obj = {
+          title: this.state.title,
+          description: this.state.description,
+          date: this.getCurrentDate(),
+          img: this.state.url
+        }
+        
+    
+        this.props.addNewsAction(obj);
+
+        if (auth().currentUser) {
+          auth()
+            .currentUser.getIdToken()
+            .then(idToken => {
+              axios.post(
+                `http://localhost:3001/api/schools/${this.props.currentSchool._id}/addNews`,
+                {
+                  news: obj
+                },
+                { headers: { authorization: idToken } }
+              );
+            });
+            alert('Новина додана');
+            this.closeDialog();
+      }
+    } else {
+      alert('Введіть усі поля')
+    }
+  };
+
+
 
   displayForm = () => {
     if(this.state.isDialogOpened) {
@@ -169,4 +176,4 @@ AddNews.propTypes = {
   users: propTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(AddNews);
+export default connect(mapStateToProps, {addNewsAction})(AddNews);

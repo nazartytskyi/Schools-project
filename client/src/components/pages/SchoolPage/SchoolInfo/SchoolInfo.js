@@ -26,7 +26,13 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
 import AddNews from '../../../shared/AddNews/AddNews';
 
+import { useState } from 'react';
+
+// const [id, setCount] = useState(null);
+
+
 const SchoolInfo = ({currentSchool, addSchool}) => (
+ 
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
@@ -47,7 +53,7 @@ const SchoolInfo = ({currentSchool, addSchool}) => (
                   </Button>
                   
                 </ButtonGroup>
-                <AddNews id={currentSchool._id}/>
+                <AddNews id={currentSchool._id} currentSchool={currentSchool}/>
               </div>
               <div className='school-content'>
                 <Grid container spacing={3}>

@@ -13,7 +13,8 @@ import { auth } from '../../shared/firebase-service/firebase-service';
 import AddNews from '../../shared/AddNews/AddNews';
 
 const mapStateToProps = state => ({
-  schools: state.schools.data
+  schools: state.schools.data,
+  item: state.schools.newItem
 });
 
 class SchoolPage extends Component {
@@ -21,11 +22,24 @@ class SchoolPage extends Component {
     super(props)
     this.state = {expanded: new Set()};
   }
+
+  componentWillReceiveProps(nextProps) {
+    const schools = this.props.schools || [];
+    const {schoolId} = this.props.match.params;
+    const currentSchool = schools.find(school => school.id === +schoolId);
+    if(nextProps.item) {
+      currentSchool.news.unshift(nextProps.item)
+    }
+  }
+
+
+
   handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
     !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
     this.setState({expanded: expanded});
   }
+
   addSchool = (currentSchool) => {
     if (auth().currentUser) {  
        auth()
@@ -43,6 +57,7 @@ class SchoolPage extends Component {
     const schools = this.props.schools || [];
     const {schoolId} = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
+
     return (
       currentSchool !== undefined ?
       <div>
@@ -97,4 +112,6 @@ SchoolPage.propTypes = {
   schools: PropTypes.array,
   addSchool: PropTypes.func
 }
+
+
 export default connect(mapStateToProps,{auth})(SchoolPage);
