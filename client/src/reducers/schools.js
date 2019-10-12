@@ -10,6 +10,12 @@ export default (state = {}, action) => {
         ...state,
         events: action.payload
       };
+      case 'ADD_NEWS':
+        
+      return {
+        ...state,
+        newItem: action.payload
+      };
     default:
       return state;
   }
