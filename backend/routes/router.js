@@ -8,6 +8,7 @@ const {
   getUser,
   createUser,
   addFavoriteSchool,
+  deleteFavoriteSchool,
   addNews
 } = require('../middlewares/middlewares');
 
@@ -34,7 +35,9 @@ router.post('/update/schools/:id', updateSchool);
 
 router.get('/user', checkIfAuthenticated, getUser, createUser);
 
-router.post('/addFavoriteSchool', checkIfAuthenticated, addFavoriteSchool);
+router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
+router.delete('/favoriteSchool', checkIfAuthenticated, deleteFavoriteSchool);
+
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
 
 module.exports = router;

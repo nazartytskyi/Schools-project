@@ -3,51 +3,74 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Container } from '@material-ui/core';
-import { Paper } from '@material-ui/core';
 import SchoolInfo from './SchoolInfo/SchoolInfo';
 import SchoolNews from './SchoolNews/SchoolNews';
 import SchoolVacancies from './SchoolVacancies/SchoolVacancies';
 import SchoolTeachers from './SchoolTeachers/SchoolTeachers';
 import axios from 'axios';
 import { auth } from '../../shared/firebase-service/firebase-service';
+import  Carousel  from '../../shared/Carousel/Carousel';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 
 const mapStateToProps = state => ({
-  schools: state.schools.data
+  schools: state.schools.data,
+  item: state.schools.newItem
+});
+
+const mapDispatchToProps = dispatch => ({
+  addFavoriteSchool: (schoolId) => {
+    return dispatch(addFavoriteSchool(schoolId));
+  }
 });
 
 class SchoolPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {expanded: new Set()};
+    this.state = {expanded: new Set(),isFavorite: false };
   }
+
+  componentWillReceiveProps(nextProps) {
+    const schools = this.props.schools || [];
+    const {schoolId} = this.props.match.params;
+    const currentSchool = schools.find(school => school.id === +schoolId);
+    if(nextProps.item) {
+      currentSchool.news.unshift(nextProps.item)
+    }
+  }
+
+
+
   handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
     !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
     this.setState({expanded: expanded});
   }
+
   addSchool = (currentSchool) => {
-    if (auth().currentUser) {  
-       auth()
-        .currentUser.getIdToken()
-        .then(idToken => {
-          axios.post(
-            'http://localhost:3001/api/addFavoriteSchool',
-            { schoolId: currentSchool._id},
-            { headers: { authorization: idToken } }
-          );
-        });
-    }
+    this.props.addFavoriteSchool(currentSchool._id);
   };
+  changeHeart = () => {
+    if(this.state.isFavorite) {
+      return <FavoriteIcon/>
+    } else if(!this.state.isFavorite && !auth().currentUser) {
+      return <FavoriteBorderIcon/>
+    }
+  }
   render() {
     const schools = this.props.schools || [];
     const {schoolId} = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
+
     return (
       currentSchool !== undefined ?
       <div>
         <SchoolInfo
           addSchool={this.addSchool}
+          changeHeart={this.changeHeart}
           currentSchool={currentSchool}
+          isFavorite={this.state.isFavorite}
         />
         <Container className='school-news' maxWidth="lg">
           {currentSchool.news.map((item, indexNews) => {
@@ -87,6 +110,8 @@ class SchoolPage extends Component {
             </div>
           }) : 'Info missed'}
         </section>
+        <Carousel
+        />
       </div>
       : <CircularProgress className='school-loader' />
     )
@@ -96,4 +121,4 @@ SchoolPage.propTypes = {
   schools: PropTypes.array,
   addSchool: PropTypes.func
 }
-export default connect(mapStateToProps,{auth})(SchoolPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SchoolPage);
