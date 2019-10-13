@@ -1,10 +1,36 @@
+@import '../../Variables.scss';
+
 .add-news {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 200px;
   height: 50px;
 }
 
-.dialog-field {
-  margin: 20px 0;
+.MuiTypography-h5 {
+  text-align: center;
+}
+
+.MuiDialog-paperScrollPaper {
+  width: 50%;
+}
+
+.dialog-form {
+  padding: 20px;
+  .dialog-field {
+    margin: 20px 0;
+  }
+  .dialog-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  .form-message{
+    color: red;
+    text-align: center;
+  }
 }
 
 .dialog-field-input {
@@ -12,14 +38,51 @@
   width: 100%;
 }
 
-.dialog-form {
-  text-align: center;
-  padding: 20px;
+.file-name {
+  height: 20px;
 }
 
-.dialog-btns {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+.download-image .MuiTypography-colorTextSecondary{
+  text-align: left;
+  margin-bottom: 10px;
 }
+
+input[type="file"] {
+  display: none;
+}
+
+.download-image-btn {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: $highlightBgColor;
+  &:hover {
+    background-color: #c6c4c4;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .MuiDialog-paperScrollPaper {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .MuiDialog-paperScrollPaper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .MuiDialog-container .MuiDialog-paper {
+    margin: 10px;
+  }
+}
+
+
+
+
+
