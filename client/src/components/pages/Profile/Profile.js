@@ -7,56 +7,118 @@ import { Redirect } from 'react-router';
 import Container from '@material-ui/core/Container';
 // import axios from 'axios';
 import './Profile.scss';
-import { Paper, Typography, Button, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
-// import { Button } from '@material-ui/core';
+import {
+  Paper,
+  Typography,
+  Button,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const mapStateToProps = state => ({
-  ...state
+  ...state,
 });
 const mapDispatchToProps = dispatch => ({});
+
+const columns = [
+  {
+    id: 'studentName',
+    label: 'Student\u00a0name',
+    // minWidth: 170
+  },
+  { id: 'dateApply', label: 'Date\u00a0apply', minWidth: 170 },
+  {
+    id: 'email',
+    label: 'Email',
+    // minWidth: 170
+  },
+  {
+    id: 'dateBirth',
+    label: 'Birth\u00a0date',
+    // minWidth: 170
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    // minWidth: 170
+  },
+];
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = { menu: 'mainInfo' };
   }
 
-  showMainInfo(){
+  showMainInfo() {
     this.setState({
       ...this.state,
-      menu: 'mainInfo'
+      menu: 'mainInfo',
     });
   }
-  showRequests(){
+  showRequests() {
     this.setState({
       ...this.state,
-      menu: 'requests'
+      menu: 'requests',
     });
   }
   render() {
     let profileContainer;
     switch (this.state.menu) {
       case 'requests':
-        let requests = this.props.schools.data[0] ? this.props.schools.data[0].firstGrade.requests : [];
-        profileContainer = (<Paper className="profile-card">
-          <Table> 
-            <TableHead>
-              <TableRow>
-                <TableCell>Ім&#39;я</TableCell>
-                <TableCell>Дата подання</TableCell>
-                <TableCell>Статус</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {requests.map(request => {
-                return (<TableRow key={request._id}>
-                  <TableCell>{request.studentName}</TableCell>
-                  <TableCell>{request.dateApply}</TableCell>
-                  <TableCell> {request.status}</TableCell>
-                </TableRow>)
-              })}
-            </TableBody>
-          </Table>
-        </Paper>)
+        let requests = this.props.schools.data[0]
+          ? this.props.schools.data[0].firstGrade.requests
+          : [];
+        profileContainer = (
+          <Paper className="profile-card">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {columns.map(column => {
+                    return (<TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>)
+                  })}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {requests.map(request => {
+                  return (
+                    <TableRow key={request._id}>
+                      <TableCell>{request.studentName}</TableCell>
+                      <TableCell>{request.dateApply}</TableCell>
+                      <TableCell> {request.status}</TableCell>
+                      <TableCell>
+                        <Select
+                          value={''}
+                          name="age"
+                          displayEmpty
+                        >
+                          <MenuItem value='' disabled>
+                            Placeholder
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </Paper>
+        );
         break;
       case 'mainInfo':
       default:
@@ -108,10 +170,11 @@ class Profile extends Component {
 
     return (
       <Container maxWidth="lg" className="profile-container">
-        <div className='profile-menu'>
-          <Button onClick={this.showMainInfo.bind(this)}>Основна інформація</Button>
+        <div className="profile-menu">
+          <Button onClick={this.showMainInfo.bind(this)}>
+            Основна інформація
+          </Button>
           <Button onClick={this.showRequests.bind(this)}>Заявки</Button>
-
         </div>
         {profileContainer}
       </Container>
@@ -121,7 +184,7 @@ class Profile extends Component {
 
 Profile.propTypes = {
   users: propTypes.object,
-  schools: propTypes.object
+  schools: propTypes.object,
 };
 
 export default connect(

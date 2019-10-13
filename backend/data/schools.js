@@ -25,12 +25,14 @@ const schoolsSchema = new SchoolsSchema(
       enrolled: Number,
       requests: [
         {
-          _id: false,
+          // _id: false,
           dateApply: String,
           dateApprov: String,
           studentName: String,
           parentName: String,
           status: String,
+          email: String,
+          dateBirth: String,
           adress: {
             _id: false,
             city: String,
