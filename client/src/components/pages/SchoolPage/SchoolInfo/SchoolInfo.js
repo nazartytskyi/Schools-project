@@ -48,7 +48,7 @@ const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => (
                     Send documents
                   </Button>
                 </ButtonGroup>
-                <AddNews currentSchool={currentSchool}/>
+                <AddNews id={currentSchool._id}/>
               </div>
               <div className='school-content'>
                 <Grid container spacing={3}>

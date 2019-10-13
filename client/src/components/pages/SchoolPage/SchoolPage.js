@@ -15,8 +15,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 
 const mapStateToProps = state => ({
-  schools: state.schools.data,
-  item: state.schools.newItem
+  ...state
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -28,19 +27,8 @@ const mapDispatchToProps = dispatch => ({
 class SchoolPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {expanded: new Set(),isFavorite: false };
+    this.state = {expanded: new Set(),isFavorite: false};
   }
-
-  componentWillReceiveProps(nextProps) {
-    const schools = this.props.schools || [];
-    const {schoolId} = this.props.match.params;
-    const currentSchool = schools.find(school => school.id === +schoolId);
-    if(nextProps.item) {
-      currentSchool.news.unshift(nextProps.item)
-    }
-  }
-
-
 
   handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
@@ -59,10 +47,9 @@ class SchoolPage extends Component {
     }
   }
   render() {
-    const schools = this.props.schools || [];
+    const schools = this.props.schools.data || [];
     const {schoolId} = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
-
     return (
       currentSchool !== undefined ?
       <div>
