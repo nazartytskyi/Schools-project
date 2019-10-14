@@ -24,9 +24,10 @@ import MessageIcon from '@material-ui/icons/Message';
 import PersonIcon from '@material-ui/icons/Person';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
-import AddNews from '../../../shared/AddNews/AddNews';
+import '../../../Variables.scss';
+import AddNews from '../../../shared/AddNews/AddNews'
 
-const SchoolInfo = ({currentSchool, addSchool}) => (
+const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => (
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
@@ -40,12 +41,12 @@ const SchoolInfo = ({currentSchool, addSchool}) => (
                     className='btn-chosen' 
                     onClick= {() => {addSchool(currentSchool)}}
                     >
-                    Add to chosen
+                      Add to favorite
+                      {changeHeart()}
                   </Button>
                   <Button color="secondary" className='btn-send-doc'>
                     Send documents
                   </Button>
-                  
                 </ButtonGroup>
                 <AddNews id={currentSchool._id}/>
               </div>
@@ -63,14 +64,14 @@ const SchoolInfo = ({currentSchool, addSchool}) => (
                         <ImportContactsIcon fontSize='large'/>
                       </Typography>
                       <Typography component='div'>
-                        <p><TitleIcon color='action' /> {currentSchool.name}</p>
-                        <p><DescriptionIcon color='action'/> {currentSchool.description}</p>
-                        <p><PhoneIcon color='action'/> {currentSchool.phoneNumber}</p>
-                        <p><b>Адреса:</b></p> 
-                        <p><LocationCityIcon color='action'/> {currentSchool.adress.city} </p>  
-                        <p><LocationOnIcon color='action'/>  {currentSchool.adress.district} район</p>
-                        <p><LocationOnIcon color='action'/> вулиця  {currentSchool.adress.street}</p>
-                        <p><HomeIcon color='action'/>  №{currentSchool.adress.building }</p>     
+                        <p><TitleIcon color='action' fontSize='large' /> {currentSchool.name}</p>
+                        <p><DescriptionIcon color='action' fontSize='large'/> {currentSchool.description}</p>
+                        <p><PhoneIcon color='action' fontSize='large'/> {currentSchool.phoneNumber}</p>
+                        <p><LabelIcon fontSize='large'/>  Адреса:</p> 
+                        <p><LocationCityIcon color='action' fontSize='large'/> {currentSchool.adress.city} </p>  
+                        <p><LocationOnIcon color='action' fontSize='large'/>  {currentSchool.adress.district} район</p>
+                        <p><LocationOnIcon color='action' fontSize='large'/> вулиця  {currentSchool.adress.street}</p>
+                        <p><HomeIcon color='action' fontSize='large'/>  Будинок  №{currentSchool.adress.building }</p>     
                       </Typography>
                     </Paper>
                   </Grid>
