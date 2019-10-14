@@ -87,22 +87,7 @@ export class Login extends Component {
               this.props.setUserFromMongo(user.data);
             });
         });
-      auth()
-        .currentUser.getIdTokenResult()
-        .then(idTokenResult => {
-          if (idTokenResult.claims.parent) {
-            this.props.setUserRole('parent');
-          }
-          if (idTokenResult.claims.superadmin) {
-            this.props.setUserRole('superadmin');
-          }
-          if (idTokenResult.claims.administration) {
-            this.props.setUserRole('administration');
-          }
-        })
-        .catch(() => {
-          console.log('Token not found');
-        });
+      this.props.setUserRole();
     }
   };
 
@@ -116,15 +101,15 @@ export class Login extends Component {
     }
     if (username) {
       login = (
-        <div className='login'>
-          <span className='userGreeting'>
+        <div className="login">
+          <span className="userGreeting">
             {' '}
-            Вітаю, <Link to='/profile'>{username}</Link>{' '}
+            Вітаю, <Link to="/profile">{username}</Link>{' '}
           </span>
           <Button
             onClick={this.logout}
-            variant='outlined'
-            className='login-btn'
+            variant="outlined"
+            className="login-btn"
           >
             Вийти
           </Button>
@@ -132,11 +117,11 @@ export class Login extends Component {
       );
     } else {
       login = (
-        <div className='login'>
-          <span className='userGreeting'> </span>
+        <div className="login">
+          <span className="userGreeting"> </span>
           <Button
-            variant='outlined'
-            className='login-btn'
+            variant="outlined"
+            className="login-btn"
             aria-describedby={id}
             onClick={this.handleClick}
           >
@@ -156,7 +141,7 @@ export class Login extends Component {
               horizontal: 'right'
             }}
           >
-            <div className='login-container'>
+            <div className="login-container">
               <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth()} />
             </div>
           </Popover>
