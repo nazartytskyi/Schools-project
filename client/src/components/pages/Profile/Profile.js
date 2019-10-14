@@ -73,31 +73,51 @@ const mapDispatchToProps = dispatch => ({});
 const columns = [
   {
     field: 'studentName',
-    title: 'Ім\u0027я\u00a0учня'
+    title: 'Ім\u0027я\u00a0учня',
+    editable: 'never'
     // minWidth: 170
   },
   {
     field: 'dateBirth',
-    title: 'Дата\u00a0народження'
+    title: 'Дата\u00a0народження',
+    editable: 'never',
+    type: 'date'
   },
   {
     field: 'email',
-    title: 'Електронна\u00a0пошта'
+    title: 'Електронна\u00a0пошта',
+    editable: 'never'
   },
   {
     field: 'status',
-    title: 'Статус'
+    title: 'Статус',
+    lookup: {
+      подано: 'подано',
+      підтверджено: 'підтверджено',
+      відхилено: 'відхилено'
+    }
   },
   {
     field: 'firstPriority',
-    title: 'Перша\u00a0черга'
+    title: 'Перша\u00a0черга',
+    type: 'boolean'
   },
-  { field: 'dateApply', title: 'Дата\u00a0подання' },
-  { field: 'dateApprov', title: 'Дата\u00a0прийняття' }
-  // {
-  //   field: 'adress',
-  //   title: 'Адреса'
-  // }
+  {
+    field: 'dateApply',
+    title: 'Дата\u00a0подання',
+    editable: 'never',
+    type: 'date'
+  },
+  {
+    field: 'adress',
+    title: 'Адреса',
+    editable: 'never',
+    render: rowData => {
+      console.log(rowData);
+      let fullAdress = `м.\u00a0${rowData.adress.city}, вул.\u00a0${rowData.adress.street},\u00a0${rowData.adress.building}`;
+      return fullAdress;
+    }
+  }
 ];
 class Profile extends Component {
   constructor(props) {
@@ -125,81 +145,23 @@ class Profile extends Component {
           ? this.props.schools.data[0].firstGrade.requests
           : [];
         profileContainer = (
-          <Paper className="profile-card">
-            {/* <Table>
-              <TableHead>
-                <TableRow>
-                  {columns.map(column => {
-                    return (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {requests.map(request => {
-                  return (
-                    <TableRow key={request._id}>
-                      <TableCell>{request.studentName}</TableCell>
-                      <TableCell>{request.dateApply}</TableCell>
-                      <TableCell> {request.status}</TableCell>
-                      <TableCell>
-                        <Select value={''} name="age" displayEmpty>
-                          <MenuItem value="" disabled>
-                            Placeholder
-                          </MenuItem>
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table> */}
-            <MaterialTable
-              icons={tableIcons}
-              title="Editable Example"
-              columns={this.state.columns}
-              data={requests}
-              editable={{
-                onRowAdd: newData =>
-                  new Promise(resolve => {
-                    setTimeout(() => {
-                      resolve();
-                      // const data = [...requests];
-                      // data.push(newData);
-                      // this.setState({ ...state, data });
-                    }, 600);
-                  }),
-                onRowUpdate: (newData, oldData) =>
-                  new Promise(resolve => {
-                    setTimeout(() => {
-                      resolve();
-                      // const data = [...state.data];
-                      // data[data.indexOf(oldData)] = newData;
-                      // setState({ ...state, data });
-                    }, 600);
-                  })
-                // onRowDelete: oldData =>
-                //   new Promise(resolve => {
-                //     setTimeout(() => {
-                //       resolve();
-                //       // const data = [...state.data];
-                //       // data.splice(data.indexOf(oldData), 1);
-                //       // setState({ ...state, data });
-                //     }, 600);
-                //   })
-              }}
-            />
-          </Paper>
+          <MaterialTable
+            icons={tableIcons}
+            title="Заяви"
+            columns={this.state.columns}
+            data={requests}
+            editable={{
+              onRowUpdate: (newData, oldData) =>
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve();
+                    // const data = [...state.data];
+                    // data[data.indexOf(oldData)] = newData;
+                    // setState({ ...state, data });
+                  }, 600);
+                })
+            }}
+          />
         );
         break;
       case 'mainInfo':
