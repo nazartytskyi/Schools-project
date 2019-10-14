@@ -23,9 +23,15 @@ export default (state = {}, action) => {
       });
       let indexNews = state.data[indexSchool].news.findIndex(news => {
         return news._id === action.idNews;
+        
       });
+      console.log(indexNews);
       state.data[indexSchool].news.splice(indexNews, 1);
-      return state;
+
+      return {
+        ...state,
+        data: state.data
+      }
     default:
       return state;
   }

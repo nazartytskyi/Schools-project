@@ -10,8 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  removeNews: (newsId) => {
-    return dispatch(removeNews(newsId));
+  removeNews: (idSchool, idNews) => {
+    return dispatch(removeNews(idSchool, idNews));
   }
 });
 
@@ -19,7 +19,7 @@ export class RemoveNews extends Component {
 
 
   removeNews = () => {
-    console.log(this.props.schoolId, this.props.item._id);
+    
     this.props.removeNews(this.props.schoolId, this.props.item._id);
   }
 
