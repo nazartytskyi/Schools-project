@@ -124,3 +124,23 @@ module.exports.addNews = (req, res) => {
     }
   });
 };
+
+module.exports.removeNews = (req, res) => {
+  const { id } = req.body;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+
+    if (school) {
+      let filtered = school.news.filter(item => {
+        return item._id === id;
+       });
+
+      arr.splice(filtered, 1);
+        school.news.splice(filtered, 1);
+        school.save();
+        res.status(200).send('News removed');
+      
+    } else {
+      res.status(500).send('School not found in collection users');
+    }
+  });
+};

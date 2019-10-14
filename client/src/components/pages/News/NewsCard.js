@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom'
 import './News.scss'
+import RemoveNews from '../../shared/RemoveNews/RemoveNews';
+
 
 const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId}) => (
   <Card className='card' key={item.name}>
@@ -20,6 +22,7 @@ const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId}) => (
         subheader={item.date}
       />
     </Link>
+    <RemoveNews SchoolNewsId={SchoolNewsId} item={item}/>
     <CardMedia
       className='media'
       image={item.img}

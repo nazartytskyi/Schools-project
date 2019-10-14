@@ -20,6 +20,19 @@ export default (state = {}, action) => {
         ...state,
         data: state.data
       };
+      case 'REMOVE_NEWS':
+      state.data.forEach(school => {
+        
+       let filtered = school.news.filter(item => {
+        return item._id !== action.payload;
+       }); 
+       school.news = filtered;
+     
+    });
+      return {
+        ...state,
+        data: state.data
+      };
     default:
       return state;
   }
