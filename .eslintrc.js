@@ -34,7 +34,7 @@ module.exports = {
     'no-undef-init': 'error',
     'block-spacing': 'error',
     'brace-style': 'error',
-    'comma-dangle': ['error', 'always-multiline'],
+    'comma-dangle': ['error', 'never'],
     'func-call-spacing': ['error', 'never'],
     'max-len': ['error', { code: 120, ignoreComments: true }],
     'new-parens': 'error',
