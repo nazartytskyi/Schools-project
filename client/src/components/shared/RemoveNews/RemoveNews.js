@@ -19,8 +19,8 @@ export class RemoveNews extends Component {
 
 
   removeNews = () => {
-    console.log(this.props.item._id);
-    this.props.removeNews(this.props.item._id);
+    console.log(this.props.schoolId, this.props.item._id);
+    this.props.removeNews(this.props.schoolId, this.props.item._id);
   }
 
   render() {

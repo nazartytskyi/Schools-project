@@ -22,7 +22,7 @@ const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId}) => (
         subheader={item.date}
       />
     </Link>
-    <RemoveNews SchoolNewsId={SchoolNewsId} item={item}/>
+    <RemoveNews schoolId={schoolId} item={item}/>
     <CardMedia
       className='media'
       image={item.img}

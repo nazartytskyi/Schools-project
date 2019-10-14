@@ -32,7 +32,7 @@ class News extends Component {
                   SchoolNewsId={SchoolNewsId} 
                   state={this.state} 
                   handleExpandClick={this.handleExpandClick}
-                  schoolId = {school.id}
+                  schoolId = {school._id}
                 />
               </div>
             })}
