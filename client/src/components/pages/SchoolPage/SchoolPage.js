@@ -2,26 +2,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Container } from '@material-ui/core';
+import { Container, ExpansionPanel } from '@material-ui/core';
 import SchoolInfo from './SchoolInfo/SchoolInfo';
 import SchoolNews from './SchoolNews/SchoolNews';
 import SchoolVacancies from './SchoolVacancies/SchoolVacancies';
 import SchoolTeachers from './SchoolTeachers/SchoolTeachers';
-import axios from 'axios';
 import { auth } from '../../shared/firebase-service/firebase-service';
+import {currentUser} from '../../shared/firebase-service/firebase-service';
 import  Carousel  from '../../shared/Carousel/Carousel';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
+import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
 
 const mapStateToProps = state => ({
   ...state
 });
 
 const mapDispatchToProps = dispatch => ({
-  addFavoriteSchool: (schoolId) => {
-    return dispatch(addFavoriteSchool(schoolId));
-  }
+  addFavoriteSchool: (schoolId) => dispatch(addFavoriteSchool(schoolId)),
+  deleteFavoriteSchool: (schoolId) => dispatch(deleteFavoriteSchool(schoolId))
 });
 
 class SchoolPage extends Component {
@@ -35,14 +38,29 @@ class SchoolPage extends Component {
     !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
     this.setState({expanded: expanded});
   }
-
   addSchool = (currentSchool) => {
     this.props.addFavoriteSchool(currentSchool._id);
+    this.setState({...this.state, isFavorite: true});
   };
+  deleteFavorite = (currentSchool) => {
+    this.props.deleteFavoriteSchool(currentSchool._id);
+    this.setState({...this.state, isFavorite: false});
+  };
+  checkFavorite = (currentSchool) => {
+    if(this.props.users.user !== null) {
+      if(!this.state.isFavorite) {
+        this.addSchool(currentSchool)
+      } else {
+        this.deleteFavorite(currentSchool)
+      }
+    } else {
+      alert('Login pls');  
+    }
+  }
   changeHeart = () => {
     if(this.state.isFavorite) {
       return <FavoriteIcon/>
-    } else if(!this.state.isFavorite && !auth().currentUser) {
+    } else if(!this.state.isFavorite) {
       return <FavoriteBorderIcon/>
     }
   }
@@ -54,10 +72,10 @@ class SchoolPage extends Component {
       currentSchool !== undefined ?
       <div>
         <SchoolInfo
-          addSchool={this.addSchool}
+          checkFavorite={this.checkFavorite}  
           changeHeart={this.changeHeart}
           currentSchool={currentSchool}
-          isFavorite={this.state.isFavorite}
+          state={this.state}
         />
         <Container className='school-news' maxWidth="lg">
           {currentSchool.news.map((item, indexNews) => {
@@ -72,10 +90,17 @@ class SchoolPage extends Component {
             </div>
           })}
         </Container>
-        <aside className='vacancy-card-aside'>
+        <ExpansionPanel className='vacancy-card-aside'>
+          <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <h2>Вакансії</h2>
+          </ExpansionPanelSummary>
           {currentSchool.vacancies.map((vacancy, index) => {
             let SchoolNewsId = index;
-            return <div key={currentSchool.description} >
+            return <div key={vacancy.description } >
               <SchoolVacancies
                 SchoolNewsId={SchoolNewsId}
                 adress={vacancy.adress.title}
@@ -85,27 +110,32 @@ class SchoolPage extends Component {
               />
             </div>
           })}
-        </aside>
-        <section className='teachers-card-section'>
+        </ExpansionPanel>
+        <ExpansionPanel className='teachers-card-section'>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <h2>Вчителі</h2>
+          </ExpansionPanelSummary>
           {currentSchool.teachers ? currentSchool.teachers.map((teacher,indexTeacher) => {
             let SchoolNewsId = indexTeacher;
-            return <div key={currentSchool.img} >
+            return <div key={teacher.name} >
               <SchoolTeachers
                 teacher={teacher}
                 SchoolNewsId={SchoolNewsId}
               />
             </div>
           }) : 'Info missed'}
-        </section>
-        <Carousel
-        />
+        </ExpansionPanel>
       </div>
       : <CircularProgress className='school-loader' />
     )
   }
 }
 SchoolPage.propTypes = {
-  schools: PropTypes.array,
+  schools: PropTypes.object,
   addSchool: PropTypes.func
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolPage);

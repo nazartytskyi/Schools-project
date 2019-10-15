@@ -8,8 +8,8 @@ export const deleteFavoriteSchool = (schoolId) => dispatch => {
       axios
         .delete(
           'http://localhost:3001/api/favoriteSchool',
-          { schoolId },
-          { headers: { authorization: idToken } }
+          { headers: { authorization: idToken } },
+          { schoolId } 
         )
         .then(() => {
           return dispatch({

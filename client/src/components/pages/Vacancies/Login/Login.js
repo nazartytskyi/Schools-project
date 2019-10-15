@@ -65,15 +65,11 @@ export class Login extends Component {
     this.setState({ anchorEl: null });
   };
 
-
-
   createEmail = (email) => {
     if(email) {
       return `mailto:${email}`;
     }
   }
-
-
   
   setUser = user => {
     this.props.setUser(user);

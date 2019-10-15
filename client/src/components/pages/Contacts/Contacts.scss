@@ -1,0 +1,69 @@
+@import '../../Variables.scss';
+
+.container {
+  margin-top: 100px;
+}
+
+.contacts-phones .MuiTypography-colorTextSecondary{
+  margin-bottom: 20px;
+}
+
+.contacts-phone {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  .MuiTypography-body1 {
+    font-size: 20px;
+  }
+  .contacts-phone-icon {
+    margin-right: 10px;
+  }
+}
+
+.contacts-social {
+  margin-top: 50px;
+  .contacts-social-link {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    background-color: $highlightBgColor;
+    border-radius: 5px;
+    &:hover {
+      background-color: #c6c4c4;
+    }
+    
+    .contacts-social-link-icon{
+      margin-left: 20px;
+      font-size: 40px;
+    }
+  }
+}
+
+.contacts-social-links a {
+  text-decoration: none;
+}
+
+.contacts-mail {
+  margin-top: 40px;
+  .contacts-mail-btn {
+    margin: 10px;
+    background-color: $mainColor;
+    color: $secondaryColor;
+    &:hover {
+      background-color: $secondaryColor;
+      color: $mainColor;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .contacts-social {
+    margin-top: 20px;
+    .contacts-social-link {
+      width: 100%;
+    }
+  }
+}
