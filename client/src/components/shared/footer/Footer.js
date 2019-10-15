@@ -13,7 +13,7 @@ class Footer extends Component {
           <Container maxWidth="lg" className="header-container">
             <div className="footer-items">
               <div className="logo">
-                <Link to='/app'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
+                <Link to='/'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
                 <Typography variant="body2">S_cool_S</Typography>
               </div>
               <div className="footer-copy">
@@ -29,6 +29,5 @@ class Footer extends Component {
       </footer>  
     )
   }
-
 }
 export default Footer

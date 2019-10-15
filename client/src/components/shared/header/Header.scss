@@ -3,7 +3,7 @@
 header {
   background-color: $mainColor;
   color: #fff;
-  padding: 10px;
+  padding: 10px 0;
   font-family: $mainFont;
   font-size: $mainFontSize;
   position: fixed;
@@ -13,11 +13,16 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    a {
+      color: $secondaryColor;
+    }
   }
 }
 
-.logo {
+.header-logo {
   text-align: center;
+  display: flex;
+  align-items: center;
   color: $secondaryColor;
   div i {
     font-size: 50px;
@@ -30,16 +35,20 @@ header {
 
 .menu {
   display: flex;
+  align-items: center;
   nav {
-    margin-right: 40px;
     display: flex;
     align-items: center;
     ul {
       display: flex;
+      align-items: center;
       list-style-type: none;
       margin: 0;
       li {
         margin-right: 30px;
+        &:last-child {
+          margin-right: 0;
+        }
         .nav-link {
           color: #fff;
           text-decoration: none;
@@ -52,6 +61,20 @@ header {
     }
   }
 }
-a {
-  color: $secondaryColor;
+
+@media (max-width: 1200px) {
+  .menu nav ul li{
+    margin-right: 20px;
+  }
+  
+  .menu ul li a {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .menu nav ul {
+    display: none;
+  }
 }

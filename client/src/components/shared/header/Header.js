@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './Header.scss';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import SchoolIcon from '@material-ui/icons/School';
 import Login from './Login/Login';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-
+import SimpleMenu from './ToggleMenu/ToggleMenu';
 
 export class Header extends Component {
   render() {
@@ -13,9 +13,12 @@ export class Header extends Component {
       <header>
         <React.Fragment>
           <Container maxWidth="lg" className="header-container">
-            <div className="logo">
-              <Link to='/app'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
-              <Typography>S_сool_S</Typography>
+            <div className="header-logo">
+              <div>
+                <Link to='/'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
+                <Typography>S_сool_S</Typography>
+              </div>
+              <SimpleMenu/>
             </div>
             <div className="menu">
               <nav>
@@ -27,9 +30,9 @@ export class Header extends Component {
                   <li><Link to='/contacts' className="nav-link">Контакти</Link></li>
                   <li><Link to='/about' className="nav-link">Про проект</Link></li>
                 </ul>
+                <Login />
               </nav>
             </div>
-            <Login />
           </Container>
         </React.Fragment>
       </header>
