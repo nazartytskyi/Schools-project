@@ -5,7 +5,8 @@ const UserSchema = mongoose.Schema;
 const userSchema = new UserSchema(
   {
     _id: String,
-    choosedSchools: Array
+    choosedSchools: Array,
+    role: String
   },
   { collection: 'users' }
 );
