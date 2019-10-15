@@ -9,7 +9,9 @@ const {
   createUser,
   addFavoriteSchool,
   deleteFavoriteSchool,
-  addNews
+  addNews,
+  updateRequest,
+  getAllUsers
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
@@ -34,10 +36,13 @@ router.get('/getData', getSchools);
 router.post('/update/schools/:id', updateSchool);
 
 router.get('/user', checkIfAuthenticated, getUser, createUser);
+router.get('/allUsers', checkIfAdmin, getAllUsers);
 
 router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
 router.delete('/favoriteSchool', checkIfAuthenticated, deleteFavoriteSchool);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
+
+router.post('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
 
 module.exports = router;

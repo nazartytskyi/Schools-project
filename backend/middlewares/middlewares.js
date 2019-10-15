@@ -3,47 +3,47 @@ const Schools = require('../data/schools');
 const Users = require('../data/users');
 
 module.exports.checkIfAuthenticated = (req, res, next) => {
-  if(typeof req.headers.authorization === 'string') {
-  admin
-    .auth()
-    .verifyIdToken(req.headers.authorization)
-    .then(user => {
-      req.authId = user.uid;
-      next();
-    })
-    .catch(() => {
-      res
-        .status(401)
-        .send({ error: 'You are not authorized to make this request' });
-    });
+  if (typeof req.headers.authorization === 'string') {
+    admin
+      .auth()
+      .verifyIdToken(req.headers.authorization)
+      .then(user => {
+        req.authId = user.uid;
+        next();
+      })
+      .catch(() => {
+        res
+          .status(401)
+          .send({ error: 'You are not authorized to make this request' });
+      });
   } else {
     res
-        .status(401)
-        .send({ error: 'You are not authorized to make this request' });
+      .status(401)
+      .send({ error: 'You are not authorized to make this request' });
   }
 };
 
 module.exports.checkIfAdmin = (req, res, next) => {
-  if(typeof req.headers.authorization === 'string'){
-  admin
-    .auth()
-    .verifyIdToken(req.headers.authorization)
-    .then(user => {
-      if (user.superadmin) {
-        next();
-      } else {
-        res.status(401).send({ error: 'You are not admin' });
-      }
-    })
-    .catch(() => {
-      res
-        .status(401)
-        .send({ error: 'You are not authorized to make this request' });
-    });
+  if (typeof req.headers.authorization === 'string') {
+    admin
+      .auth()
+      .verifyIdToken(req.headers.authorization)
+      .then(user => {
+        if (user.superadmin) {
+          next();
+        } else {
+          res.status(401).send({ error: 'You are not admin' });
+        }
+      })
+      .catch(() => {
+        res
+          .status(401)
+          .send({ error: 'You are not authorized to make this request' });
+      });
   } else {
     res
-        .status(401)
-        .send({ error: 'You are not authorized to make this request' });
+      .status(401)
+      .send({ error: 'You are not authorized to make this request' });
   }
 };
 
@@ -135,4 +135,37 @@ module.exports.addNews = (req, res) => {
       res.status(500).send('school not found in collection');
     }
   });
+};
+
+module.exports.updateRequest = (req, res) => {
+  const { requestToUpdate } = req.body;
+  // console.log(requestToUpdate, 'requestToUpdate updateRequest');
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      let requestIndextoUpdate = school.firstGrade.requests.findIndex(
+        request => {
+          return request._id.toString() === requestToUpdate._id;
+        }
+      );
+      // console.log(requestIndextoUpdate, 'requestIndextoUpdate updateRequest');
+      school.firstGrade.requests[requestIndextoUpdate] = { ...requestToUpdate };
+      // console.log(school, 'school');
+      school.save();
+      res.status(200).send('Request updated');
+    } else {
+      res.status(500).send('school not found in collection');
+    }
+  });
+};
+
+module.exports.getAllUsers = (req, res) => {
+  admin
+    .auth()
+    .listUsers(1000)
+    .then(function(listUsersResult) {
+      res.status(200).send(listUsersResult.users);
+    })
+    .catch(function(error) {
+      console.log('Error listing users:', error);
+    });
 };

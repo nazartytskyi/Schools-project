@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { Redirect } from 'react-router';
+import { updateRequest } from '../../../actions/updateRequest';
+import { getAllUsers } from '../../../actions/getAllUsers';
 
 // import firebase from '../../firebase-service/firebase-service';
 import Container from '@material-ui/core/Container';
@@ -68,7 +70,14 @@ const tableIcons = {
 const mapStateToProps = state => ({
   ...state
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  updateRequest: request => {
+    return dispatch(updateRequest(request));
+  },
+  getAllUsers: () => {
+    return dispatch(getAllUsers());
+  }
+});
 
 const columns = [
   {
@@ -113,18 +122,53 @@ const columns = [
     title: 'Адреса',
     editable: 'never',
     render: rowData => {
-      console.log(rowData);
       let fullAdress = `м.\u00a0${rowData.adress.city}, вул.\u00a0${rowData.adress.street},\u00a0${rowData.adress.building}`;
       return fullAdress;
     }
   }
 ];
+const columnsUsers = [
+  {
+    field: 'displayName',
+    title: 'Ім\u0027я\u00a0користувача',
+    editable: 'never'
+    // render: rowData => {
+    //   console.log(rowData);
+    //   return rowData.displayName;
+    // }
+  },
+  {
+    field: 'email',
+    title: 'Електронна\u00a0пошта',
+    editable: 'never'
+  },
+  {
+    field: 'uid',
+    title: 'ID\u00a0користувача',
+    editable: 'never'
+  }
+  // {
+  //   field: 'userRole',
+  //   title: 'Роль',
+  //   lookup: {
+  //     teacher: 'Вчитель',
+  //     superadmin: 'Суперадмін',
+  //     administration: 'Адміністрація школи',
+  //     parent: 'Батьки'
+  //   }
+  // }
+];
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { menu: 'mainInfo', columns };
+    this.state = { menu: 'mainInfo', columns, columnsUsers };
   }
 
+  componentDidMount() {
+    if (this.props.users.userRole === 'superadmin') {
+      this.props.getAllUsers();
+    }
+  }
   showMainInfo() {
     this.setState({
       ...this.state,
@@ -137,11 +181,19 @@ class Profile extends Component {
       menu: 'requests'
     });
   }
+  showSetRoles() {
+    this.setState({
+      ...this.state,
+      menu: 'setRoles'
+    });
+  }
   render() {
+    console.log('render');
+    console.log(this.props.schools.data);
     let profileContainer;
     switch (this.state.menu) {
       case 'requests':
-        let requests = this.props.schools.data[0]
+        let requests = this.props.schools.data
           ? this.props.schools.data[0].firstGrade.requests
           : [];
         profileContainer = (
@@ -153,14 +205,50 @@ class Profile extends Component {
             editable={{
               onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
+                  console.log('onRowUpdate');
+                  this.props.updateRequest({ ...newData });
                   setTimeout(() => {
                     resolve();
+                    this.forceUpdate();
                     // const data = [...state.data];
                     // data[data.indexOf(oldData)] = newData;
                     // setState({ ...state, data });
                   }, 600);
                 })
+              // .then(() => {
+              //   setTimeout(() => {
+              //     console.log('forceUpdate');
+              //     this.forceUpdate();
+              //   }, 600);
+              // })
             }}
+          />
+        );
+        break;
+      case 'setRoles':
+        let users = this.props.users.allUsers ? this.props.users.allUsers : [];
+        console.log(users, 'users');
+        console.log(this.props.users.allUsers, 'this.props.allUsers');
+        console.log(this.state.columnsUsers, 'this.state.columnsUsers');
+        profileContainer = (
+          <MaterialTable
+            icons={tableIcons}
+            title="Користувачі"
+            columns={this.state.columnsUsers}
+            data={users}
+            editable={
+              {
+                // onRowUpdate: (newData, oldData) =>
+                //   new Promise(resolve => {
+                //     console.log('onRowUpdate');
+                //     this.props.updateRequest({ ...newData });
+                //     setTimeout(() => {
+                //       resolve();
+                //       this.forceUpdate();
+                //     }, 600);
+                //   })
+              }
+            }
           />
         );
         break;
@@ -219,6 +307,9 @@ class Profile extends Component {
             Основна інформація
           </Button>
           <Button onClick={this.showRequests.bind(this)}>Заявки</Button>
+          <Button onClick={this.showSetRoles.bind(this)}>
+            Керування доступом
+          </Button>
         </div>
         {profileContainer}
       </Container>
@@ -228,7 +319,10 @@ class Profile extends Component {
 
 Profile.propTypes = {
   users: propTypes.object,
-  schools: propTypes.object
+  schools: propTypes.object,
+  allUsers: propTypes.object,
+  updateRequest: propTypes.func,
+  getAllUsers: propTypes.func
 };
 
 export default connect(
