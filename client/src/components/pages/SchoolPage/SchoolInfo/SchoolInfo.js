@@ -26,11 +26,16 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
+import DialogForm from './../DialogForm/DialogForm';
 
-const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => (
+const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => {
+    const [isDialogOpen, openDialogForm] = React.useState(false);
+  
+    return (
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
+              <DialogForm close={() => openDialogForm(false)} open={isDialogOpen} />
               <div className="school-btn-container"> 
                 <Typography className="school-name" variant="h4" color="textPrimary">
                   {currentSchool.name}
@@ -44,7 +49,7 @@ const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => (
                       Add to favorite
                       {changeHeart()}
                   </Button>
-                  <Button color="secondary" className='btn-send-doc'>
+                  <Button onClick={() => openDialogForm(true)} color="secondary" className='btn-send-doc'>
                     Send documents
                   </Button>
                 </ButtonGroup>
@@ -92,6 +97,7 @@ const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => (
                 </Grid>
               </div>  
             </Container>
-            </React.Fragment>
-)
+            </React.Fragment> 
+  )
+}
 export default SchoolInfo;

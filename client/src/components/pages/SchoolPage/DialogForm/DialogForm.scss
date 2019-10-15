@@ -1,51 +1,18 @@
 .dialog-form {
-    height: 270px;
+    height: 500px;
+    width: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
-    .general-info {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .file-input {
-        margin-top: 15px;
-        height: 35px;
-        width: 210зч ;
-    }
-
-    .file-input::-webkit-file-upload-button {
-        
-        visibility: hidden;
-        width: 100%;
-      }
-      .file-input::before {
-        content: 'Завантажити документи';
-        height: 35px;
-        display: inline-block;
-        background: linear-gradient(top, #f9f9f9, #e3e3e3);
-        border: 1px solid #999;
-        border-radius: 3px;
-        padding: 7px 8px;
-        outline: none;
-        white-space: nowrap;
-        -webkit-user-select: none;
-        cursor: pointer;
-        text-shadow: 1px 1px #fff;
-        font-weight: 700;
-        font-size: 12pt;
-      }
-      .file-input:hover::before {
-        border-color: black;
-      }
-      .file-input:active::before {
-        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-      }
 
     .submit-btn {
         align-self: flex-end;
         width: 100px;
+        margin-top: 20px;
     }
+}
+
+div.MuiDialog-paperWidthSm {
+  max-width: 400px;
 }
