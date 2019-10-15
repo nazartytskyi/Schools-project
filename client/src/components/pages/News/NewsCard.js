@@ -14,7 +14,8 @@ import './News.scss'
 import RemoveNews from '../../shared/RemoveNews/RemoveNews';
 
 
-const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId}) => (
+
+const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId, newsId, itemId}) => (
   <Card className='card' key={item.name}>
     <Link className='news-link' to={`/school/${schoolId}`}>
       <CardHeader
@@ -22,7 +23,7 @@ const NewsCard = ({item, SchoolNewsId,state,handleExpandClick,schoolId}) => (
         subheader={item.date}
       />
     </Link>
-    <RemoveNews schoolId={schoolId} item={item}/>
+    <RemoveNews schoolId={itemId} newsId={newsId}/>
     <CardMedia
       className='media'
       image={item.img}

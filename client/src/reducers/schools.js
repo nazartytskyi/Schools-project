@@ -25,7 +25,7 @@ export default (state = {}, action) => {
         return news._id === action.idNews;
         
       });
-      console.log(indexNews);
+      console.log(action.idNews);
       state.data[indexSchool].news.splice(indexNews, 1);
 
       return {

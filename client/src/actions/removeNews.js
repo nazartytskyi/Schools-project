@@ -16,6 +16,7 @@ export const removeNews = (idSchool, idNews) => dispatch => {
             { idNews }
           )
           .then(() => {
+            console.log(idNews);
             return dispatch({
               type: 'REMOVE_NEWS',
               idSchool,
