@@ -4,12 +4,25 @@
   margin-top: 100px;
 }
 
+.contacts-container {
+  text-align: center;
+}
+
 .contacts-phones .MuiTypography-colorTextSecondary{
   margin-bottom: 20px;
 }
 
+.contacts-phone .MuiTypography-body1 a {
+  text-decoration: none;
+  color: $mainColor;
+  &:hover {
+    color: $primaryColor;
+  }
+}
+
 .contacts-phone {
   display: flex;
+  justify-content: center;
   align-items: center;
   margin-bottom: 10px;
   .MuiTypography-body1 {
@@ -26,6 +39,7 @@
     display: flex;
     justify-content: space-between;
     width: 50%;
+    margin: 0 auto;
     align-items: center;
     padding: 0 10px;
     margin-bottom: 5px;
