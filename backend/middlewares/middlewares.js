@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const admin = require('../firebase-admin/firebase-admin');
 const Schools = require('../data/schools');
 const Users = require('../data/users');
@@ -116,9 +117,10 @@ module.exports.addNews = (req, res) => {
   const { news } = req.body;
   Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
     if (school) {
+      news._id = new mongoose.Types.ObjectId();
       school.news.unshift(news);
       school.save();
-      res.status(201).send('News added');
+      res.status(201).send(news);
     } else {
       res.status(500).send('school not found in collection');
     }
