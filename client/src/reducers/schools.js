@@ -12,7 +12,7 @@ export default (state = {}, action) => {
       };
     case 'ADD_NEWS':
       state.data.forEach(school => {
-        if (school._id === action.id) {
+        if (school._id === action.schoolId) {
           school.news.unshift(action.payload);
         }
       });
@@ -23,7 +23,6 @@ export default (state = {}, action) => {
       });
       let indexNews = state.data[indexSchool].news.findIndex(news => {
         return news._id === action.idNews;
-        
       });
       console.log(action.idNews);
       state.data[indexSchool].news.splice(indexNews, 1);
@@ -31,7 +30,7 @@ export default (state = {}, action) => {
       return {
         ...state,
         data: state.data
-      }
+      };
     default:
       return state;
   }
