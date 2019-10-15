@@ -212,3 +212,17 @@ module.exports.removeNews = (req, res) => {
     }
   });
 };
+
+module.exports.addRequest = (req, res) => {
+  const { request } = req.body;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      request._id = new mongoose.Types.ObjectId();
+      school.firstGrade.requests.push(request);
+      school.save();
+      res.status(201).send(request);
+    } else {
+      res.status(500).send('school not found in collection');
+    }
+  });
+};

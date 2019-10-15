@@ -10,6 +10,7 @@ const {
   addFavoriteSchool,
   deleteFavoriteSchool,
   addNews,
+  addRequest,
   updateRequest,
   getAllUsers,
   removeNews
@@ -46,6 +47,7 @@ router.delete(
   removeNews
 );
 
-router.post('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
+router.post('/schools/:schoolId/request', checkIfAuthenticated, addRequest);
+router.put('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
 
 module.exports = router;
