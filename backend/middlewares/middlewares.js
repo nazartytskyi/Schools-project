@@ -198,11 +198,11 @@ module.exports.getAllUsers = (req, res) => {
 };
 
 module.exports.removeNews = (req, res) => {
-  const { idNews } = req.body;
+  const idNews = req.params.idNews;
   Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
     if (school) {
       let indexNewsToDelete = school.news.findIndex(news => {
-        return news._id === idNews;
+        return news._id.toString() === idNews;
       });
       school.news.splice(indexNewsToDelete, 1);
       school.save();

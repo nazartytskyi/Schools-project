@@ -40,7 +40,11 @@ router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
 router.delete('/favoriteSchool', checkIfAuthenticated, deleteFavoriteSchool);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
-router.delete('/schools/:schoolId/news', checkIfAuthenticated, removeNews);
+router.delete(
+  '/schools/:schoolId/news/:idNews',
+  checkIfAuthenticated,
+  removeNews
+);
 
 router.post('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
 
