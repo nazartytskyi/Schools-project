@@ -29,7 +29,7 @@ module.exports.checkIfAdmin = (req, res, next) => {
       .auth()
       .verifyIdToken(req.headers.authorization)
       .then(user => {
-        if (user.superadmin) {
+        if (user.role === 'superadmin') {
           next();
         } else {
           res.status(401).send({ error: 'You are not admin' });
@@ -49,8 +49,24 @@ module.exports.checkIfAdmin = (req, res, next) => {
 
 module.exports.setUserRole = (req, res) => {
   const { update } = req.body;
-  admin.auth().setCustomUserClaims(req.params.uid, update);
-  return res.send({ message: 'Success' });
+  admin
+    .auth()
+    .setCustomUserClaims(req.params.uid, update)
+    .then(() => {
+      console.log('setCustomUserClaims success');
+    })
+    .catch(() => {
+      console.log('setCustomUserClaims fail');
+    });
+  Users.findOne({ _id: req.params.uid }, (err, user) => {
+    if (user) {
+      user.role = update.role;
+      user.save();
+      return res.send({ message: 'Success' });
+    } else {
+      return res.status(500).send({ error: 'User not found' });
+    }
+  });
 };
 
 module.exports.getSchools = (req, res) => {
@@ -84,7 +100,7 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res) => {
-  let user = new Users({ _id: req.authId, choosedSchools: [] });
+  let user = new Users({ _id: req.authId, choosedSchools: [], role: 'parent' });
   user.save();
   res.status(201).send(user);
 };
@@ -139,7 +155,6 @@ module.exports.addNews = (req, res) => {
 
 module.exports.updateRequest = (req, res) => {
   const { requestToUpdate } = req.body;
-  // console.log(requestToUpdate, 'requestToUpdate updateRequest');
   Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
     if (school) {
       let requestIndextoUpdate = school.firstGrade.requests.findIndex(
@@ -147,9 +162,7 @@ module.exports.updateRequest = (req, res) => {
           return request._id.toString() === requestToUpdate._id;
         }
       );
-      // console.log(requestIndextoUpdate, 'requestIndextoUpdate updateRequest');
       school.firstGrade.requests[requestIndextoUpdate] = { ...requestToUpdate };
-      // console.log(school, 'school');
       school.save();
       res.status(200).send('Request updated');
     } else {
@@ -163,7 +176,19 @@ module.exports.getAllUsers = (req, res) => {
     .auth()
     .listUsers(1000)
     .then(function(listUsersResult) {
-      res.status(200).send(listUsersResult.users);
+      let userList = [];
+      Users.find({}, (err, dataMongo) => {
+        listUsersResult.users.forEach(userFirebase => {
+          let userMongoIndex = dataMongo.findIndex(userMongo => {
+            return userMongo._id == userFirebase.uid;
+          });
+          if (userMongoIndex !== -1) {
+            userList.push({ ...userFirebase });
+            userList[userList.length - 1].role = dataMongo[userMongoIndex].role;
+          }
+        });
+        res.status(200).send(userList);
+      });
     })
     .catch(function(error) {
       console.log('Error listing users:', error);

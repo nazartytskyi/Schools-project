@@ -5,6 +5,7 @@ import propTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
+import axios from 'axios';
 
 // import firebase from '../../firebase-service/firebase-service';
 import Container from '@material-ui/core/Container';
@@ -122,8 +123,7 @@ const columns = [
     title: 'Адреса',
     editable: 'never',
     render: rowData => {
-      let fullAdress = `м.\u00a0${rowData.adress.city}, вул.\u00a0${rowData.adress.street},\u00a0${rowData.adress.building}`;
-      return fullAdress;
+      return `м.\u00a0${rowData.adress.city}, вул.\u00a0${rowData.adress.street},\u00a0${rowData.adress.building}`;
     }
   }
 ];
@@ -132,10 +132,6 @@ const columnsUsers = [
     field: 'displayName',
     title: 'Ім\u0027я\u00a0користувача',
     editable: 'never'
-    // render: rowData => {
-    //   console.log(rowData);
-    //   return rowData.displayName;
-    // }
   },
   {
     field: 'email',
@@ -146,17 +142,18 @@ const columnsUsers = [
     field: 'uid',
     title: 'ID\u00a0користувача',
     editable: 'never'
+  },
+  {
+    field: 'userRole',
+    title: 'Роль',
+    lookup: {
+      '': 'Відсутня',
+      teacher: 'Вчитель',
+      superadmin: 'Суперадмін',
+      administration: 'Адміністрація школи',
+      parent: 'Батьки'
+    }
   }
-  // {
-  //   field: 'userRole',
-  //   title: 'Роль',
-  //   lookup: {
-  //     teacher: 'Вчитель',
-  //     superadmin: 'Суперадмін',
-  //     administration: 'Адміністрація школи',
-  //     parent: 'Батьки'
-  //   }
-  // }
 ];
 class Profile extends Component {
   constructor(props) {
@@ -188,8 +185,6 @@ class Profile extends Component {
     });
   }
   render() {
-    console.log('render');
-    console.log(this.props.schools.data);
     let profileContainer;
     switch (this.state.menu) {
       case 'requests':
@@ -205,31 +200,18 @@ class Profile extends Component {
             editable={{
               onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
-                  console.log('onRowUpdate');
                   this.props.updateRequest({ ...newData });
                   setTimeout(() => {
                     resolve();
                     this.forceUpdate();
-                    // const data = [...state.data];
-                    // data[data.indexOf(oldData)] = newData;
-                    // setState({ ...state, data });
                   }, 600);
                 })
-              // .then(() => {
-              //   setTimeout(() => {
-              //     console.log('forceUpdate');
-              //     this.forceUpdate();
-              //   }, 600);
-              // })
             }}
           />
         );
         break;
       case 'setRoles':
         let users = this.props.users.allUsers ? this.props.users.allUsers : [];
-        console.log(users, 'users');
-        console.log(this.props.users.allUsers, 'this.props.allUsers');
-        console.log(this.state.columnsUsers, 'this.state.columnsUsers');
         profileContainer = (
           <MaterialTable
             icons={tableIcons}

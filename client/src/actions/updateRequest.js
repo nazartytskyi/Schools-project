@@ -13,7 +13,6 @@ export const updateRequest = requestToUpdate => dispatch => {
           { headers: { authorization: idToken } }
         )
         .then(() => {
-          console.log('actionCreate');
           return dispatch({
             type: 'UPDATE_REQUEST',
             requestToUpdate,

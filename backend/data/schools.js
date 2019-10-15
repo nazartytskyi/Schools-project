@@ -25,7 +25,6 @@ const schoolsSchema = new SchoolsSchema(
       enrolled: Number,
       requests: [
         {
-          // _id: false,
           dateApply: String,
           status: String,
           firstPriority: Boolean,

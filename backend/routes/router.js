@@ -19,7 +19,6 @@ const router = express.Router();
 // router.use('/protectedarticle', checkIfAuthenticated);
 // router.use('/protectedarticle', checkIfAdmin);
 // router.get('/protectedarticle', (req, res) => {
-//   console.log(req.authId, 'access to protected article');
 //   res.send('success');
 // });
 

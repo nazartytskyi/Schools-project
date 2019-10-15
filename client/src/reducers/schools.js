@@ -26,7 +26,6 @@ export default (state = {}, action) => {
       );
       state.data[schoolIndex].firstGrade.requests[requestIndex] =
         action.requestToUpdate;
-      console.log('reducer');
       return state;
     default:
       return state;

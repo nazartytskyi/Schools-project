@@ -10,7 +10,6 @@ export const getAllUsers = () => dispatch => {
           headers: { authorization: idToken }
         })
         .then(res => {
-          console.log(res.data, 'action ');
           return dispatch({
             type: 'GET_ALL_USERS',
             allUsers: res.data
