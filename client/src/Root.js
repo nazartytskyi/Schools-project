@@ -10,6 +10,7 @@ import Vacancies from './components/pages/Vacancies/Vacancies';
 import SchoolPage from './components/pages/SchoolPage/SchoolPage';
 import Unauthorized from './components/shared/Error/Unauthorized';
 import Forbidden from './components/shared/Error/Forbidden';
+import Contacts from './components/pages/Contacts/Contacts';
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -22,6 +23,7 @@ const Root = ({ store }) => (
         <Route path='/school/:schoolId' component={SchoolPage} />
         <Route path='/error/401' component={Unauthorized} />
         <Route path='/error/403' component={Forbidden} />
+        <Route path='/contacts' component={Contacts} />
       </Layout>
     </Router>
   </Provider>

@@ -9,7 +9,8 @@ const {
   createUser,
   addFavoriteSchool,
   deleteFavoriteSchool,
-  addNews
+  addNews,
+  removeNews
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
@@ -20,7 +21,6 @@ const router = express.Router();
 //   console.log(req.authId, 'access to protected article');
 //   res.send('success');
 // });
-
 
 router.post('/setrole/:uid', checkIfAdmin, setUserRole);
 
@@ -38,5 +38,6 @@ router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
 router.delete('/favoriteSchool', checkIfAuthenticated, deleteFavoriteSchool);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
+router.delete('/schools/:schoolId/news', checkIfAuthenticated, removeNews);
 
 module.exports = router;
