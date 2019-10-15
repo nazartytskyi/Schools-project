@@ -9,6 +9,9 @@ html,body,#root{
   position: relative;
   margin-top: auto;
   background-color: $mainColor;
+  a {
+    color: $secondaryColor;
+  }
 }
 .footer-items {
   display: flex;
@@ -18,4 +21,12 @@ html,body,#root{
 }
 .footer-copy {
   color: $secondaryColor;
+}
+
+.logo {
+  color: $secondaryColor;
+  text-align: center;
+  .MuiTypography-body2 {
+    font-style: italic;
+  }
 }
