@@ -1,0 +1,22 @@
+@import '../../Variables.scss';
+
+.container {
+  margin-top: 100px;
+} 
+
+.about-card {
+  margin-bottom: 30px;
+}
+
+.about-header {
+  text-align-last: left;
+  margin: 20px 0;
+}
+
+.about-text .about-link{
+  text-decoration: none;
+  color: $primaryColor;
+  &:hover {
+    text-decoration: underline;
+  }
+}
