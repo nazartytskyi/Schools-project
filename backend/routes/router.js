@@ -11,7 +11,8 @@ const {
   deleteFavoriteSchool,
   addNews,
   updateRequest,
-  getAllUsers
+  getAllUsers,
+  removeNews
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
@@ -22,9 +23,7 @@ const router = express.Router();
 //   res.send('success');
 // });
 
-router.post('/setrole/:uid', setUserRole);
-
-// router.post('/setrole/:uid', checkIfAdmin, setUserRole);
+router.post('/setrole/:uid', checkIfAdmin, setUserRole);
 
 // this is our get method
 // this method fetches all available data in our database
@@ -41,6 +40,7 @@ router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
 router.delete('/favoriteSchool', checkIfAuthenticated, deleteFavoriteSchool);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
+router.delete('/schools/:schoolId/news', checkIfAuthenticated, removeNews);
 
 router.post('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
 

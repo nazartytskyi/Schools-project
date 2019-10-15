@@ -1,9 +1,32 @@
 .school-vacancy-card {
   width: 300px;
-  margin-bottom: 20px;
 }
 .vacancy-card-aside {
-  position: absolute;
-  top: 275px;
   float: left;
+  position: absolute;
+}
+@media only screen and (min-width: 1673px) {
+  .vacancy-card-aside {
+    bottom:2163px;
+  }
+}
+@media only screen and (min-width: 1273px)and (max-width: 1679px) {
+  .vacancy-card-aside {
+    bottom:2163px;
+  }
+}
+@media only screen and (min-width: 568px)and (max-width: 1272px) {
+  .vacancy-card-aside {
+    bottom: 0px;
+    width: 45%;
+  }
+  .school-vacancy-card {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 568px) {
+  .vacancy-card-aside {
+    bottom: 0px;
+    width: 50%;
+  }
 }

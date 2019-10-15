@@ -12,7 +12,7 @@ const schoolsSchema = new SchoolsSchema(
     language: String,
     news: [
       {
-        _id: false,
+        _id: mongoose.ObjectId,
         img: String,
         title: String,
         description: String,

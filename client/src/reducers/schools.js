@@ -11,9 +11,25 @@ export default (state = {}, action) => {
         events: action.payload
       };
     case 'ADD_NEWS':
+      state.data.forEach(school => {
+        if (school._id === action.schoolId) {
+          school.news.unshift(action.payload);
+        }
+      });
+      return state;
+    case 'REMOVE_NEWS':
+      let indexSchool = state.data.findIndex(school => {
+        return school._id === action.idSchool;
+      });
+      let indexNews = state.data[indexSchool].news.findIndex(news => {
+        return news._id === action.idNews;
+      });
+      console.log(action.idNews);
+      state.data[indexSchool].news.splice(indexNews, 1);
+
       return {
         ...state,
-        newItem: action.payload
+        data: state.data
       };
     case 'UPDATE_REQUEST':
       let schoolIndex = state.data.findIndex(school => {
