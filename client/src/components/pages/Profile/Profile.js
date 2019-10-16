@@ -5,6 +5,8 @@ import propTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
+import { setUserRole } from '../../../actions/setUserRole';
+
 import axios from 'axios';
 
 // import firebase from '../../firebase-service/firebase-service';
@@ -77,6 +79,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getAllUsers: () => {
     return dispatch(getAllUsers());
+  },
+  setUserRole: (uid, role) => {
+    return dispatch(setUserRole(uid, role));
   }
 });
 
@@ -144,10 +149,9 @@ const columnsUsers = [
     editable: 'never'
   },
   {
-    field: 'userRole',
+    field: 'role',
     title: 'Роль',
     lookup: {
-      '': 'Відсутня',
       teacher: 'Вчитель',
       superadmin: 'Суперадмін',
       administration: 'Адміністрація школи',
@@ -204,7 +208,7 @@ class Profile extends Component {
                   setTimeout(() => {
                     resolve();
                     this.forceUpdate();
-                  }, 600);
+                  }, 800);
                 })
             }}
           />
@@ -218,19 +222,18 @@ class Profile extends Component {
             title="Користувачі"
             columns={this.state.columnsUsers}
             data={users}
-            editable={
-              {
-                // onRowUpdate: (newData, oldData) =>
-                //   new Promise(resolve => {
-                //     console.log('onRowUpdate');
-                //     this.props.updateRequest({ ...newData });
-                //     setTimeout(() => {
-                //       resolve();
-                //       this.forceUpdate();
-                //     }, 600);
-                //   })
-              }
-            }
+            editable={{
+              onRowUpdate: (newData, oldData) =>
+                new Promise(resolve => {
+                  console.log('onRowUpdate');
+                  console.log(newData, 'newData');
+                  this.props.setUserRole(newData.uid, newData.role);
+                  setTimeout(() => {
+                    resolve();
+                    this.forceUpdate();
+                  }, 800);
+                })
+            }}
           />
         );
         break;
@@ -304,7 +307,8 @@ Profile.propTypes = {
   schools: propTypes.object,
   allUsers: propTypes.object,
   updateRequest: propTypes.func,
-  getAllUsers: propTypes.func
+  getAllUsers: propTypes.func,
+  setUserRole: propTypes.func
 };
 
 export default connect(

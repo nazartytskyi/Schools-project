@@ -5,11 +5,21 @@ export default (state = {}, action) => {
         ...state,
         user: action.payload
       };
-    case 'SET_USER_ROLE':
+    case 'GET_USER_ROLE':
       return {
         ...state,
         userRole: action.payload
       };
+    case 'SET_USER_ROLE':
+      console.log(state);
+      if (state.userFromMongo._id === action.uid) {
+        state.userFromMongo.role = action.role;
+      }
+      let userIndex = state.allUsers.findIndex(user => {
+        return user.uid === action.uid;
+      });
+      state.allUsers[userIndex].role = action.role;
+      return state;
     case 'SET_USER_FROM_MONGO':
       return {
         ...state,

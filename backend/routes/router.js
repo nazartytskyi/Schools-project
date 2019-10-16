@@ -24,7 +24,7 @@ const router = express.Router();
 //   res.send('success');
 // });
 
-router.post('/setrole/:uid', checkIfAdmin, setUserRole);
+router.put('/user/:uid/role', checkIfAdmin, setUserRole);
 
 // this is our get method
 // this method fetches all available data in our database
