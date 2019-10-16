@@ -25,7 +25,7 @@ import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
 import DialogForm from './../DialogForm/DialogForm';
 
-const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => {
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
     const [isDialogOpen, openDialogForm] = React.useState(false);
   
     return (
