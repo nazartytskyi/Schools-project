@@ -24,10 +24,19 @@
   font-size: $mainFontSize;
 }
 .paper-info-bottom {
+  display: flex;
+  flex-direction: column;
+  
   p {
   font-size: $secondFontSize;
   }
   padding: 10px;
+}
+.info-with-table {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 20px;
 }
 .info.h5 {
   display: flex;
