@@ -18,7 +18,31 @@ const schoolsSchema = new SchoolsSchema(
         description: String,
         date: String
       }
-    ]
+    ],
+    firstGrade: {
+      _id: false,
+      total: Number,
+      enrolled: Number,
+      requests: [
+        {
+          dateApply: String,
+          status: String,
+          firstPriority: Boolean,
+          studentName: String,
+          dateBirth: String,
+          fatherName: String,
+          motherName: String,
+          email: String,
+          adress: {
+            _id: false,
+            city: String,
+            district: String,
+            street: String,
+            building: String
+          }
+        }
+      ]
+    }
   },
   { collection: 'schools' }
 );

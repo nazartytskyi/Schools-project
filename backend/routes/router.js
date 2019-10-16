@@ -10,6 +10,9 @@ const {
   addFavoriteSchool,
   deleteFavoriteSchool,
   addNews,
+  addRequest,
+  updateRequest,
+  getAllUsers,
   removeNews
 } = require('../middlewares/middlewares');
 
@@ -18,7 +21,6 @@ const router = express.Router();
 // router.use('/protectedarticle', checkIfAuthenticated);
 // router.use('/protectedarticle', checkIfAdmin);
 // router.get('/protectedarticle', (req, res) => {
-//   console.log(req.authId, 'access to protected article');
 //   res.send('success');
 // });
 
@@ -33,11 +35,19 @@ router.get('/getData', getSchools);
 router.post('/update/schools/:id', updateSchool);
 
 router.get('/user', checkIfAuthenticated, getUser, createUser);
+router.get('/allUsers', checkIfAdmin, getAllUsers);
 
 router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
 router.delete('/favoriteSchool', checkIfAuthenticated, deleteFavoriteSchool);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
-router.delete('/schools/:schoolId/news', checkIfAuthenticated, removeNews);
+router.delete(
+  '/schools/:schoolId/news/:idNews',
+  checkIfAuthenticated,
+  removeNews
+);
+
+router.post('/schools/:schoolId/request', checkIfAuthenticated, addRequest);
+router.put('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
 
 module.exports = router;

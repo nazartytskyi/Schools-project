@@ -19,16 +19,13 @@ import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import LanguageIcon from '@material-ui/icons/Language';
 import PhoneIcon from '@material-ui/icons/Phone';
 import InfoIcon from '@material-ui/icons/Info';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import MessageIcon from '@material-ui/icons/Message';
-import PersonIcon from '@material-ui/icons/Person';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews';
 import AddVacancy from '../../../shared/AddVacancy/AddVacancy';
 
-const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => (
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
@@ -40,7 +37,7 @@ const SchoolInfo = ({currentSchool, addSchool,changeHeart}) => (
                   <Button 
                     color="primary" 
                     className='btn-chosen' 
-                    onClick= {() => {addSchool(currentSchool)}}
+                    onClick= {(currentSchool) => checkFavorite(currentSchool)}
                     >
                       Add to favorite
                       {changeHeart()}

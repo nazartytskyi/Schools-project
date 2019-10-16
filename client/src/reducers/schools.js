@@ -31,6 +31,26 @@ export default (state = {}, action) => {
         ...state,
         data: state.data
       };
+    case 'ADD_REQUEST':
+      let schoolIndexToAddRequest = state.data.findIndex(school => {
+        return school._id === action.schoolId;
+      });
+      state.data[schoolIndexToAddRequest].firstGrade.requests.push(
+        action.payload
+      );
+      return state;
+    case 'UPDATE_REQUEST':
+      let schoolIndex = state.data.findIndex(school => {
+        return school._id === action.schoolId;
+      });
+      let requestIndex = state.data[schoolIndex].firstGrade.requests.findIndex(
+        request => {
+          return request._id === action.requestToUpdate._id;
+        }
+      );
+      state.data[schoolIndex].firstGrade.requests[requestIndex] =
+        action.requestToUpdate;
+      return state;
     default:
       return state;
   }

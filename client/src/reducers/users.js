@@ -28,6 +28,11 @@ export default (state = {}, action) => {
         state.userFromMongo.choosedSchools.splice(indexSchool, 1);
       }
       return state;
+    case 'GET_ALL_USERS':
+      return {
+        ...state,
+        allUsers: action.allUsers
+      };
     default:
       return state;
   }
