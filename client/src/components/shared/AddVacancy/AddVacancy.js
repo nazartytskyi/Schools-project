@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import {addNewsAction} from '../../../actions/addNewsAction';
 import CustomizedSnackbars from '../AddNews/SuccessAlert';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const mapStateToProps = state => ({
   schools: state.schools.data,
@@ -28,7 +31,7 @@ const mapStateToProps = state => ({
       title: null,
       description: null,
       salary: null,
-      employment: null,
+      employment: 'Повна зайнятість',
       date: null,
       isSuccess: false,
       isFormFilled: true,
@@ -59,12 +62,25 @@ const mapStateToProps = state => ({
     }
   }
 
-  updateInput = (e) => {
+ 
+ 
+
+  updatePostInput = (e) => {
     this.setState({...this.state, title: e.target.value, date: new Date()});
+    console.log(this.props.currentSchool._id);
+  }
+
+  updateSalaryInput = (e) => {
+    this.setState({...this.state, salary: e.target.value});
+    console.log(this.props.currentSchool._id);
   }
 
   updateTextarea = (e) => {
     this.setState({...this.state, description: e.target.value});
+  }
+
+  changeEmployment = (e) => {
+    this.setState({...this.state, employment: e.target.value});
   }
 
 
@@ -75,30 +91,32 @@ const mapStateToProps = state => ({
     return {visibility: 'visible', marginTop: '20px'}
   }
 
-  addNews = (e) => {
+  addVacancy = (e) => {
     e.preventDefault();
     this.setState({...this.state, isSuccess: false});
 
     if(this.state.title !== null && 
       this.state.description !== null && 
-      this.state.url !== null) {
+      this.state.salary !== null) {
 
         let obj = {
           title: this.state.title,
           description: this.state.description,
-          date: this.getCurrentDate(),
-          img: this.state.url
+          salary: this.state.salary,
+          employment: this.state.employment,
+          date: this.getCurrentDate()
         }
+        console.log(obj);
 
-        this.props.addNewsAction(obj, this.props.id);
+        //this.props.addNewsAction(obj, this.props.id);
         this.setState({
           ...this.state, 
           isDialogOpened: false, 
           isSuccess: true, 
           title: null, 
           description: null, 
-          url: null, 
-          fileName: ''
+          salary: null,
+          date: null
         });
       
     } else {
@@ -110,14 +128,23 @@ const mapStateToProps = state => ({
     if(this.state.isDialogOpened) {
       return (
         <Dialog open={true} >
-          <form onSubmit={this.addNews} className="dialog-form">
+          <form onSubmit={this.addVacancy} className="dialog-form">
             <Typography variant="h5">Додати вакансію</Typography>
             <div className="dialog-field">
               <TextField
                 id="outlined-with-placeholder"
                 label="Посада"
                 variant="outlined"
-                onChange={this.updateInput}
+                onChange={this.updatePostInput}
+                className="dialog-field-input"
+              />
+            </div>
+            <div className="dialog-field">
+              <TextField
+                id="outlined-with-placeholder"
+                label="Зарплата"
+                variant="outlined"
+                onChange={this.updateSalaryInput}
                 className="dialog-field-input"
               />
             </div>
@@ -131,6 +158,18 @@ const mapStateToProps = state => ({
                 className="dialog-field-input"
                 rows="8"
               />
+            </div>
+            <div>
+              <FormControl>
+                <Select
+                  value={this.state.employment}
+                  onChange={this.changeEmployment}
+                  className="employment-select"
+                > 
+                  <MenuItem value="Повна зайнятість">Повна зайнятість</MenuItem>
+                  <MenuItem value="Часткова зайнятість">Часткова зайнятість</MenuItem>
+                </Select>
+              </FormControl>
             </div>
             <Typography 
               style={this.displayMessage()} 
@@ -167,7 +206,7 @@ const mapStateToProps = state => ({
         <CustomizedSnackbars 
           isSuccess={this.state.isSuccess} 
           closeMessage={this.closeMessage.bind(this)}
-          is={this.state.isSuccess} 
+          alertMessage="Вакансія додана"
         />
       </div>
     );

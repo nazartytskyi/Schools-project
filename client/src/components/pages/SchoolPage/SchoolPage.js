@@ -78,7 +78,7 @@ class SchoolPage extends Component {
             return <div key={currentSchool.description} >
               <SchoolVacancies
                 SchoolNewsId={SchoolNewsId}
-                adress={vacancy.adress.title}
+                //adress={vacancy.adress.title}
                 state={this.state}
                 vacancy={vacancy}
                 handleExpandClick={this.handleExpandClick}

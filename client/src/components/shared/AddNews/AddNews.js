@@ -110,7 +110,8 @@ const mapDispatchToProps = dispatch => ({
           isSuccess: true, 
           title: null, 
           description: null, 
-          url: null, 
+          url: null,
+          date: null, 
           fileName: ''
         });
       
@@ -190,7 +191,7 @@ const mapDispatchToProps = dispatch => ({
         <CustomizedSnackbars 
           isSuccess={this.state.isSuccess} 
           closeMessage={this.closeMessage.bind(this)}
-          is={this.state.isSuccess} 
+          alertMessage="Новина додана"
         />
       </div>
     );

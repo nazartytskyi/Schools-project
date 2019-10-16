@@ -84,7 +84,7 @@ export default function CustomizedSnackbars(props) {
         <MySnackbarContentWrapper
           onClose={handleClose}
           variant="success"
-          message="Новина додана!"
+          message={props.alertMessage}
         />
       </Snackbar>
     </div>
