@@ -12,7 +12,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import CustomizedSnackbars from './SchoolInfo/Snackbar';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
 
@@ -28,13 +28,16 @@ const mapDispatchToProps = dispatch => ({
 class SchoolPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {expanded: new Set(),isFavorite: false};
+    this.state = {expanded: new Set(), isFavorite: false, isSuccess: false};
   }
 
   handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
     !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
     this.setState({expanded: expanded});
+  }
+  closeMessage = () => {
+    this.setState({...this.state, isSuccess: false});
   }
   addSchool = (currentSchool) => {
     this.props.addFavoriteSchool(currentSchool._id);
@@ -46,13 +49,14 @@ class SchoolPage extends Component {
   };
   checkFavorite = (currentSchool) => {
     if(this.props.users.user !== null) {
+      this.setState({...this.state, isSuccess:false})
       if(!this.state.isFavorite) {
         this.addSchool(currentSchool)
       } else {
         this.deleteFavorite(currentSchool)
       }
     } else {
-      alert('Login pls');  
+      this.setState({...this.state, isSuccess:true})
     }
   }
   changeHeart = () => {
@@ -66,7 +70,6 @@ class SchoolPage extends Component {
     const schools = this.props.schools.data || [];
     const {schoolId} = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
-    console.log(currentSchool);
     return (
       currentSchool !== undefined ?
       <div>
@@ -127,6 +130,10 @@ class SchoolPage extends Component {
             </div>
           }) : 'Info missed'}
         </ExpansionPanel>
+        <CustomizedSnackbars 
+          isSuccess={this.state.isSuccess} 
+          closeMessage={this.closeMessage.bind(this)}
+        /> 
       </div>
       : <CircularProgress className='school-loader' />
     )

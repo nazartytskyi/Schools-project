@@ -24,7 +24,7 @@ import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
 
-const SchoolInfo = ({currentSchool, changeHeart, checkFavorite,isFavorite}) => (
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
