@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { auth } from '../components/shared/firebase-service/firebase-service';
 
-export const addFavoriteSchool = (schoolId) => dispatch => {
+export const addFavoriteSchool = schoolId => dispatch => {
   auth()
     .currentUser.getIdToken()
     .then(idToken => {
       axios
         .post(
-          'http://localhost:3001/api/favoriteSchool',
+          '/api/favoriteSchool',
           { schoolId },
           { headers: { authorization: idToken } }
         )
@@ -18,5 +18,5 @@ export const addFavoriteSchool = (schoolId) => dispatch => {
           });
         });
     });
-    return null;
+  return null;
 };

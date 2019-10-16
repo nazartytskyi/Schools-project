@@ -8,7 +8,7 @@ export const updateRequest = requestToUpdate => dispatch => {
     .then(idToken => {
       axios
         .put(
-          `http://localhost:3001/api/schools/${schoolId}/request`,
+          `/api/schools/${schoolId}/request`,
           { requestToUpdate },
           { headers: { authorization: idToken } }
         )

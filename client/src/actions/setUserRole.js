@@ -8,7 +8,7 @@ export const setUserRole = (uid, role) => dispatch => {
     .then(idToken => {
       axios
         .put(
-          `http://localhost:3001/api/user/${uid}/role`,
+          `/api/user/${uid}/role`,
           { role },
           { headers: { authorization: idToken } }
         )

@@ -6,7 +6,7 @@ export const getAllUsers = () => dispatch => {
     .currentUser.getIdToken()
     .then(idToken => {
       axios
-        .get(`http://localhost:3001/api/allUsers/`, {
+        .get(`/api/allUsers/`, {
           headers: { authorization: idToken }
         })
         .then(res => {

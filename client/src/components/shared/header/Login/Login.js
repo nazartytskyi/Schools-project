@@ -80,7 +80,7 @@ export class Login extends Component {
         .currentUser.getIdToken()
         .then(idToken => {
           axios
-            .get(`http://localhost:3001/api/user`, {
+            .get(`/api/user`, {
               headers: { authorization: idToken }
             })
             .then(user => {
