@@ -7,14 +7,12 @@ import SchoolInfo from './SchoolInfo/SchoolInfo';
 import SchoolNews from './SchoolNews/SchoolNews';
 import SchoolVacancies from './SchoolVacancies/SchoolVacancies';
 import SchoolTeachers from './SchoolTeachers/SchoolTeachers';
-import { auth } from '../../shared/firebase-service/firebase-service';
-import {currentUser} from '../../shared/firebase-service/firebase-service';
-import  Carousel  from '../../shared/Carousel/Carousel';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
 
@@ -68,6 +66,7 @@ class SchoolPage extends Component {
     const schools = this.props.schools.data || [];
     const {schoolId} = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
+    console.log(currentSchool);
     return (
       currentSchool !== undefined ?
       <div>
@@ -75,7 +74,6 @@ class SchoolPage extends Component {
           checkFavorite={this.checkFavorite}  
           changeHeart={this.changeHeart}
           currentSchool={currentSchool}
-          state={this.state}
         />
         <Container className='school-news' maxWidth="lg">
           {currentSchool.news.map((item, indexNews) => {

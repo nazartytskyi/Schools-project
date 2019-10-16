@@ -24,7 +24,7 @@ import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
 
-const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite,isFavorite}) => (
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
@@ -36,7 +36,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                   <Button 
                     color="primary" 
                     className='btn-chosen' 
-                    onClick= {(currentSchool) => checkFavorite(currentSchool)}
+                    onClick= {() => checkFavorite(currentSchool)}
                     >
                       Add to favorite
                       {changeHeart()}
@@ -79,7 +79,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                       </Typography>
                       <Typography component='div'>
                         <p><PeopleIcon/>  Кількість першокласників: {currentSchool.firstGrade.enrolled}</p>
-                        <p><PeopleOutlineIcon/>  Кількість вільних місць: {currentSchool.firstGrade.free}</p>
+                        <p><PeopleOutlineIcon/>  Кількість вільних місць: {currentSchool.firstGrade.total - currentSchool.firstGrade.enrolled}</p>
                         <p><LanguageIcon color='primary'/>  Мова викладання: {currentSchool.language}</p>
                         <p><LanguageIcon color='secondary'/>  Іноземні мови: {currentSchool.foreignLanguages + ' '}</p>
                         <p><TrendingUpIcon/>  Середній бал ЗНО:  {currentSchool.avgZno}</p>

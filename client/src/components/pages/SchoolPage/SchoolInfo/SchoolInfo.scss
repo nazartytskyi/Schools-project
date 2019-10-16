@@ -44,9 +44,11 @@
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
-@media only screen and (max-width: 568px) {
-  .school-content {
-    display: grid;
-    grid-column: 1;
+@media only screen and (max-width: 730px) {
+  .MuiGrid-root.MuiGrid-container {
+    display: block;
+  }
+  .MuiGrid-root.MuiGrid-grid-xs-6 {
+    max-width: 100%;
   }
 }

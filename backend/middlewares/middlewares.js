@@ -124,7 +124,7 @@ module.exports.addFavoriteSchool = (req, res) => {
 };
 
 module.exports.deleteFavoriteSchool = (req, res) => {
-  const { schoolId } = req.body;
+  const schoolId  = req.params.schoolId;
   Users.findOne({ _id: req.authId }, function(err, user) {
     if (user) {
       let schoolIndex = user.choosedSchools.indexOf(schoolId);
