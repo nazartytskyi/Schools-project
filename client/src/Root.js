@@ -13,6 +13,7 @@ import Forbidden from './components/shared/Error/Forbidden';
 import Profile from './components/pages/Profile/Profile';
 import Contacts from './components/pages/Contacts/Contacts';
 import AboutUs from './components/pages/AboutUs/AboutUs';
+import FavSchoolsPage from './components/pages/FavSchoolsPage/FavSchoolsPage';
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -28,6 +29,7 @@ const Root = ({ store }) => (
         <Route path="/profile" component={Profile} />
         <Route path="/contacts" component={Contacts} />
         <Route path="/about" component={AboutUs} />
+        <Route path="/fav" component={FavSchoolsPage} />
       </Layout>
     </Router>
   </Provider>
