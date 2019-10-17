@@ -50,13 +50,13 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
               </div>
               <div className='school-content'>
                 <Grid container spacing={3}>
-                  <Grid item lg={6} xs={6} xs={12}>
+                  <Grid item lg={6} xs={6} sm={12}>
                     <CardMedia
                       className='media-school-photo'
                       image={currentSchool.photo}
                     />
                   </Grid>
-                  <Grid item lg={6} xs={6} xs={12}>
+                  <Grid item lg={6} xs={6} sm={12}>
                     <Paper className="paper-info">
                       <Typography className="info h5" variant="h5">
                         <ImportContactsIcon fontSize='large'/>
@@ -88,9 +88,9 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                         <InfoIcon fontSize='large'/>
                       </Typography>
                       <div className='info-with-table'>
-                      <Typography>
-                        <InfoTable/>
-                      </Typography>
+                        <Typography>
+                          <InfoTable/>
+                        </Typography>
                       </div>
                     </Paper>
                   </Grid>

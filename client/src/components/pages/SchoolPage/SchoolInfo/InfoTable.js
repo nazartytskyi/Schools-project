@@ -109,7 +109,7 @@ export default function InfoTable() {
       title="Заявки"
       columns={state.columns}
       data={state.data}
-
+      size='large'
     />
   );
 }
