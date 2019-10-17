@@ -19,6 +19,15 @@ const schoolsSchema = new SchoolsSchema(
         date: String
       }
     ],
+    vacancies: [
+      {
+        title: String,
+        description: String,
+        salary: String,
+        employment: String,
+        date: String
+      }
+    ],
     firstGrade: {
       _id: false,
       total: Number,

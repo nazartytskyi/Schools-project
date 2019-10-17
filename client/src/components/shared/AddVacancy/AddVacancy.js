@@ -11,17 +11,18 @@ import CustomizedSnackbars from '../AddNews/SuccessAlert';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import {addVacancy} from '../../../actions/addVacancy';
 
 const mapStateToProps = state => ({
   schools: state.schools.data,
   users: state.users
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   addNewsAction: (obj, id) => {
-//     return dispatch(addNewsAction(obj, id));
-//   }
-// });
+const mapDispatchToProps = dispatch => ({
+  addVacancy: (obj, id) => {
+    return dispatch(addVacancy(obj, id));
+  }
+});
 
  class AddVacancy extends Component {
   constructor(props) {
@@ -56,16 +57,19 @@ const mapStateToProps = state => ({
       let year = this.state.date.getFullYear()
       const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
                       'August', 'September', 'October', 'November', 'December'];
-      let month = months[this.state.date.getMonth()];
+      let month = this.state.date.getMonth() + 1;
+     if(month > 10) {
+       month = '0'+ month;
+     }
       let day = this.state.date.getDate();
-      return `${month} ${day}, ${year}`;
+      return `${year}-${month}-${day}`;
     }
   }
 
  
- 
 
   updatePostInput = (e) => {
+    if(e.target.value === '')
     this.setState({...this.state, title: e.target.value, date: new Date()});
     console.log(this.props.currentSchool._id);
   }
@@ -106,9 +110,8 @@ const mapStateToProps = state => ({
           employment: this.state.employment,
           date: this.getCurrentDate()
         }
-        console.log(obj);
-
-        //this.props.addNewsAction(obj, this.props.id);
+        
+        this.props.addVacancy(obj, this.props.currentSchool._id);
         this.setState({
           ...this.state, 
           isDialogOpened: false, 
@@ -224,4 +227,4 @@ AddVacancy.propTypes = {
   id: propTypes.string.isRequired
 };
 
-export default connect(mapStateToProps)(AddVacancy);
+export default connect(mapStateToProps, mapDispatchToProps )(AddVacancy);

@@ -51,6 +51,13 @@ export default (state = {}, action) => {
       state.data[schoolIndex].firstGrade.requests[requestIndex] =
         action.requestToUpdate;
       return state;
+      case 'ADD_VACANCY':
+      state.data.forEach(school => {
+        if (school._id === action.schoolId) {
+          school.vacancies.unshift(action.payload);
+        }
+      });
+      return state;
     default:
       return state;
   }

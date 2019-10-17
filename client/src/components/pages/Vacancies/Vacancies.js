@@ -15,7 +15,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const mapStateToProps = state => ({
-  schools: state.schools
+  schools: state.schools.data || []
 });
 
 export class Vacancies extends Component {
@@ -23,7 +23,8 @@ export class Vacancies extends Component {
     super(props);
     this.state = {
       schools: [],
-      filteredVacancies: []
+      filteredVacancies: [],
+      isFiltered: false
     };
     this.vacancies = [];
     this.filters = {sortedByDate: true}; 
@@ -33,15 +34,16 @@ export class Vacancies extends Component {
   }
 
   createUniqueCities = () => {
-    const uniqueCities = this.state.schools.map(school => {
+    const uniqueCities = this.props.schools.map(school => {
       return school.adress.city;
     });
     return [...new Set(uniqueCities)];
   }
 
   createUniqueDistricts = (choose) => {
+    let vacancies = this.createFullVacancyArray(this.props.schools);
     let vacanciesByCity = [];
-    this.vacancies.forEach(vacancy => {
+    vacancies.forEach(vacancy => {
       if(choose === vacancy.adress.city) {
         vacanciesByCity.push(vacancy);
       }
@@ -54,7 +56,7 @@ export class Vacancies extends Component {
 
  
   filterVacancies = (filters) => {
-    let filteredVacancies = [...this.vacancies];
+    let filteredVacancies = this.createFullVacancyArray(this.props.schools);
     if(filters.city && filters.city !== 'Вибрати місто') {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return vacancy.adress.city === filters.city;
@@ -107,7 +109,7 @@ export class Vacancies extends Component {
 
   setFilter(filterMixin) {
     this.filters = {...this.filters, ...filterMixin};
-    this.setState({...this.state, filteredVacancies: this.filterVacancies(this.filters)});
+    this.setState({...this.state, filteredVacancies: this.filterVacancies(this.filters), isFiltered: true});
   }
 
   createFullVacancyArray = (data) => {
@@ -137,23 +139,6 @@ export class Vacancies extends Component {
     return fullVacancyArray;
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3001/api/getData')
-      .then(data => {
-        return data.json()
-      })
-      .then(schools => {
-       const fullVacancies = this.createFullVacancyArray(schools.data);
-      
-       this.vacancies = fullVacancies;
-        this.setState({
-          ...this.state, 
-          schools: schools.data, 
-          filteredVacancies: this.filterVacancies(this.filters)
-        });
-      });
-  }
-
   updateInput = (e) => {
     this.setFilter({title: e.target.value.trim()});
   }
@@ -168,20 +153,35 @@ export class Vacancies extends Component {
 
   generateVacancyMessage = () => {
     let message = ''
-    let lastDigit =this.state.filteredVacancies.length % 10
+    let lastDigit = this.chooseVacancies().length % 10
     switch (lastDigit) {
       case 1:
-        message = `Знайдено ${this.state.filteredVacancies.length} вакансію`;
+        message = `Знайдено ${this.chooseVacancies().length} вакансію`;
         break;
       case 2:
       case 3:
       case 4:
-        message = `Знайдено ${this.state.filteredVacancies.length} вакансії`;
+        message = `Знайдено ${this.chooseVacancies().length} вакансії`;
         break;
       default:
-        message = `Знайдено ${this.state.filteredVacancies.length} вакансій`;
+        message = `Знайдено ${this.chooseVacancies().length} вакансій`;
     }
     return message;
+  }
+
+
+
+  chooseVacancies = () => {
+   let vacancies = this.createFullVacancyArray(this.props.schools);
+   let sortedVacancies = vacancies.sort((a, b) => {
+    return +new Date(b.date) - +new Date(a.date);
+  });
+   this.vacancies = sortedVacancies
+    if(this.state.isFiltered){
+      return this.state.filteredVacancies;
+    }else {
+      return sortedVacancies;
+    }
   }
 
   render() {
@@ -201,7 +201,7 @@ export class Vacancies extends Component {
                 />
                 <div className="filter-btn">
                   <TemporaryDrawer 
-                    schools={this.state.schools}
+                    schools={this.props.schools}
                     uniqueDistricts={this.uniqueDistricts}
                     filterByEmployment={this.filterByEmployment} 
                     setFilter={this.setFilter.bind(this)}
@@ -219,6 +219,7 @@ export class Vacancies extends Component {
                   onChange={this.updateInput}
                 />
               </div>
+      
             </div>
             <div className="vacancy-amount">
               <div className="amount-output">
@@ -236,7 +237,7 @@ export class Vacancies extends Component {
                 <Card>
                   <CardContent>
                   <Filters 
-                    schools={this.state.schools}
+                    schools={this.props.schools}
                     uniqueDistricts={this.uniqueDistricts}
                     filterByEmployment={this.filterByEmployment} 
                     setFilter={this.setFilter.bind(this)}
@@ -245,7 +246,7 @@ export class Vacancies extends Component {
                   </CardContent>
                 </Card>
               </div>
-              <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
+              <VacancyList vacancies={this.chooseVacancies()} className="list"/>
             </div>
           </div>
         </Container>

@@ -9,7 +9,7 @@ function valuetext(value) {
 }
 
 export default function RangeSlider(props) {
-  const [value, setValue] = React.useState([5000, 20000]);
+  const [value, setValue] = React.useState([0, 40000]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
     props.setFilter({'range': newValue});
