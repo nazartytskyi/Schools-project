@@ -9,12 +9,17 @@ import Icon from '@material-ui/core/Icon';
 import './DialogForm.scss';
 
 export default class DialogForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
 
   render() {
     return (
       <Dialog onClose={this.props.close} open={this.props.open || false}>
         <form className="dialog-form" noValidate autoComplete="off">
-          <TextField
+          <TextField ref={this.myRef}
+            required={true}
             id="name"
             label="Ім'я дитини"
             placeholder="Петренко Петро Петрович"
@@ -22,8 +27,10 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
+            onClick={() => {console.log(this.myRef)}}
           />
           <TextField
+            required
             id="surname"
             label="Дата народження дитини"
             margin="normal"
@@ -34,6 +41,7 @@ export default class DialogForm extends React.Component {
           />
 
           <TextField
+            required
             id="fatherName"
             label="Ім'я батька"
             placeholder="Петренко Петро Петрович"
@@ -44,6 +52,7 @@ export default class DialogForm extends React.Component {
           />
 
           <TextField
+            required
             id="motherName"
             label="Ім'я матері"
             placeholder="Петренко Галина Петрівна"
@@ -63,6 +72,7 @@ export default class DialogForm extends React.Component {
         />
 
           <TextField
+            required={true}
             id="email"
             label="Email"
             placeholder="your.mail@domain.com"

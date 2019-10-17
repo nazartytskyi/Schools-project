@@ -23,6 +23,7 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
+import InfoTable from './InfoTable';
 import DialogForm from './../DialogForm/DialogForm';
 
 const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
