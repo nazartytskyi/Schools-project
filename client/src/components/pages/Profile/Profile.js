@@ -6,6 +6,7 @@ import { Redirect } from 'react-router';
 import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
 import { setUserRole } from '../../../actions/setUserRole';
+import RequestsAlert from './RequestsAlert';
 
 import axios from 'axios';
 
@@ -27,7 +28,6 @@ import {
   MenuItem
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
 
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
@@ -198,7 +198,6 @@ class Profile extends Component {
     if (this.props.users.userRole === 'superadmin') {
       this.props.getAllUsers();
     }
-    this.openMessage = true;
   }
   showMainInfo() {
     this.setState({
@@ -365,25 +364,11 @@ class Profile extends Component {
           </div>
           <div className="profile-data">{profileContainer}</div>
         </div>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'left'
-          }}
+        <RequestsAlert
+          closeMessage={this.handleCloseMessage.bind(this)}
           open={this.state.openMessage}
-          autoHideDuration={6000}
-          onClose={this.handleCloseMessage.bind(this)}
-          ContentProps={{
-            'aria-describedby': 'message-id'
-          }}
-          message={
-            <span style={{ backgroundColor: 'blue' }} id="message-id">
-              {' '}
-              У вас є подані заявки.
-            </span>
-          }
-          action={[]}
-        />
+          message="У Вас є подані заявки"
+        ></RequestsAlert>
       </>
     );
   }
