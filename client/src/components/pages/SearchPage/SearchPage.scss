@@ -3,11 +3,13 @@ main {
     justify-content: space-around;
     flex-direction: column;
     padding: 0;
-    padding-top: 70px;
+    margin-top: 100px;
 
     .searchbar {
         display: flex;
         align-items: center;
+        margin: 5px;
+        margin-bottom: 20px;
         
         > * {
             height: 48px;
@@ -26,8 +28,8 @@ main {
         display: flex;
         justify-content: space-between;
 
-        .tabs {
-            width: 80%;
+        .tab {
+            width: 100%;
             display: flex;
             justify-content: flex-end;
 
@@ -43,6 +45,10 @@ main {
         
     }
 }
+.MuiBox-root.MuiBox-root-252 > div {
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px -1px 11px 1px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+}
+
 
 @media (max-width: 1024px) {
     .search-content-wrapper .filters-wrapper {
@@ -57,8 +63,8 @@ main {
         width:100%;
     }
 
-    .MuiBox-root.MuiBox-root-250 {
-        padding: 0;
+    .MuiBox-root.MuiBox-root-252 {
+        padding: 5px;
     }
 
     main {    

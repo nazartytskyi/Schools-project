@@ -33,7 +33,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
-              <DialogForm close={() => openDialogForm(false)} open={isDialogOpen} />
+              <DialogForm schoolId={currentSchool._id} close={() => openDialogForm(false)} open={isDialogOpen} />
               <div className="school-btn-container"> 
                 <Typography className="school-name" variant="h4" color="textPrimary">
                   {currentSchool.name}
