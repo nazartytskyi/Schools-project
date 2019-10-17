@@ -7,14 +7,12 @@ import SchoolInfo from './SchoolInfo/SchoolInfo';
 import SchoolNews from './SchoolNews/SchoolNews';
 import SchoolVacancies from './SchoolVacancies/SchoolVacancies';
 import SchoolTeachers from './SchoolTeachers/SchoolTeachers';
-import { auth } from '../../shared/firebase-service/firebase-service';
-import {currentUser} from '../../shared/firebase-service/firebase-service';
-import  Carousel  from '../../shared/Carousel/Carousel';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CustomizedSnackbars from './SchoolInfo/Snackbar';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
 
@@ -30,13 +28,16 @@ const mapDispatchToProps = dispatch => ({
 class SchoolPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {expanded: new Set(),isFavorite: false};
+    this.state = {expanded: new Set(), isFavorite: false, isSuccess: false};
   }
 
   handleExpandClick = (SchoolNewsId) => {
     const { expanded } = this.state; 
     !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
     this.setState({expanded: expanded});
+  }
+  closeMessage = () => {
+    this.setState({...this.state, isSuccess: false});
   }
   addSchool = (currentSchool) => {
     this.props.addFavoriteSchool(currentSchool._id);
@@ -48,13 +49,14 @@ class SchoolPage extends Component {
   };
   checkFavorite = (currentSchool) => {
     if(this.props.users.user !== null) {
+      this.setState({...this.state, isSuccess:false})
       if(!this.state.isFavorite) {
         this.addSchool(currentSchool)
       } else {
         this.deleteFavorite(currentSchool)
       }
     } else {
-      alert('Login pls');  
+      this.setState({...this.state, isSuccess:true})
     }
   }
   changeHeart = () => {
@@ -75,7 +77,6 @@ class SchoolPage extends Component {
           checkFavorite={this.checkFavorite}  
           changeHeart={this.changeHeart}
           currentSchool={currentSchool}
-          state={this.state}
         />
         <Container className='school-news' maxWidth="lg">
           {currentSchool.news.map((item, indexNews) => {
@@ -103,7 +104,7 @@ class SchoolPage extends Component {
             return <div key={vacancy.description } >
               <SchoolVacancies
                 SchoolNewsId={SchoolNewsId}
-                adress={vacancy.adress.title}
+                adress={vacancy.adress}
                 state={this.state}
                 vacancy={vacancy}
                 handleExpandClick={this.handleExpandClick}
@@ -127,8 +128,12 @@ class SchoolPage extends Component {
                 SchoolNewsId={SchoolNewsId}
               />
             </div>
-          }) : 'Info missed'}
+          }) : <CircularProgress className='school-loader' />}
         </ExpansionPanel>
+        <CustomizedSnackbars 
+          isSuccess={this.state.isSuccess} 
+          closeMessage={this.closeMessage.bind(this)}
+        /> 
       </div>
       : <CircularProgress className='school-loader' />
     )

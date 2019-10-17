@@ -41,7 +41,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
                   <Button 
                     color="primary" 
                     className='btn-chosen' 
-                    onClick= {(currentSchool) => checkFavorite(currentSchool)}
+                    onClick= {() => checkFavorite(currentSchool)}
                     >
                       Add to favorite
                       {changeHeart()}
@@ -54,26 +54,35 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
               </div>
               <div className='school-content'>
                 <Grid container spacing={3}>
-                  <Grid item xs={6}>
+                  <Grid item lg={6} xs={6} sm={12}>
                     <CardMedia
                       className='media-school-photo'
                       image={currentSchool.photo}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item lg={6} xs={6} sm={12}>
                     <Paper className="paper-info">
                       <Typography className="info h5" variant="h5">
                         <ImportContactsIcon fontSize='large'/>
                       </Typography>
-                      <Typography component='div'>
-                        <p><TitleIcon color='action' fontSize='large' /> {currentSchool.name}</p>
-                        <p><DescriptionIcon color='action' fontSize='large'/> {currentSchool.description}</p>
-                        <p><PhoneIcon color='action' fontSize='large'/> {currentSchool.phoneNumber}</p>
-                        <p><LabelIcon fontSize='large'/>  Адреса:</p> 
-                        <p><LocationCityIcon color='action' fontSize='large'/> {currentSchool.adress.city} </p>  
-                        <p><LocationOnIcon color='action' fontSize='large'/>  {currentSchool.adress.district} район</p>
-                        <p><LocationOnIcon color='action' fontSize='large'/> вулиця  {currentSchool.adress.street}</p>
-                        <p><HomeIcon color='action' fontSize='large'/>  Будинок  №{currentSchool.adress.building }</p>     
+                      <Typography className='school-contact-info'>
+                        <Typography className='school-adress' component='div'>
+                          <p><TitleIcon color='action' fontSize='small' /> {currentSchool.name}</p>
+                          <p><DescriptionIcon color='action' fontSize='small'/> {currentSchool.description}</p>
+                          <p><PhoneIcon color='action' fontSize='small'/> {currentSchool.phoneNumber}</p>
+                        </Typography>
+                        <Typography className='school-adress' component='div'>
+                          <p><LocationCityIcon color='action' fontSize='small'/> {currentSchool.adress.city} </p>  
+                          <p><LocationOnIcon color='action' fontSize='small'/>  {currentSchool.adress.district} район</p>
+                          <p><LocationOnIcon color='action' fontSize='small'/> вулиця  {currentSchool.adress.street}, {currentSchool.adress.building } </p>
+                        </Typography>   
+                      </Typography>
+                      <Typography className='school-about' component='div'>
+                        <p><PeopleIcon/>  Кількість першокласників: {currentSchool.firstGrade.enrolled}</p>
+                        <p><PeopleOutlineIcon/>  Кількість вільних місць: {currentSchool.firstGrade.total - currentSchool.firstGrade.enrolled}</p>
+                        <p><LanguageIcon color='primary'/>  Мова викладання: {currentSchool.language}</p>
+                        <p><LanguageIcon color='secondary'/>  Іноземні мови: {currentSchool.foreignLanguages + ' '}</p>
+                        <p><TrendingUpIcon/>  Середній бал ЗНО:  {currentSchool.avgZno}</p>
                       </Typography>
                     </Paper>
                   </Grid>
@@ -82,13 +91,11 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
                       <Typography className="info h5" variant="h5">
                         <InfoIcon fontSize='large'/>
                       </Typography>
-                      <Typography component='div'>
-                        <p><PeopleIcon/>  Кількість першокласників: {currentSchool.firstGrade.enrolled}</p>
-                        <p><PeopleOutlineIcon/>  Кількість вільних місць: {currentSchool.firstGrade.free}</p>
-                        <p><LanguageIcon color='primary'/>  Мова викладання: {currentSchool.language}</p>
-                        <p><LanguageIcon color='secondary'/>  Іноземні мови: {currentSchool.foreignLanguages + ' '}</p>
-                        <p><TrendingUpIcon/>  Середній бал ЗНО:  {currentSchool.avgZno}</p>
-                      </Typography>
+                      <div className='info-with-table'>
+                        <Typography>
+                          <InfoTable/>
+                        </Typography>
+                      </div>
                     </Paper>
                   </Grid>
                 </Grid>

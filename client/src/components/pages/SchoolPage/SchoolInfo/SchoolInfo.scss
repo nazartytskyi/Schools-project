@@ -19,34 +19,76 @@
 .paper-info {
   p {
     font-size: $secondFontSize;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
   }
   padding: 30px;
   font-size: $mainFontSize;
 }
+.school-contact-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.school-adress {
+  display: flex;
+  flex-direction: column;
+}
+.school-about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .paper-info-bottom {
+  display: flex;
+  flex-direction: column;
   p {
   font-size: $secondFontSize;
   }
   padding: 10px;
+}
+.MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
+  box-shadow: none;
+}
+.info-with-table {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+.school-table {
+  width: 100%;
 }
 .info.h5 {
   display: flex;
   justify-content: center;
 }
 .media-school-photo {
-  height: 619px;
+  height: 525px;
+}
+.snack {
+  margin-top: 70px;
 }
 .school-loader {
   margin-top: 355px;
   display: flex;
   align-self: center;
 }
+.school-table {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
-@media only screen and (max-width: 568px) {
-  .school-content {
-    display: grid;
-    grid-column: 1;
+@media only screen and (max-width: 730px) {
+  .MuiGrid-root.MuiGrid-container {
+    display: block;
+  }
+  .MuiGrid-root.MuiGrid-grid-xs-6 {
+    max-width: 100%;
+  }
+  .MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
+    width: 300px;
   }
 }
