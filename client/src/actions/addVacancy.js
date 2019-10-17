@@ -8,7 +8,7 @@ export const addVacancy = (vacancy, schoolId) => dispatch => {
       .then(idToken => {
         axios
           .post(
-            `/api/schools/${schoolId}/vacancy`,
+            `http://localhost:3001/api/schools/${schoolId}/vacancy`,
             {
               vacancy
             },
