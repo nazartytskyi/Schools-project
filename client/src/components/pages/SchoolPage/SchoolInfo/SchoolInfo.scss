@@ -24,10 +24,19 @@
   font-size: $mainFontSize;
 }
 .paper-info-bottom {
+  display: flex;
+  flex-direction: column;
+  
   p {
   font-size: $secondFontSize;
   }
   padding: 10px;
+}
+.info-with-table {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 20px;
 }
 .info.h5 {
   display: flex;
@@ -35,6 +44,9 @@
 }
 .media-school-photo {
   height: 619px;
+}
+.snack {
+  margin-top: 70px;
 }
 .school-loader {
   margin-top: 355px;
@@ -44,9 +56,11 @@
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
-@media only screen and (max-width: 568px) {
-  .school-content {
-    display: grid;
-    grid-column: 1;
+@media only screen and (max-width: 730px) {
+  .MuiGrid-root.MuiGrid-container {
+    display: block;
+  }
+  .MuiGrid-root.MuiGrid-grid-xs-6 {
+    max-width: 100%;
   }
 }

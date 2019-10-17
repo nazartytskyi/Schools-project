@@ -7,8 +7,6 @@ import NewsCard from './NewsCard';
 const mapStateToProps = state => ({
   schools: state.schools
 });
-
-
 class News extends Component {
   constructor(props) {
     super(props)
@@ -25,7 +23,7 @@ class News extends Component {
     return (
       <div className='news-cards'>
         {schools.map((school, indexSchool) => {
-          return <div key={school.name}>
+          return  <div className='news-cards' key={school.name}>
             {school.news.map((item, indexNews) => {
               let SchoolNewsId = `${indexSchool}${indexNews}`;
               return <div key={item.name} >
@@ -35,8 +33,6 @@ class News extends Component {
                   state={this.state} 
                   handleExpandClick={this.handleExpandClick}
                   schoolId = {school.id}
-                  itemId={school._id}
-                  newsId={item._id}
                 />
               </div>
             })}
@@ -50,4 +46,4 @@ class News extends Component {
 News.propTypes = {
   schools: PropTypes.object.isRequired
 }
-export default connect(mapStateToProps )(News);
+export default connect(mapStateToProps)(News);

@@ -23,6 +23,7 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
+import InfoTable from './InfoTable';
 
 const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
       <React.Fragment>
@@ -36,7 +37,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                   <Button 
                     color="primary" 
                     className='btn-chosen' 
-                    onClick= {(currentSchool) => checkFavorite(currentSchool)}
+                    onClick= {() => checkFavorite(currentSchool)}
                     >
                       Add to favorite
                       {changeHeart()}
@@ -77,13 +78,18 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                       <Typography className="info h5" variant="h5">
                         <InfoIcon fontSize='large'/>
                       </Typography>
+                      <div className='info-with-table'>
                       <Typography component='div'>
                         <p><PeopleIcon/>  Кількість першокласників: {currentSchool.firstGrade.enrolled}</p>
-                        <p><PeopleOutlineIcon/>  Кількість вільних місць: {currentSchool.firstGrade.free}</p>
+                        <p><PeopleOutlineIcon/>  Кількість вільних місць: {currentSchool.firstGrade.total - currentSchool.firstGrade.enrolled}</p>
                         <p><LanguageIcon color='primary'/>  Мова викладання: {currentSchool.language}</p>
                         <p><LanguageIcon color='secondary'/>  Іноземні мови: {currentSchool.foreignLanguages + ' '}</p>
                         <p><TrendingUpIcon/>  Середній бал ЗНО:  {currentSchool.avgZno}</p>
                       </Typography>
+                      <Typography>
+                        <InfoTable/>
+                      </Typography>
+                      </div>
                     </Paper>
                   </Grid>
                 </Grid>

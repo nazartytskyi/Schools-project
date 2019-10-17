@@ -38,7 +38,7 @@ router.post('/update/schools/:id', updateSchool);
 router.get('/allUsers', checkIfAdmin, getAllUsers);
 
 router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
-router.delete('/favoriteSchool', checkIfAuthenticated, deleteFavoriteSchool);
+router.delete('/favoriteSchool/:schoolId', checkIfAuthenticated, deleteFavoriteSchool);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
 router.delete(

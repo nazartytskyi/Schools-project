@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Avatar from '@material-ui/core/Avatar';
-import { Paper } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import './SchoolTeachers.scss';
 const SchoolTeachers = ({teacher, indexTeacher}) => (
   <Card className="school-teacher-card" key={indexTeacher}>
