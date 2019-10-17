@@ -10,7 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import RemoveVacancy from '../../../shared/RemoveVacancy/RemoveVacancy';
 
 
 import Login from '../Login/Login';
@@ -78,6 +79,7 @@ export class VacancyList extends Component {
                 <Typography paragraph>{vacancy.description}</Typography>
               </CardContent>
             </Collapse>
+            <RemoveVacancy vacancyId={vacancy.id} schoolId={vacancy.schoolId}/>
           </Card>
         })}
       </div>

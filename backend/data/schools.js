@@ -21,6 +21,7 @@ const schoolsSchema = new SchoolsSchema(
     ],
     vacancies: [
       {
+        _id: mongoose.ObjectId,
         title: String,
         description: String,
         salary: String,

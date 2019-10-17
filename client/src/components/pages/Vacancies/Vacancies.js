@@ -117,6 +117,8 @@ export class Vacancies extends Component {
       data.forEach(school => {
         school.vacancies.forEach(vacancy => {
           const fullVacancy = {
+            id: vacancy._id,
+            schoolId: school._id,
             title: vacancy.title,
             description: vacancy.description,
             salary: vacancy.salary,
@@ -131,7 +133,7 @@ export class Vacancies extends Component {
             email: school.email,
             phoneNumber: school.phoneNumber,
             date: vacancy.date,
-            schoolId: school.id
+           // schoolId: school.id
           }
           fullVacancyArray.push(fullVacancy);
         })

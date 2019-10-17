@@ -69,14 +69,15 @@ const mapDispatchToProps = dispatch => ({
  
 
   updatePostInput = (e) => {
-    if(e.target.value === '')
     this.setState({...this.state, title: e.target.value, date: new Date()});
-    console.log(this.props.currentSchool._id);
   }
 
   updateSalaryInput = (e) => {
+    if(e.target.value.match(/[^0-9.]/g)) {
+      e.target.value = '';
+    }
     this.setState({...this.state, salary: e.target.value});
-    console.log(this.props.currentSchool._id);
+    
   }
 
   updateTextarea = (e) => {
@@ -111,6 +112,9 @@ const mapDispatchToProps = dispatch => ({
           date: this.getCurrentDate()
         }
         
+        console.log(this.props.currentSchool._id);
+        console.log(obj);
+
         this.props.addVacancy(obj, this.props.currentSchool._id);
         this.setState({
           ...this.state, 
@@ -121,6 +125,8 @@ const mapDispatchToProps = dispatch => ({
           salary: null,
           date: null
         });
+
+       
       
     } else {
       this.setState({...this.state, isFormFilled: false});
