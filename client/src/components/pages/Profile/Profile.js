@@ -130,6 +130,11 @@ const columns = [
     render: rowData => {
       return `м.\u00a0${rowData.adress.city}, вул.\u00a0${rowData.adress.street},\u00a0${rowData.adress.building}`;
     }
+  },
+  {
+    field: 'schoolName',
+    title: 'Назва\u00a0школи',
+    editable: 'never'
   }
 ];
 const columnsUsers = [
@@ -159,9 +164,37 @@ const columnsUsers = [
     }
   }
 ];
+
 class Profile extends Component {
   constructor(props) {
     super(props);
+    this.rolesAccess = {
+      parent: ['mainInfo', 'favoriteSchools'],
+      teacher: ['mainInfo', 'favoriteSchools'],
+      administration: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles'],
+      superadmin: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles']
+    };
+    this.accessButtons = {
+      mainInfo: (
+        <Button onClick={this.showMainInfo.bind(this)}>
+          Основна&#160;інформація
+        </Button>
+      ),
+      favoriteSchools: (
+        <Button onClick={this.showFavoriteSchools.bind(this)}>
+          Улюбені&#160;школи
+        </Button>
+      ),
+      requests: <Button onClick={this.showRequests.bind(this)}>Заявки</Button>,
+      setRoles: (
+        <Button onClick={this.showSetRoles.bind(this)}>
+          Керування&#160;доступом
+        </Button>
+      )
+    };
+    this.access = this.rolesAccess[
+      this.props.users.userRole ? this.props.users.userRole : 'parent'
+    ];
     this.state = { menu: 'mainInfo', columns, columnsUsers };
   }
 
@@ -174,6 +207,12 @@ class Profile extends Component {
     this.setState({
       ...this.state,
       menu: 'mainInfo'
+    });
+  }
+  showFavoriteSchools() {
+    this.setState({
+      ...this.state,
+      menu: 'favoriteSchools'
     });
   }
   showRequests() {
@@ -192,9 +231,27 @@ class Profile extends Component {
     let profileContainer;
     switch (this.state.menu) {
       case 'requests':
-        let requests = this.props.schools.data
-          ? this.props.schools.data[0].firstGrade.requests
-          : [];
+        let requests = [];
+        if (this.props.users.userRole === 'superadmin') {
+          for (let i = 0; i < this.props.schools.data.length; i++) {
+            requests = requests.concat(
+              this.props.schools.data[i].firstGrade.requests.map(request => {
+                request.schoolName = this.props.schools.data[i].name;
+                return request;
+              })
+            );
+          }
+        } else {
+          requests = this.props.schools.data
+            ? this.props.schools.data[0].firstGrade.requests.map(request => {
+                request.schoolName = this.props.schools.data[0].name;
+                return request;
+              })
+            : [];
+        }
+        // requests = this.props.schools.data
+        //   ? this.props.schools.data[0].firstGrade.requests
+        //   : [];
         profileContainer = (
           <MaterialTable
             icons={tableIcons}
@@ -225,8 +282,8 @@ class Profile extends Component {
             editable={{
               onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
-                  console.log('onRowUpdate');
-                  console.log(newData, 'newData');
+                  // console.log('onRowUpdate');
+                  // console.log(newData, 'newData');
                   this.props.setUserRole(newData.uid, newData.role);
                   setTimeout(() => {
                     resolve();
@@ -286,18 +343,21 @@ class Profile extends Component {
     }
 
     return (
-      <Container maxWidth="lg" className="profile-container">
+      <div className="profile-container">
         <div className="profile-menu">
-          <Button onClick={this.showMainInfo.bind(this)}>
-            Основна інформація
+          {this.access.map(item => {
+            return this.accessButtons[item];
+          })}
+          {/* <Button onClick={this.showMainInfo.bind(this)}>
+            Основна&#160;інформація
           </Button>
           <Button onClick={this.showRequests.bind(this)}>Заявки</Button>
           <Button onClick={this.showSetRoles.bind(this)}>
-            Керування доступом
-          </Button>
+            Керування&#160;доступом
+          </Button> */}
         </div>
-        {profileContainer}
-      </Container>
+        <div className="profile-data">{profileContainer}</div>
+      </div>
     );
   }
 }

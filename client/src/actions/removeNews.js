@@ -22,6 +22,5 @@ export const removeNews = (idSchool, idNews) => dispatch => {
             });
           });
       });
-    return null;
   }
 };

@@ -50,8 +50,8 @@ module.exports.checkIfAdmin = (req, res, next) => {
 
 module.exports.setUserRole = (req, res) => {
   const { role } = req.body;
-  console.log(role, 'role');
-  console.log(req.params.uid, 'req.params.uid');
+  console.log(role, ' setUserRolerole');
+  console.log(req.params.uid, 'setUserRole req.params.uid');
   admin
     .auth()
     .setCustomUserClaims(req.params.uid, { role })
@@ -104,9 +104,20 @@ module.exports.getUser = (req, res, next) => {
   });
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   let user = new Users({ _id: req.authId, choosedSchools: [], role: 'parent' });
   user.save();
+  let role = 'parent';
+  admin
+    .auth()
+    .setCustomUserClaims(req.authId, { role })
+    .then(() => {
+      console.log('setCustomUserClaims success');
+    })
+    .catch(err => {
+      console.log('setCustomUserClaims fail');
+      console.log(err, 'err');
+    });
   res.status(201).send(user);
 };
 

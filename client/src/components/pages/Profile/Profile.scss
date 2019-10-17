@@ -2,18 +2,29 @@
   margin-top: 100px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  
   .profile-menu{
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
+    margin-left: 100px;
+  }
+  .profile-data{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 80%;
+    padding: 5px 30px;
+    overflow-x: auto;
   }
   .profile-card {
-    padding: 10px 50px;
+    padding: 10px 30px;
     min-width: 500px;
-    margin: 0px 20px;
+    margin: 10px auto;
     .user-picture {
       display: block;
       max-width: 250px;
@@ -23,9 +34,9 @@
     }
     .profile-row {
       display: flex;
-      // flex-direction: row;
-      // justify-content: flex-end;
-      // align-items: flex-end;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: flex-end;
       padding: 10px 0px;
     }
     .userdata-title {

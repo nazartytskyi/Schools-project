@@ -18,5 +18,4 @@ export const addFavoriteSchool = schoolId => dispatch => {
           });
         });
     });
-  return null;
 };

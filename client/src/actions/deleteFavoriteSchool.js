@@ -18,5 +18,4 @@ export const deleteFavoriteSchool = schoolId => dispatch => {
           });
         });
     });
-  return null;
 };
