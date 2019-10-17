@@ -51,12 +51,23 @@ export default (state = {}, action) => {
       state.data[schoolIndex].firstGrade.requests[requestIndex] =
         action.requestToUpdate;
       return state;
-      case 'ADD_VACANCY':
+    case 'ADD_VACANCY':
       state.data.forEach(school => {
         if (school._id === action.schoolId) {
-          school.vacancies.unshift(action.payload);
+          school.vacancies.push(action.payload);
         }
       });
+      return state;
+    case 'REMOVE_VACANCY':
+      let indexSchoolToRemoveVacancy = state.data.findIndex(school => {
+        return school._id === action.idSchool;
+      });
+      let indexVacancy = state.data[indexSchoolToRemoveVacancy].news.findIndex(
+        vacancy => {
+          return vacancy._id === action.idVacancy;
+        }
+      );
+      state.data[indexSchoolToRemoveVacancy].news.splice(indexVacancy, 1);
       return state;
     default:
       return state;

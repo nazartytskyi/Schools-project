@@ -226,3 +226,33 @@ module.exports.addRequest = (req, res) => {
     }
   });
 };
+
+module.exports.addVacancy = (req, res) => {
+  const { vacancy } = req.body;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      vacancy._id = new mongoose.Types.ObjectId();
+      school.vacancies.push(vacancy);
+      school.save();
+      res.status(201).send(vacancy);
+    } else {
+      res.status(500).send('school not found in collection');
+    }
+  });
+};
+
+module.exports.removeVacancy = (req, res) => {
+  const idVacancy = req.params.idVacancy;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      let indexVacancyToDelete = school.vacancies.findIndex(vacancy => {
+        return vacancy._id.toString() === idVacancy;
+      });
+      school.vacancies.splice(indexVacancyToDelete, 1);
+      school.save();
+      res.status(200).send('Vacancy removed');
+    } else {
+      res.status(500).send('School not found in collection users');
+    }
+  });
+};

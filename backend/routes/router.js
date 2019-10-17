@@ -13,7 +13,9 @@ const {
   addRequest,
   updateRequest,
   getAllUsers,
-  removeNews
+  removeNews,
+  addVacancy,
+  removeVacancy
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
@@ -49,5 +51,12 @@ router.delete(
 
 router.post('/schools/:schoolId/request', checkIfAuthenticated, addRequest);
 router.put('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
+
+router.post('/schools/:schoolId/vacancy', checkIfAuthenticated, addVacancy);
+router.delete(
+  '/schools/:schoolId/vacancy',
+  checkIfAuthenticated,
+  removeVacancy
+);
 
 module.exports = router;

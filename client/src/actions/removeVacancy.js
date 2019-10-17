@@ -1,24 +1,21 @@
 import axios from 'axios';
 import { auth } from '../components/shared/firebase-service/firebase-service';
 
-export const addVacancy = (vacancy, schoolId) => dispatch => {
+export const removeVacancy = (idSchool, idVacancy) => dispatch => {
   if (auth().currentUser) {
     auth()
       .currentUser.getIdToken()
       .then(idToken => {
         axios
-          .post(
-            `/api/schools/${schoolId}/vacancy`,
-            {
-              vacancy
-            },
+          .delete(
+            `http://localhost:3001/api/schools/${idSchool}/vacancy/${idVacancy}`,
             { headers: { authorization: idToken } }
           )
-          .then(res => {
+          .then(() => {
             return dispatch({
-              type: 'ADD_VACANCY',
-              payload: res.data,
-              schoolId
+              type: 'REMOVE_VACANCY',
+              idSchool,
+              idVacancy
             });
           });
       });
