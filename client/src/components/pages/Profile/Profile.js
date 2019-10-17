@@ -27,8 +27,9 @@ import {
   MenuItem
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MaterialTable from 'material-table';
+import Snackbar from '@material-ui/core/Snackbar';
 
+import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
@@ -149,11 +150,6 @@ const columnsUsers = [
     editable: 'never'
   },
   {
-    field: 'uid',
-    title: 'ID\u00a0користувача',
-    editable: 'never'
-  },
-  {
     field: 'role',
     title: 'Роль',
     lookup: {
@@ -182,7 +178,7 @@ class Profile extends Component {
       ),
       favoriteSchools: (
         <Button onClick={this.showFavoriteSchools.bind(this)}>
-          Улюбені&#160;школи
+          Улюблені&#160;школи
         </Button>
       ),
       requests: <Button onClick={this.showRequests.bind(this)}>Заявки</Button>,
@@ -195,13 +191,14 @@ class Profile extends Component {
     this.access = this.rolesAccess[
       this.props.users.userRole ? this.props.users.userRole : 'parent'
     ];
-    this.state = { menu: 'mainInfo', columns, columnsUsers };
+    this.state = { menu: 'mainInfo', columns, columnsUsers, openMessage: true };
   }
 
   componentDidMount() {
     if (this.props.users.userRole === 'superadmin') {
       this.props.getAllUsers();
     }
+    this.openMessage = true;
   }
   showMainInfo() {
     this.setState({
@@ -225,6 +222,12 @@ class Profile extends Component {
     this.setState({
       ...this.state,
       menu: 'setRoles'
+    });
+  }
+  handleCloseMessage() {
+    this.setState({
+      ...this.state,
+      openMessage: false
     });
   }
   render() {
@@ -294,6 +297,9 @@ class Profile extends Component {
           />
         );
         break;
+      case 'favoriteSchools':
+        profileContainer = '';
+        break;
       case 'mainInfo':
       default:
         let userRole = 'Parent';
@@ -343,21 +349,42 @@ class Profile extends Component {
     }
 
     return (
-      <div className="profile-container">
-        <div className="profile-menu">
-          {this.access.map(item => {
-            return this.accessButtons[item];
-          })}
-          {/* <Button onClick={this.showMainInfo.bind(this)}>
+      <>
+        <div className="profile-container">
+          <div className="profile-menu">
+            {this.access.map(item => {
+              return this.accessButtons[item];
+            })}
+            {/* <Button onClick={this.showMainInfo.bind(this)}>
             Основна&#160;інформація
           </Button>
           <Button onClick={this.showRequests.bind(this)}>Заявки</Button>
           <Button onClick={this.showSetRoles.bind(this)}>
             Керування&#160;доступом
           </Button> */}
+          </div>
+          <div className="profile-data">{profileContainer}</div>
         </div>
-        <div className="profile-data">{profileContainer}</div>
-      </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left'
+          }}
+          open={this.state.openMessage}
+          autoHideDuration={6000}
+          onClose={this.handleCloseMessage.bind(this)}
+          ContentProps={{
+            'aria-describedby': 'message-id'
+          }}
+          message={
+            <span style={{ backgroundColor: 'blue' }} id="message-id">
+              {' '}
+              У вас є подані заявки.
+            </span>
+          }
+          action={[]}
+        />
+      </>
     );
   }
 }
