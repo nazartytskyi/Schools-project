@@ -170,34 +170,63 @@ class Profile extends Component {
       administration: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles'],
       superadmin: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles']
     };
-    this.accessButtons = {
-      mainInfo: (
-        <Button onClick={this.showMainInfo.bind(this)}>
-          Основна&#160;інформація
-        </Button>
-      ),
-      favoriteSchools: (
-        <Button onClick={this.showFavoriteSchools.bind(this)}>
-          Улюблені&#160;школи
-        </Button>
-      ),
-      requests: <Button onClick={this.showRequests.bind(this)}>Заявки</Button>,
-      setRoles: (
-        <Button onClick={this.showSetRoles.bind(this)}>
-          Керування&#160;доступом
-        </Button>
-      )
-    };
+
     this.access = this.rolesAccess[
       this.props.users.userRole ? this.props.users.userRole : 'parent'
     ];
     this.state = { menu: 'mainInfo', columns, columnsUsers, openMessage: true };
+    this.customMenuButton(this.state.menu);
   }
 
   componentDidMount() {
     if (this.props.users.userRole === 'superadmin') {
       this.props.getAllUsers();
     }
+  }
+  customMenuButton() {
+    let access = {};
+    access[this.state.menu] = 'profile-menu-button-active';
+    this.accessButtons = {
+      mainInfo: (
+        <Button
+          className={access.mainInfo}
+          key="mainInfo"
+          onClick={this.showMainInfo.bind(this)}
+        >
+          Основна&#160;інформація
+        </Button>
+      ),
+      favoriteSchools: (
+        <Button
+          className={access.favoriteSchools}
+          key="favoriteSchools"
+          onClick={this.showFavoriteSchools.bind(this)}
+        >
+          Улюблені&#160;школи
+        </Button>
+      ),
+      requests: (
+        <Button
+          className={access.requests}
+          key="requests"
+          onClick={this.showRequests.bind(this)}
+        >
+          Заявки
+        </Button>
+      ),
+      setRoles: (
+        <Button
+          className={access.setRoles}
+          key="setRoles"
+          onClick={this.showSetRoles.bind(this)}
+        >
+          Керування&#160;доступом
+        </Button>
+      )
+    };
+    return this.access.map(item => {
+      return this.accessButtons[item];
+    });
   }
   showMainInfo() {
     this.setState({
@@ -350,25 +379,14 @@ class Profile extends Component {
     return (
       <>
         <div className="profile-container">
-          <div className="profile-menu">
-            {this.access.map(item => {
-              return this.accessButtons[item];
-            })}
-            {/* <Button onClick={this.showMainInfo.bind(this)}>
-            Основна&#160;інформація
-          </Button>
-          <Button onClick={this.showRequests.bind(this)}>Заявки</Button>
-          <Button onClick={this.showSetRoles.bind(this)}>
-            Керування&#160;доступом
-          </Button> */}
-          </div>
+          <div className="profile-menu">{this.customMenuButton()}</div>
           <div className="profile-data">{profileContainer}</div>
         </div>
         <RequestsAlert
           closeMessage={this.handleCloseMessage.bind(this)}
           open={this.state.openMessage}
           message="У Вас є подані заявки"
-        ></RequestsAlert>
+        />
       </>
     );
   }

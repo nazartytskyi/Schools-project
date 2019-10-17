@@ -11,6 +11,9 @@
     align-content: center;
     justify-content: center;
     margin-left: 100px;
+    .profile-menu-button-active{
+      border: 3px solid rgb(177, 177, 177);
+    }
   }
   .profile-data{
     display: flex;
@@ -38,13 +41,15 @@
       justify-content: flex-end;
       align-items: flex-end;
       padding: 10px 0px;
+      font-size: 20px;
+
     }
     .userdata-title {
-      // margin-left: auto;
       margin-right: 5px;
     }
     .userdata {
       width: 300px;
+      font-weight: bold;
     }
   }
 }
