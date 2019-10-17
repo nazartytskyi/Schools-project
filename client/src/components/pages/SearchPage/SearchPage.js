@@ -171,15 +171,15 @@ class SearchPage extends React.Component {
               <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>      
             </Drawer>
             
+            <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
+              <Tab label="Список" {...a11yProps(0)} />
+              <Tab label="Карта" {...a11yProps(1)} />
+            </Tabs>
             <div className="searchbar">
               <SearchInput setFilter={this.setFilter.bind(this)} schools={this.schools} />
               <Button color="primary" size="small" onClick={this.toggleDrawer('left', true)}>Фільтри</Button>
               
             </div>
-            <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
-              <Tab label="Список" {...a11yProps(0)} />
-              <Tab label="Карта" {...a11yProps(1)} />
-            </Tabs>
           
 
             
@@ -187,13 +187,13 @@ class SearchPage extends React.Component {
             <div className="search-content-wrapper">
               <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>
               
-              <div className="tabs">
+              <div className="tab">
                 <TabPanel value={value} index={0}>
                   <ListSearch userCoordinates={this.state.userCoordinates} schools={this.state.filteredSchools} className="search-results"/>
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
-                  <MapSearch schools={this.state.filteredSchools} userCoordinates={this.state.userCoordinates}  className="search-results"/>
+                  <MapSearch schools={this.state.filteredSchools} userCoordinates={this.state.userCoordinates} className="search-results"/>
                 </TabPanel>
               </div>
 

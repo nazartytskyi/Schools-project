@@ -24,11 +24,16 @@ import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
 import InfoTable from './InfoTable';
+import DialogForm from './../DialogForm/DialogForm';
 
-const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
+    const [isDialogOpen, openDialogForm] = React.useState(false);
+  
+    return (
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
+              <DialogForm schoolId={currentSchool._id} close={() => openDialogForm(false)} open={isDialogOpen} />
               <div className="school-btn-container"> 
                 <Typography className="school-name" variant="h4" color="textPrimary">
                   {currentSchool.name}
@@ -42,7 +47,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                       Add to favorite
                       {changeHeart()}
                   </Button>
-                  <Button color="secondary" className='btn-send-doc'>
+                  <Button onClick={() => openDialogForm(true)} color="secondary" className='btn-send-doc'>
                     Send documents
                   </Button>
                 </ButtonGroup>
@@ -97,6 +102,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                 </Grid>
               </div>  
             </Container>
-            </React.Fragment>
-)
+            </React.Fragment> 
+  )
+}
 export default SchoolInfo;
