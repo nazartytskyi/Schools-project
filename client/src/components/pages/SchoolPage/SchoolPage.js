@@ -128,7 +128,7 @@ class SchoolPage extends Component {
                 SchoolNewsId={SchoolNewsId}
               />
             </div>
-          }) : 'Info missed'}
+          }) : <CircularProgress className='school-loader' />}
         </ExpansionPanel>
         <CustomizedSnackbars 
           isSuccess={this.state.isSuccess} 
