@@ -54,7 +54,7 @@ router.put('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
 
 router.post('/schools/:schoolId/vacancy', checkIfAuthenticated, addVacancy);
 router.delete(
-  '/schools/:schoolId/vacancy',
+  '/schools/:schoolId/vacancy/:idVacancy',
   checkIfAuthenticated,
   removeVacancy
 );
