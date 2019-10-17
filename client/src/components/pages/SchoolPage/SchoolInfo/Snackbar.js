@@ -88,9 +88,10 @@ export default function CustomizedSnackbars(props) {
 
   return (
     <div>
-      <Snackbar
+      <Snackbar 
+        className='snack'
         anchorOrigin={{
-          vertical: 'bottom',
+          vertical: 'top',
           horizontal: 'right'
         }}
         open={props.isSuccess}
