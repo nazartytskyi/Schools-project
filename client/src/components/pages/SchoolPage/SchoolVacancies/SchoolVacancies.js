@@ -8,6 +8,7 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Container } from '@material-ui/core';
 import Login from '../../Vacancies/Login/Login';
 import './SchoolVacancies.scss'
 

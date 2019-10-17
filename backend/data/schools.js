@@ -9,14 +9,40 @@ const schoolsSchema = new SchoolsSchema(
     description: String,
     phoneNumber: String,
     adress: Object,
-    language: String, 
-    news: [{
+    language: String,
+    news: [
+      {
+        _id: mongoose.ObjectId,
+        img: String,
+        title: String,
+        description: String,
+        date: String
+      }
+    ],
+    firstGrade: {
       _id: false,
-      img: String,
-      title: String,
-      description: String,
-      date: String
-    }]
+      total: Number,
+      enrolled: Number,
+      requests: [
+        {
+          dateApply: String,
+          status: String,
+          firstPriority: Boolean,
+          studentName: String,
+          dateBirth: String,
+          fatherName: String,
+          motherName: String,
+          email: String,
+          adress: {
+            _id: false,
+            city: String,
+            district: String,
+            street: String,
+            building: String
+          }
+        }
+      ]
+    }
   },
   { collection: 'schools' }
 );

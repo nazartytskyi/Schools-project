@@ -72,9 +72,12 @@ const mapDispatchToProps = dispatch => ({
     oFReader.readAsDataURL(e.target.files[0]);
     this.setState({...this.state, fileName: e.target.files[0].name});
     let self = this;
+    
+  if(e.target.files[0].size < 100000) {
     oFReader.onload = function (oFREvent) {
       self.setState({...this.state, url: oFREvent.target.result});
   };
+  }
   }
 
   displayMessage = () => {
@@ -143,17 +146,19 @@ const mapDispatchToProps = dispatch => ({
               />
             </div>
             <div className="download-image">
-              <Typography color="textSecondary" className="download-image-title">Завантажте світлину</Typography>
+              <Typography color="textSecondary" className="download-image-title">
+                Завантажте світлину (розмір не більше 0.1 Mb)
+              </Typography>
               <label className="download-image-btn">
               <input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.getFiles}/>
               <Typography>Завантажити</Typography>
               </label>
-              <Typography className="file-name">{this.state.fileName}</Typography>
+              <Typography className="file-name">{this.state.fileName}</Typography> 
             </div>
             <Typography 
-            style={this.displayMessage()} 
-            className="form-message" 
-            variant="body2"
+              style={this.displayMessage()} 
+              className="form-message" 
+              variant="body2"
             >
               Заповніть усі поля
             </Typography>

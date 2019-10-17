@@ -1,9 +1,40 @@
 .school-vacancy-card {
-  width: 300px;
-  margin-bottom: 20px;
+  width: 265px;
+  padding-bottom: 20px;
 }
 .vacancy-card-aside {
   position: absolute;
-  top: 275px;
+  bottom: 2163px;
+  width: 297px;
   float: left;
+  left: 20px;
+}
+.MuiPaper-elevation1.school-vacancy-card {
+  box-shadow: none;
+}
+@media only screen and (min-width: 1273px)and (max-width: 1679px) {
+  .vacancy-card-aside {
+    bottom: 0px;  
+  }
+}
+@media only screen and (min-width: 568px)and (max-width: 1272px) {
+  .vacancy-card-aside {
+    bottom: 0px;
+    width: 45%;
+  }
+  .school-vacancy-card {
+    bottom: 0px;
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 568px) {
+  .vacancy-card-aside {
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+  }
+  .school-vacancy-card {
+    bottom: 0px;
+    width: 100%;
+  }
 }

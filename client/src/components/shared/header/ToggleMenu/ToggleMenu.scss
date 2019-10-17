@@ -1,0 +1,26 @@
+.toggle-btn {
+  display: none;
+  margin-left: 30px;
+  color: #fff;
+  .MuiSvgIcon-root {
+    font-size: 2.5rem;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.toggle-menu-link{
+  text-decoration: none;
+}
+
+.toggle-menu .MuiMenu-list{
+  min-width: 300px;
+}
+
+@media (max-width: 1024px) {
+  .toggle-btn {
+    display: block;
+  }
+}
+

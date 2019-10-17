@@ -23,7 +23,7 @@ class News extends Component {
     return (
       <div className='news-cards'>
         {schools.map((school, indexSchool) => {
-          return <div key={school.name}>
+          return  <div className='news-cards' key={school.name}>
             {school.news.map((item, indexNews) => {
               let SchoolNewsId = `${indexSchool}${indexNews}`;
               return <div key={item.name} >

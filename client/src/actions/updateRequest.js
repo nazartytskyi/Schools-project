@@ -1,21 +1,23 @@
 import axios from 'axios';
 import { auth } from '../components/shared/firebase-service/firebase-service';
 
-export const deleteFavoriteSchool = (schoolId) => dispatch => {
+export const updateRequest = requestToUpdate => dispatch => {
+  let schoolId = '5d8259d20dafb81f14fc859e';
   auth()
     .currentUser.getIdToken()
     .then(idToken => {
       axios
-        .delete(
-          `http://localhost:3001/api/favoriteSchool/${schoolId}`,
+        .put(
+          `http://localhost:3001/api/schools/${schoolId}/request`,
+          { requestToUpdate },
           { headers: { authorization: idToken } }
         )
         .then(() => {
           return dispatch({
-            type: 'DELETE_FAVORITE_SCHOOL',
-            payload: schoolId
+            type: 'UPDATE_REQUEST',
+            requestToUpdate,
+            schoolId
           });
         });
     });
-    return null;
 };
