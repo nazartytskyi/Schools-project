@@ -68,7 +68,10 @@ export default (state = {}, action) => {
         }
       );
       state.data[indexSchoolToRemoveVacancy].vacancies.splice(indexVacancy, 1);
-      return state;
+      return {
+        ...state,
+        data: state.data
+      };
     default:
       return state;
   }

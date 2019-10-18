@@ -181,6 +181,11 @@ const mapDispatchToProps = dispatch => ({
     if(this.props.users.user !== null) {
     return (
       <div className="add-news">
+        <CustomizedSnackbars 
+          isSuccess={this.state.isSuccess} 
+          closeMessage={this.closeMessage.bind(this)}
+          alertMessage="Новина додана"
+        />
        
         <Button variant="contained" onClick={this.openDialog}>
           Додати новину
@@ -188,12 +193,9 @@ const mapDispatchToProps = dispatch => ({
         
         
         {this.displayForm()}
-        <CustomizedSnackbars 
-          isSuccess={this.state.isSuccess} 
-          closeMessage={this.closeMessage.bind(this)}
-          alertMessage="Новина додана"
-        />
+        
       </div>
+      
     );
     }else {
       return (

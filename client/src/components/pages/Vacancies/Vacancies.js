@@ -15,15 +15,19 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const mapStateToProps = state => ({
-  schools: state.schools.data || []
+  schools: state.schools
 });
 
+
+
 export class Vacancies extends Component {
+ 
+
   constructor(props) {
     super(props);
     this.state = {
       schools: [],
-      filteredVacancies: [],
+      filteredVacancies: [] ,
       isFiltered: false
     };
     this.vacancies = [];
@@ -33,15 +37,57 @@ export class Vacancies extends Component {
     this.isCityChosen = false;
   }
 
+
+  static getDerivedStateFromProps(props, state) {
+
+    const createFullVacancyArray = (data) => {
+      const fullVacancyArray = [];
+        data.forEach(school => {
+          school.vacancies.forEach(vacancy => {
+            const fullVacancy = {
+              id: vacancy._id,
+              schoolId: school._id,
+              title: vacancy.title,
+              description: vacancy.description,
+              salary: vacancy.salary,
+              employment: vacancy.employment,
+              school: school.name,
+              adress: {
+                city: school.adress.city,
+                district: school.adress.district,
+                street: school.adress.street,
+                building: school.adress.building
+              },
+              email: school.email,
+              phoneNumber: school.phoneNumber,
+              date: vacancy.date,
+              schoolIdSimple: school.id
+            }
+            fullVacancyArray.push(fullVacancy);
+          })
+        })
+      return fullVacancyArray;
+    }
+    
+ 
+    if (props.schools !== state.schools) {
+      return {
+        schools: props.schools.data || [],
+        filteredVacancies: createFullVacancyArray(props.schools.data || [])
+      };
+    }
+    return null;
+  }
+
   createUniqueCities = () => {
-    const uniqueCities = this.props.schools.map(school => {
+    const uniqueCities = this.state.schools.map(school => {
       return school.adress.city;
     });
     return [...new Set(uniqueCities)];
   }
 
   createUniqueDistricts = (choose) => {
-    let vacancies = this.createFullVacancyArray(this.props.schools);
+    let vacancies = this.state.filteredVacancies;
     let vacanciesByCity = [];
     vacancies.forEach(vacancy => {
       if(choose === vacancy.adress.city) {
@@ -56,7 +102,37 @@ export class Vacancies extends Component {
 
  
   filterVacancies = (filters) => {
-    let filteredVacancies = this.createFullVacancyArray(this.props.schools);
+
+    const createFullVacancyArray = (data) => {
+      const fullVacancyArray = [];
+        data.forEach(school => {
+          school.vacancies.forEach(vacancy => {
+            const fullVacancy = {
+              id: vacancy._id,
+              schoolId: school._id,
+              title: vacancy.title,
+              description: vacancy.description,
+              salary: vacancy.salary,
+              employment: vacancy.employment,
+              school: school.name,
+              adress: {
+                city: school.adress.city,
+                district: school.adress.district,
+                street: school.adress.street,
+                building: school.adress.building
+              },
+              email: school.email,
+              phoneNumber: school.phoneNumber,
+              date: vacancy.date,
+              schoolIdSimple: school.id
+            }
+            fullVacancyArray.push(fullVacancy);
+          })
+        })
+      return fullVacancyArray;
+    }
+
+    let filteredVacancies = createFullVacancyArray(this.props.schools.data || [])
     if(filters.city && filters.city !== 'Вибрати місто') {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return vacancy.adress.city === filters.city;
@@ -79,6 +155,8 @@ export class Vacancies extends Component {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return vacancy.title.toUpperCase().includes(filters.title.toUpperCase());
       });
+      console.log('Im here');
+      console.log(filteredVacancies);
     }
 
     if(filters.range) {
@@ -109,40 +187,17 @@ export class Vacancies extends Component {
 
   setFilter(filterMixin) {
     this.filters = {...this.filters, ...filterMixin};
-    this.setState({...this.state, filteredVacancies: this.filterVacancies(this.filters), isFiltered: true});
+    this.setState({filteredVacancies: this.filterVacancies(this.filters), isFiltered: true});
+    console.log(this.filterVacancies(this.filters));
+     console.log(this.state.filteredVacancies);
+    console.log(this.state.isFiltered);
   }
 
-  createFullVacancyArray = (data) => {
-    const fullVacancyArray = [];
-      data.forEach(school => {
-        school.vacancies.forEach(vacancy => {
-          const fullVacancy = {
-            id: vacancy._id,
-            schoolId: school._id,
-            title: vacancy.title,
-            description: vacancy.description,
-            salary: vacancy.salary,
-            employment: vacancy.employment,
-            school: school.name,
-            adress: {
-              city: school.adress.city,
-              district: school.adress.district,
-              street: school.adress.street,
-              building: school.adress.building
-            },
-            email: school.email,
-            phoneNumber: school.phoneNumber,
-            date: vacancy.date,
-           // schoolId: school.id
-          }
-          fullVacancyArray.push(fullVacancy);
-        })
-      })
-    return fullVacancyArray;
-  }
+
 
   updateInput = (e) => {
     this.setFilter({title: e.target.value.trim()});
+    console.log(this.state.filteredVacancies);
   }
 
   changeCityStatus = (e) => {
@@ -174,7 +229,7 @@ export class Vacancies extends Component {
 
 
   chooseVacancies = () => {
-   let vacancies = this.createFullVacancyArray(this.props.schools);
+   let vacancies = this.state.filteredVacancies;
    let sortedVacancies = vacancies.sort((a, b) => {
     return +new Date(b.date) - +new Date(a.date);
   });
@@ -248,7 +303,7 @@ export class Vacancies extends Component {
                   </CardContent>
                 </Card>
               </div>
-              <VacancyList vacancies={this.chooseVacancies()} className="list"/>
+              <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
             </div>
           </div>
         </Container>

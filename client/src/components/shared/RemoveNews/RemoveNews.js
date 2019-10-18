@@ -33,7 +33,6 @@ export class RemoveNews extends Component {
           <Button variant="contained" onClick={this.removeNews}>
              Видалити
           </Button>
-          <div>{this.props.newsId}</div>
         </div>
       )
     }else {
