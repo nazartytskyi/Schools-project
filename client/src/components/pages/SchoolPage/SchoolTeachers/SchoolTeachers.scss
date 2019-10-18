@@ -13,6 +13,10 @@
 .MuiExpansionPanel-root.Mui-expanded {
   margin: 0 !important;
 }
+.MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.teachers-card-section.Mui-expanded.MuiExpansionPanel-rounded.MuiPaper-rounded {
+  height: 525px;
+  overflow-y: scroll;
+}
 .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.teachers-card-section.MuiExpansionPanel-rounded.MuiPaper-rounded {
   position: absolute;
 }
