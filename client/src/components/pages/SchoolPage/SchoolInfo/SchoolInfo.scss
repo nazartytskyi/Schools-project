@@ -37,7 +37,7 @@
 .school-about {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 .paper-info-bottom {
   display: flex;
@@ -63,7 +63,7 @@
   justify-content: center;
 }
 .media-school-photo {
-  height: 525px;
+  height: 505px;
 }
 .snack {
   margin-top: 70px;
@@ -81,7 +81,7 @@
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
-@media only screen and (max-width: 730px) {
+@media only screen and (max-width: 779px) {
   .MuiGrid-root.MuiGrid-container {
     display: block;
   }
@@ -89,6 +89,24 @@ button.MuiButton-contained.btn-chosen-sucess {
     max-width: 100%;
   }
   .MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
-    width: 300px;
+    width: 320px;
+  }
+}
+@media only screen and (min-width: 850px)and (max-width: 1279px) {
+  .school-about {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+  }
+  .school-contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .school-adress {
+    display: flex;
+    flex-direction: row;
   }
 }

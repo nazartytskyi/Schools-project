@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './AddNews.scss';
+import './AddVacancy.scss';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
@@ -7,7 +7,11 @@ import propTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import {addNewsAction} from '../../../actions/addNewsAction';
-import CustomizedSnackbars from './SuccessAlert';
+import CustomizedSnackbars from '../AddNews/SuccessAlert';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import {addVacancy} from '../../../actions/addVacancy';
 
 const mapStateToProps = state => ({
   schools: state.schools.data,
@@ -15,20 +19,21 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addNewsAction: (obj, id) => {
-    return dispatch(addNewsAction(obj, id));
+  addVacancy: (obj, id) => {
+    return dispatch(addVacancy(obj, id));
   }
 });
 
- class AddNews extends Component {
+ class AddVacancy extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isDialogOpened: false, 
       title: null,
       description: null,
+      salary: null,
+      employment: 'Повна зайнятість',
       date: null,
-      url: null,
       isSuccess: false,
       isFormFilled: true,
       fileName: ''
@@ -52,68 +57,76 @@ const mapDispatchToProps = dispatch => ({
       let year = this.state.date.getFullYear()
       const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
                       'August', 'September', 'October', 'November', 'December'];
-      let month = months[this.state.date.getMonth()];
+      let month = this.state.date.getMonth() + 1;
+     if(month > 10) {
+       month = '0'+ month;
+     }
       let day = this.state.date.getDate();
-      return `${month} ${day}, ${year}`;
+      return `${year}-${month}-${day}`;
     }
   }
 
-  updateInput = (e) => {
-    this.setState({...this.state, title: e.target.value, date: new Date()});
+ 
 
+  updatePostInput = (e) => {
+    this.setState({...this.state, title: e.target.value, date: new Date()});
+  }
+
+  updateSalaryInput = (e) => {
+    if(e.target.value.match(/[^0-9.]/g)) {
+      e.target.value = '';
+    }
+    this.setState({...this.state, salary: e.target.value});
+    
   }
 
   updateTextarea = (e) => {
     this.setState({...this.state, description: e.target.value});
   }
 
-  getFiles = (e) => {
-    let oFReader = new FileReader();
-    oFReader.readAsDataURL(e.target.files[0]);
-    this.setState({...this.state, fileName: e.target.files[0].name});
-    let self = this;
-    
-  if(e.target.files[0].size < 100000) {
-    oFReader.onload = function (oFREvent) {
-      self.setState({...this.state, url: oFREvent.target.result});
-  };
+  changeEmployment = (e) => {
+    this.setState({...this.state, employment: e.target.value});
   }
-  }
+
 
   displayMessage = () => {
     if(this.state.isFormFilled) {
       return {visibility: 'hidden', marginTop: '20px'}
     }
     return {visibility: 'visible', marginTop: '20px'}
-    
   }
 
-  addNews = (e) => {
+  addVacancy = (e) => {
     e.preventDefault();
     this.setState({...this.state, isSuccess: false});
 
     if(this.state.title !== null && 
       this.state.description !== null && 
-      this.state.url !== null) {
+      this.state.salary !== null) {
 
         let obj = {
           title: this.state.title,
           description: this.state.description,
-          date: this.getCurrentDate(),
-          img: this.state.url
+          salary: this.state.salary,
+          employment: this.state.employment,
+          date: this.getCurrentDate()
         }
+        
+        console.log(this.props.currentSchool._id);
+        console.log(obj);
 
-        this.props.addNewsAction(obj, this.props.id);
+        this.props.addVacancy(obj, this.props.currentSchool._id);
         this.setState({
           ...this.state, 
           isDialogOpened: false, 
           isSuccess: true, 
           title: null, 
           description: null, 
-          url: null,
-          date: null, 
-          fileName: ''
+          salary: null,
+          date: null
         });
+
+       
       
     } else {
       this.setState({...this.state, isFormFilled: false});
@@ -124,21 +137,30 @@ const mapDispatchToProps = dispatch => ({
     if(this.state.isDialogOpened) {
       return (
         <Dialog open={true} >
-          <form onSubmit={this.addNews} className="dialog-form">
-            <Typography variant="h5">Додати новину</Typography>
+          <form onSubmit={this.addVacancy} className="dialog-form">
+            <Typography variant="h5">Додати вакансію</Typography>
             <div className="dialog-field">
               <TextField
                 id="outlined-with-placeholder"
-                label="Заголовок"
+                label="Посада"
                 variant="outlined"
-                onChange={this.updateInput}
+                onChange={this.updatePostInput}
                 className="dialog-field-input"
               />
             </div>
             <div className="dialog-field">
               <TextField
                 id="outlined-with-placeholder"
-                label="Вміст новини"
+                label="Зарплата"
+                variant="outlined"
+                onChange={this.updateSalaryInput}
+                className="dialog-field-input"
+              />
+            </div>
+            <div className="dialog-field">
+              <TextField
+                id="outlined-with-placeholder"
+                label="Опис вакансії"
                 multiline={true}
                 variant="outlined"
                 onChange={this.updateTextarea}
@@ -146,15 +168,17 @@ const mapDispatchToProps = dispatch => ({
                 rows="8"
               />
             </div>
-            <div className="download-image">
-              <Typography color="textSecondary" className="download-image-title">
-                Завантажте світлину (розмір не більше 0.1 Mb)
-              </Typography>
-              <label className="download-image-btn">
-              <input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.getFiles}/>
-              <Typography>Завантажити</Typography>
-              </label>
-              <Typography className="file-name">{this.state.fileName}</Typography> 
+            <div>
+              <FormControl>
+                <Select
+                  value={this.state.employment}
+                  onChange={this.changeEmployment}
+                  className="employment-select"
+                > 
+                  <MenuItem value="Повна зайнятість">Повна зайнятість</MenuItem>
+                  <MenuItem value="Часткова зайнятість">Часткова зайнятість</MenuItem>
+                </Select>
+              </FormControl>
             </div>
             <Typography 
               style={this.displayMessage()} 
@@ -181,21 +205,19 @@ const mapDispatchToProps = dispatch => ({
     if(this.props.users.user !== null) {
     return (
       <div className="add-news">
-        <CustomizedSnackbars 
-          isSuccess={this.state.isSuccess} 
-          closeMessage={this.closeMessage.bind(this)}
-          alertMessage="Новина додана"
-        />
        
         <Button variant="contained" onClick={this.openDialog}>
-          Додати новину
+          Додати вакансію
         </Button>
         
         
         {this.displayForm()}
-        
+        <CustomizedSnackbars 
+          isSuccess={this.state.isSuccess} 
+          closeMessage={this.closeMessage.bind(this)}
+          alertMessage="Вакансія додана"
+        />
       </div>
-      
     );
     }else {
       return (
@@ -205,11 +227,10 @@ const mapDispatchToProps = dispatch => ({
   }
 }
 
-AddNews.propTypes = {
+AddVacancy.propTypes = {
   users: propTypes.object.isRequired,
   addNewsAction: propTypes.func.isRequired,
   id: propTypes.string.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNews);
-
+export default connect(mapStateToProps, mapDispatchToProps )(AddVacancy);
