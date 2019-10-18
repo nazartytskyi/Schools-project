@@ -4,7 +4,6 @@
   "description": "",
   "main": ".eslintrc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "startAll": "concurrently \"cd ./backend && node server.js\" \"cd ./client && npm start\"",
     "start": "cd ./backend/ && npm install && node server.js",
     "build": "cd ./client/ && npm install && npm run build"

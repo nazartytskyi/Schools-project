@@ -26,9 +26,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,6 +34,8 @@ app.use(logger('dev'));
 
 // append /api for our http requests
 app.use('/api', router);
-
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
