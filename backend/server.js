@@ -4,12 +4,11 @@ const router = require('./routes/router');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const path = require('path');
 
-
-const API_PORT = 3001;
+const API_PORT = process.env.PORT || 3001;
 const app = express();
 app.use(cors());
-
 
 // this is our MongoDB database
 const dbRoute =
@@ -25,6 +24,11 @@ db.once('open', () => console.log('connected to the database'));
 // checks if connection with the database is successful
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));

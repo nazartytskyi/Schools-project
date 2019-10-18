@@ -5,7 +5,9 @@
   "main": ".eslintrc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startAll": "concurrently \"cd ./backend && node server.js\" \"cd ./client && npm start\""
+    "startAll": "concurrently \"cd ./backend && node server.js\" \"cd ./client && npm start\"",
+    "start": "cd ./backend/ && npm install && node server.js",
+    "build": "cd ./client/ && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -17,14 +19,14 @@
     "url": "https://github.com/nazartytskyi/Schools-project/issues"
   },
   "homepage": "https://github.com/nazartytskyi/Schools-project#readme",
-  "dependencies": {
-    "react-animated-slider": "^1.1.4",
-    "react-router-hash-link": "^1.2.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-eslint": "10.0.2",
     "concurrently": "^4.1.2",
     "eslint": "^6.4.0",
     "eslint-plugin-react": "^7.14.3"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
