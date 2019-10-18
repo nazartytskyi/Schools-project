@@ -46,7 +46,7 @@ export class VacancyList extends Component {
               </div>
             </div>
             <CardContent className="card-content">
-              <Link className="news-link" to={`/school/${vacancy.schoolId}`}>
+              <Link className="news-link" to={`/school/${vacancy.schoolIdSimple}`}>
               <Typography variant="body1" color="textPrimary">{vacancy.school}</Typography>
               </Link>
               <Typography variant="body2" color="textSecondary">вул: 
