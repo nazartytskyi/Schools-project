@@ -24,11 +24,16 @@ import './SchoolInfo.scss';
 import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
 import InfoTable from './InfoTable';
+import DialogForm from './../DialogForm/DialogForm';
 
-const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
+    const [isDialogOpen, openDialogForm] = React.useState(false);
+  
+    return (
       <React.Fragment>
         <CssBaseline />
             <Container maxWidth="lg">
+              <DialogForm schoolId={currentSchool._id} close={() => openDialogForm(false)} open={isDialogOpen} />
               <div className="school-btn-container"> 
                 <Typography className="school-name" variant="h4" color="textPrimary">
                   {currentSchool.name}
@@ -42,7 +47,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                       Add to favorite
                       {changeHeart()}
                   </Button>
-                  <Button color="secondary" className='btn-send-doc'>
+                  <Button onClick={() => openDialogForm(true)} color="secondary" className='btn-send-doc'>
                     Send documents
                   </Button>
                 </ButtonGroup>
@@ -50,13 +55,13 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
               </div>
               <div className='school-content'>
                 <Grid container spacing={3}>
-                  <Grid item lg={6} xs={6} xs={12}>
+                  <Grid item lg={6} xs={6} sm={12}>
                     <CardMedia
                       className='media-school-photo'
                       image={currentSchool.photo}
                     />
                   </Grid>
-                  <Grid item lg={6} xs={6} xs={12}>
+                  <Grid item lg={6} xs={6} sm={12}>
                     <Paper className="paper-info">
                       <Typography className="info h5" variant="h5">
                         <ImportContactsIcon fontSize='large'/>
@@ -88,15 +93,16 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => (
                         <InfoIcon fontSize='large'/>
                       </Typography>
                       <div className='info-with-table'>
-                      <Typography>
-                        <InfoTable/>
-                      </Typography>
+                        <Typography>
+                          <InfoTable/>
+                        </Typography>
                       </div>
                     </Paper>
                   </Grid>
                 </Grid>
               </div>  
             </Container>
-            </React.Fragment>
-)
+            </React.Fragment> 
+  )
+}
 export default SchoolInfo;

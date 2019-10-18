@@ -42,17 +42,21 @@
 .paper-info-bottom {
   display: flex;
   flex-direction: column;
-  
   p {
   font-size: $secondFontSize;
   }
   padding: 10px;
 }
+.MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
+  box-shadow: none;
+}
 .info-with-table {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   padding-top: 20px;
+}
+.school-table {
+  width: 100%;
 }
 .info.h5 {
   display: flex;
@@ -69,6 +73,11 @@
   display: flex;
   align-self: center;
 }
+.school-table {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
@@ -79,9 +88,7 @@ button.MuiButton-contained.btn-chosen-sucess {
   .MuiGrid-root.MuiGrid-grid-xs-6 {
     max-width: 100%;
   }
-}
-@media only screen and (min-width:731px) and (max-width: 1018px) {
-  .media-school-photo {
+  .MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
+    width: 300px;
   }
-
 }

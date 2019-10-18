@@ -181,7 +181,11 @@ class SearchPage extends React.Component {
                 className="filtrers"
               />
             </Drawer>
-
+            
+            <Tabs className="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
+              <Tab label="Список" {...a11yProps(0)} />
+              <Tab label="Карта" {...a11yProps(1)} />
+            </Tabs>
             <div className="searchbar">
               <SearchInput
                 setFilter={this.setFilter.bind(this)}
@@ -195,25 +199,12 @@ class SearchPage extends React.Component {
                 Фільтри
               </Button>
             </div>
-            <Tabs
-              className="tabs"
-              value={value}
-              onChange={handleChange}
-              aria-label="simple tabs example"
-            >
-              <Tab label="Список" {...a11yProps(0)} />
-              <Tab label="Карта" {...a11yProps(1)} />
-            </Tabs>
+          
 
             <div className="search-content-wrapper">
-              <Filters
-                setFilter={this.setFilter.bind(this)}
-                setUserCoordinates={this.setUserCoordinates.bind(this)}
-                schools={this.schools}
-                className="filtrers"
-              />
-
-              <div className="tabs">
+              <Filters setFilter={this.setFilter.bind(this)} setUserCoordinates={this.setUserCoordinates.bind(this)} schools={this.schools} className="filtrers"/>
+              
+              <div className="tab">
                 <TabPanel value={value} index={0}>
                   <ListSearch
                     userCoordinates={this.state.userCoordinates}
@@ -223,11 +214,7 @@ class SearchPage extends React.Component {
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
-                  <MapSearch
-                    schools={this.state.filteredSchools}
-                    userCoordinates={this.state.userCoordinates}
-                    className="search-results"
-                  />
+                  <MapSearch schools={this.state.filteredSchools} userCoordinates={this.state.userCoordinates} className="search-results"/>
                 </TabPanel>
               </div>
             </div>
