@@ -18,18 +18,65 @@ const mapStateToProps = state => ({
   schools: state.schools
 });
 
+
+
 export class Vacancies extends Component {
+ 
+
   constructor(props) {
     super(props);
     this.state = {
       schools: [],
-      filteredVacancies: []
+      filteredVacancies: [] ,
+      isFiltered: false
     };
     this.vacancies = [];
     this.filters = { sortedByDate: true };
     this.uniqueCities = [];
     this.uniqueDistricts = [];
     this.isCityChosen = false;
+  }
+
+
+  static getDerivedStateFromProps(props, state) {
+
+    const createFullVacancyArray = (data) => {
+      const fullVacancyArray = [];
+        data.forEach(school => {
+          school.vacancies.forEach(vacancy => {
+            const fullVacancy = {
+              id: vacancy._id,
+              schoolId: school._id,
+              title: vacancy.title,
+              description: vacancy.description,
+              salary: vacancy.salary,
+              employment: vacancy.employment,
+              school: school.name,
+              adress: {
+                city: school.adress.city,
+                district: school.adress.district,
+                street: school.adress.street,
+                building: school.adress.building
+              },
+              email: school.email,
+              phoneNumber: school.phoneNumber,
+              date: vacancy.date,
+              schoolIdSimple: school.id
+            }
+            fullVacancyArray.push(fullVacancy);
+          })
+        })
+      return fullVacancyArray;
+    }
+    
+ 
+    if (props.schools !== state.schools) {
+      return {
+        schools: props.schools.data || [],
+        filteredVacancies: createFullVacancyArray(props.schools.data || [])
+      };
+    }
+    return null;
   }
 
   createUniqueCities = () => {
@@ -39,10 +86,11 @@ export class Vacancies extends Component {
     return [...new Set(uniqueCities)];
   };
 
-  createUniqueDistricts = choose => {
+  createUniqueDistricts = (choose) => {
+    let vacancies = this.state.filteredVacancies;
     let vacanciesByCity = [];
-    this.vacancies.forEach(vacancy => {
-      if (choose === vacancy.adress.city) {
+    vacancies.forEach(vacancy => {
+      if(choose === vacancy.adress.city) {
         vacanciesByCity.push(vacancy);
       }
     });
@@ -52,9 +100,40 @@ export class Vacancies extends Component {
     this.uniqueDistricts = [...new Set(uniqueDistricts)];
   };
 
-  filterVacancies = filters => {
-    let filteredVacancies = [...this.vacancies];
-    if (filters.city && filters.city !== 'Вибрати місто') {
+ 
+  filterVacancies = (filters) => {
+
+    const createFullVacancyArray = (data) => {
+      const fullVacancyArray = [];
+        data.forEach(school => {
+          school.vacancies.forEach(vacancy => {
+            const fullVacancy = {
+              id: vacancy._id,
+              schoolId: school._id,
+              title: vacancy.title,
+              description: vacancy.description,
+              salary: vacancy.salary,
+              employment: vacancy.employment,
+              school: school.name,
+              adress: {
+                city: school.adress.city,
+                district: school.adress.district,
+                street: school.adress.street,
+                building: school.adress.building
+              },
+              email: school.email,
+              phoneNumber: school.phoneNumber,
+              date: vacancy.date,
+              schoolIdSimple: school.id
+            }
+            fullVacancyArray.push(fullVacancy);
+          })
+        })
+      return fullVacancyArray;
+    }
+
+    let filteredVacancies = createFullVacancyArray(this.props.schools.data || [])
+    if(filters.city && filters.city !== 'Вибрати місто') {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return vacancy.adress.city === filters.city;
       });
@@ -80,6 +159,8 @@ export class Vacancies extends Component {
           .toUpperCase()
           .includes(filters.title.toUpperCase());
       });
+      console.log('Im here');
+      console.log(filteredVacancies);
     }
 
     if (filters.range) {
@@ -112,60 +193,17 @@ export class Vacancies extends Component {
   };
 
   setFilter(filterMixin) {
-    this.filters = { ...this.filters, ...filterMixin };
-    this.setState({
-      ...this.state,
-      filteredVacancies: this.filterVacancies(this.filters)
-    });
+    this.filters = {...this.filters, ...filterMixin};
+    this.setState({filteredVacancies: this.filterVacancies(this.filters), isFiltered: true});
+    console.log(this.filterVacancies(this.filters));
+     console.log(this.state.filteredVacancies);
+    console.log(this.state.isFiltered);
   }
 
-  createFullVacancyArray = data => {
-    const fullVacancyArray = [];
-    data.forEach(school => {
-      school.vacancies.forEach(vacancy => {
-        const fullVacancy = {
-          title: vacancy.title,
-          description: vacancy.description,
-          salary: vacancy.salary,
-          employment: vacancy.employment,
-          school: school.name,
-          adress: {
-            city: school.adress.city,
-            district: school.adress.district,
-            street: school.adress.street,
-            building: school.adress.building
-          },
-          email: school.email,
-          phoneNumber: school.phoneNumber,
-          date: vacancy.date,
-          schoolId: school.id
-        };
-        fullVacancyArray.push(fullVacancy);
-      });
-    });
-    return fullVacancyArray;
-  };
-
-  componentDidMount() {
-    fetch('/api/getData')
-      .then(data => {
-        return data.json();
-      })
-      .then(schools => {
-        const fullVacancies = this.createFullVacancyArray(schools.data);
-
-        this.vacancies = fullVacancies;
-        this.setState({
-          ...this.state,
-          schools: schools.data,
-          filteredVacancies: this.filterVacancies(this.filters)
-        });
-      });
+  updateInput = (e) => {
+    this.setFilter({title: e.target.value.trim()});
+    console.log(this.state.filteredVacancies);
   }
-
-  updateInput = e => {
-    this.setFilter({ title: e.target.value.trim() });
-  };
 
   changeCityStatus = e => {
     if (e !== 'Вибрати місто') {
@@ -176,22 +214,37 @@ export class Vacancies extends Component {
   };
 
   generateVacancyMessage = () => {
-    let message = '';
-    let lastDigit = this.state.filteredVacancies.length % 10;
+    let message = ''
+    let lastDigit = this.chooseVacancies().length % 10
     switch (lastDigit) {
       case 1:
-        message = `Знайдено ${this.state.filteredVacancies.length} вакансію`;
+        message = `Знайдено ${this.chooseVacancies().length} вакансію`;
         break;
       case 2:
       case 3:
       case 4:
-        message = `Знайдено ${this.state.filteredVacancies.length} вакансії`;
+        message = `Знайдено ${this.chooseVacancies().length} вакансії`;
         break;
       default:
-        message = `Знайдено ${this.state.filteredVacancies.length} вакансій`;
+        message = `Знайдено ${this.chooseVacancies().length} вакансій`;
     }
     return message;
   };
+
+
+
+  chooseVacancies = () => {
+   let vacancies = this.state.filteredVacancies;
+   let sortedVacancies = vacancies.sort((a, b) => {
+    return +new Date(b.date) - +new Date(a.date);
+  });
+   this.vacancies = sortedVacancies
+    if(this.state.isFiltered){
+      return this.state.filteredVacancies;
+    }else {
+      return sortedVacancies;
+    }
+  }
 
   render() {
     return (
@@ -209,8 +262,8 @@ export class Vacancies extends Component {
                   changeCityStatus={this.changeCityStatus.bind(this)}
                 />
                 <div className="filter-btn">
-                  <TemporaryDrawer
-                    schools={this.state.schools}
+                  <TemporaryDrawer 
+                    schools={this.props.schools}
                     uniqueDistricts={this.uniqueDistricts}
                     filterByEmployment={this.filterByEmployment}
                     setFilter={this.setFilter.bind(this)}
@@ -228,6 +281,7 @@ export class Vacancies extends Component {
                   onChange={this.updateInput}
                 />
               </div>
+      
             </div>
             <div className="vacancy-amount">
               <div className="amount-output">
@@ -247,13 +301,13 @@ export class Vacancies extends Component {
               <div className="sidebar">
                 <Card>
                   <CardContent>
-                    <Filters
-                      schools={this.state.schools}
-                      uniqueDistricts={this.uniqueDistricts}
-                      filterByEmployment={this.filterByEmployment}
-                      setFilter={this.setFilter.bind(this)}
-                      isCityChosen={this.isCityChosen}
-                    />
+                  <Filters 
+                    schools={this.props.schools}
+                    uniqueDistricts={this.uniqueDistricts}
+                    filterByEmployment={this.filterByEmployment} 
+                    setFilter={this.setFilter.bind(this)}
+                    isCityChosen={this.isCityChosen}
+                  />
                   </CardContent>
                 </Card>
               </div>

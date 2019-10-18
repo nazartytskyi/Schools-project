@@ -23,6 +23,7 @@ import '../../../Variables.scss';
 import AddNews from '../../../shared/AddNews/AddNews'
 import DialogForm from './../DialogForm/DialogForm';
 import InfoTable from './InfoTable';
+import AddVacancy from '../../../shared/AddVacancy/AddVacancy';
 
 const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
   const [isDialogOpen, openDialogForm] = React.useState(false);
@@ -49,6 +50,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
                 </Button>
               </ButtonGroup>
               <AddNews id={currentSchool._id}/>
+              <AddVacancy currentSchool={currentSchool}/>
             </div>
             <div className='school-content'>
               <Grid container spacing={3}>

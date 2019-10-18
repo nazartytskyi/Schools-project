@@ -14,7 +14,7 @@ export class Contacts extends Component {
   render() {
     return (
       <React.Fragment>
-        <Container maxWidth="sm" className="container">
+        <Container maxWidth="sm" className="container contacts-container">
           <Card>
             <CardContent>
               <div className="contacts-phones">
@@ -23,11 +23,11 @@ export class Contacts extends Component {
                 </Typography>
                 <div className="contacts-phone">
                   <PhoneIcon color="action" className="contacts-phone-icon"/>
-                  <Typography>+38(097)999-00-99</Typography>
+                  <Typography><a href="tel:+38979990099">+38(097)999-00-99</a></Typography>
                 </div>
                 <div className="contacts-phone">
                   <PhoneIcon color="action" className="contacts-phone-icon"/>
-                  <Typography>+38(067)000-99-00</Typography>
+                  <Typography><a href="tel:+380670009900">+38(067)000-99-00</a></Typography>
                 </div>
               </div>
               <div className="contacts-mail">
