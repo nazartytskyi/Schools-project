@@ -50,6 +50,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
                 </Button>
               </ButtonGroup>
               <AddNews id={currentSchool._id}/>
+              <AddVacancy currentSchool={currentSchool}/>
             </div>
             <div className='school-content'>
               <Grid container spacing={3}>
