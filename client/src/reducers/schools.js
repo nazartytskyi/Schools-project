@@ -16,7 +16,7 @@ export default (state = {}, action) => {
           school.news.unshift(action.payload);
         }
       });
-      return state;
+      return { ...state };
     case 'REMOVE_NEWS':
       let indexSchool = state.data.findIndex(school => {
         return school._id === action.idSchool;
@@ -38,7 +38,7 @@ export default (state = {}, action) => {
       state.data[schoolIndexToAddRequest].firstGrade.requests.push(
         action.payload
       );
-      return state;
+      return { ...state };
     case 'UPDATE_REQUEST':
       let schoolIndex = state.data.findIndex(school => {
         return school._id === action.schoolId;
@@ -50,23 +50,23 @@ export default (state = {}, action) => {
       );
       state.data[schoolIndex].firstGrade.requests[requestIndex] =
         action.requestToUpdate;
-      return state;
+      return { ...state };
     case 'ADD_VACANCY':
       state.data.forEach(school => {
         if (school._id === action.schoolId) {
           school.vacancies.unshift(action.payload);
         }
       });
-      return state;
+      return { ...state };
     case 'REMOVE_VACANCY':
       let indexSchoolToRemoveVacancy = state.data.findIndex(school => {
         return school._id === action.idSchool;
       });
-      let indexVacancy = state.data[indexSchoolToRemoveVacancy].vacancies.findIndex(
-        vacancy => {
-          return vacancy._id === action.idVacancy;
-        }
-      );
+      let indexVacancy = state.data[
+        indexSchoolToRemoveVacancy
+      ].vacancies.findIndex(vacancy => {
+        return vacancy._id === action.idVacancy;
+      });
       state.data[indexSchoolToRemoveVacancy].vacancies.splice(indexVacancy, 1);
       return {
         ...state,

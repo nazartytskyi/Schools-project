@@ -11,7 +11,6 @@ export default (state = {}, action) => {
         userRole: action.payload
       };
     case 'SET_USER_ROLE':
-      console.log(state);
       if (state.userFromMongo._id === action.uid) {
         state.userFromMongo.role = action.role;
       }
@@ -19,7 +18,7 @@ export default (state = {}, action) => {
         return user.uid === action.uid;
       });
       state.allUsers[userIndex].role = action.role;
-      return state;
+      return { ...state };
     case 'SET_USER_FROM_MONGO':
       return {
         ...state,
@@ -29,7 +28,7 @@ export default (state = {}, action) => {
       if (state.userFromMongo.choosedSchools.indexOf(action.payload) === -1) {
         state.userFromMongo.choosedSchools.push(action.payload);
       }
-      return state;
+      return { ...state };
     case 'DELETE_FAVORITE_SCHOOL':
       let indexSchool = state.userFromMongo.choosedSchools.indexOf(
         action.payload
@@ -37,7 +36,7 @@ export default (state = {}, action) => {
       if (indexSchool !== -1) {
         state.userFromMongo.choosedSchools.splice(indexSchool, 1);
       }
-      return state;
+      return { ...state };
     case 'GET_ALL_USERS':
       return {
         ...state,
