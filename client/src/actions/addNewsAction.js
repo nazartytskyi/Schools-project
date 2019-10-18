@@ -8,7 +8,7 @@ export const addNewsAction = (news, schoolId) => dispatch => {
       .then(idToken => {
         axios
           .post(
-            `http://localhost:3001/api/schools/${schoolId}/addNews`,
+            `/api/schools/${schoolId}/addNews`,
             {
               news: news
             },

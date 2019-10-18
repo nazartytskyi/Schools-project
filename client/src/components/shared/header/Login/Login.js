@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propTypes from 'prop-types';
 import { setUser } from '../../../../actions/setUser';
-import { setUserRole } from '../../../../actions/setUserRole';
+import { getUserRole } from '../../../../actions/getUserRole';
 import { setUserFromMongo } from '../../../../actions/setUserFromMongo';
 
 import './Login.scss';
@@ -23,8 +23,8 @@ const mapDispatchToProps = dispatch => ({
   setUser: user => {
     return dispatch(setUser(user));
   },
-  setUserRole: userRole => {
-    return dispatch(setUserRole(userRole));
+  getUserRole: userRole => {
+    return dispatch(getUserRole(userRole));
   },
   setUserFromMongo: user => {
     return dispatch(setUserFromMongo(user));
@@ -80,14 +80,14 @@ export class Login extends Component {
         .currentUser.getIdToken()
         .then(idToken => {
           axios
-            .get(`http://localhost:3001/api/user`, {
+            .get(`/api/user`, {
               headers: { authorization: idToken }
             })
             .then(user => {
               this.props.setUserFromMongo(user.data);
             });
         });
-      this.props.setUserRole();
+      this.props.getUserRole();
     }
   };
 
@@ -154,7 +154,7 @@ export class Login extends Component {
 
 Login.propTypes = {
   setUser: propTypes.func,
-  setUserRole: propTypes.func,
+  getUserRole: propTypes.func,
   setUserFromMongo: propTypes.func,
   users: propTypes.object
 };

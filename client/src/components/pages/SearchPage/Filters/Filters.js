@@ -90,7 +90,7 @@ function ZnoRangeSlider(props) {
   }
 
   return (
-    <div  className="slider">
+    <div  className="filters-slider">
       <Typography id="range-slider" gutterBottom>
         Бал ЗНО
       </Typography>
@@ -120,7 +120,7 @@ function FeedbackRangeSlider(props) {
   }
 
   return (
-    <div  className="slider">
+    <div  className="filters-slider">
       <Typography id="range-slider" gutterBottom>
         Рейтинг відгуків
       </Typography>

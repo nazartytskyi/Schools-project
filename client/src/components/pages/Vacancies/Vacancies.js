@@ -31,7 +31,7 @@ export class Vacancies extends Component {
       isFiltered: false
     };
     this.vacancies = [];
-    this.filters = {sortedByDate: true}; 
+    this.filters = { sortedByDate: true };
     this.uniqueCities = [];
     this.uniqueDistricts = [];
     this.isCityChosen = false;
@@ -84,7 +84,7 @@ export class Vacancies extends Component {
       return school.adress.city;
     });
     return [...new Set(uniqueCities)];
-  }
+  };
 
   createUniqueDistricts = (choose) => {
     let vacancies = this.state.filteredVacancies;
@@ -95,10 +95,10 @@ export class Vacancies extends Component {
       }
     });
     let uniqueDistricts = vacanciesByCity.map(vacancy => {
-      return vacancy.adress.district
+      return vacancy.adress.district;
     });
-    this.uniqueDistricts = [...new Set(uniqueDistricts)]
-  }
+    this.uniqueDistricts = [...new Set(uniqueDistricts)];
+  };
 
  
   filterVacancies = (filters) => {
@@ -136,54 +136,61 @@ export class Vacancies extends Component {
     if(filters.city && filters.city !== 'Вибрати місто') {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return vacancy.adress.city === filters.city;
-      })
+      });
     }
-    
-    if(filters.district && filters.district !== 'Вибрати район') {
+
+    if (filters.district && filters.district !== 'Вибрати район') {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return filters.district === vacancy.adress.district;
       });
     }
-    
-    if(filters.school) {
+
+    if (filters.school) {
       filteredVacancies = filteredVacancies.filter(vacancy => {
-        return vacancy.school.toUpperCase().includes(filters.school.toUpperCase());
+        return vacancy.school
+          .toUpperCase()
+          .includes(filters.school.toUpperCase());
       });
     }
 
-    if(filters.title) {
+    if (filters.title) {
       filteredVacancies = filteredVacancies.filter(vacancy => {
-        return vacancy.title.toUpperCase().includes(filters.title.toUpperCase());
+        return vacancy.title
+          .toUpperCase()
+          .includes(filters.title.toUpperCase());
       });
       console.log('Im here');
       console.log(filteredVacancies);
     }
 
-    if(filters.range) {
+    if (filters.range) {
       filteredVacancies = filteredVacancies.filter(vacancy => {
-        return vacancy.salary >= filters.range[0] && vacancy.salary <= filters.range[1];
+        return (
+          vacancy.salary >= filters.range[0] &&
+          vacancy.salary <= filters.range[1]
+        );
       });
     }
 
-    if(filters.employment && filters.employment !== 'Будь-яка') {
+    if (filters.employment && filters.employment !== 'Будь-яка') {
       filteredVacancies = filteredVacancies.filter(vacancy => {
         return vacancy.employment === filters.employment;
-      })  
+      });
     }
-  
-    if(filters.sortedByDate || filters.date === 'byDate') {
+
+    if (filters.sortedByDate || filters.date === 'byDate') {
       filteredVacancies = filteredVacancies.sort((a, b) => {
         return +new Date(b.date) - +new Date(a.date);
       });
     }
 
-    if(filters.date === 'bySalary') {
+    if (filters.date === 'bySalary') {
       filteredVacancies = filteredVacancies.sort((a, b) => {
         return b.salary - a.salary;
       });
     }
-      return filteredVacancies;
-    }
+    return filteredVacancies;
+  };
 
   setFilter(filterMixin) {
     this.filters = {...this.filters, ...filterMixin};
@@ -193,20 +200,18 @@ export class Vacancies extends Component {
     console.log(this.state.isFiltered);
   }
 
-
-
   updateInput = (e) => {
     this.setFilter({title: e.target.value.trim()});
     console.log(this.state.filteredVacancies);
   }
 
-  changeCityStatus = (e) => {
-    if(e !== 'Вибрати місто') {
+  changeCityStatus = e => {
+    if (e !== 'Вибрати місто') {
       this.isCityChosen = true;
-    }else {
+    } else {
       this.isCityChosen = false;
     }
-  }
+  };
 
   generateVacancyMessage = () => {
     let message = ''
@@ -224,7 +229,7 @@ export class Vacancies extends Component {
         message = `Знайдено ${this.chooseVacancies().length} вакансій`;
     }
     return message;
-  }
+  };
 
 
 
@@ -249,7 +254,7 @@ export class Vacancies extends Component {
           <div className="vacancies">
             <div className="search">
               <div className="city">
-                <CitySelect 
+                <CitySelect
                   className="city-form"
                   setFilter={this.setFilter.bind(this)}
                   uniqueCities={this.createUniqueCities()}
@@ -260,7 +265,7 @@ export class Vacancies extends Component {
                   <TemporaryDrawer 
                     schools={this.props.schools}
                     uniqueDistricts={this.uniqueDistricts}
-                    filterByEmployment={this.filterByEmployment} 
+                    filterByEmployment={this.filterByEmployment}
                     setFilter={this.setFilter.bind(this)}
                     isCityChosen={this.isCityChosen}
                     vacancies={this.state.filteredVacancies}
@@ -280,13 +285,16 @@ export class Vacancies extends Component {
             </div>
             <div className="vacancy-amount">
               <div className="amount-output">
-                <Typography variant="body1" 
+                <Typography
+                  variant="body1"
                   color="textSecondary"
                   className="vacancy-amount-text"
-                >{this.generateVacancyMessage()}</Typography>
+                >
+                  {this.generateVacancyMessage()}
+                </Typography>
               </div>
               <div className="sort">
-                <SortVacancies setFilter={this.setFilter.bind(this)}/> 
+                <SortVacancies setFilter={this.setFilter.bind(this)} />
               </div>
             </div>
             <div className="main">
@@ -303,12 +311,15 @@ export class Vacancies extends Component {
                   </CardContent>
                 </Card>
               </div>
-              <VacancyList vacancies={this.state.filteredVacancies} className="list"/>
+              <VacancyList
+                vacancies={this.state.filteredVacancies}
+                className="list"
+              />
             </div>
           </div>
         </Container>
-      </React.Fragment>  
-    )
+      </React.Fragment>
+    );
   }
 }
 

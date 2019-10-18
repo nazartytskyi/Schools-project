@@ -30,19 +30,32 @@
 }
 @media only screen and (min-width: 1673px) {
   .school-news-card {
-    max-width: 568px;
+    width: 568px;
+    height: 563px;
+  }
+}
+@media only screen and (min-width: 1273px) and (max-width: 1672px) {
+  .school-news-card {
+    width: 568px;
     min-height: 563px;
   }
 }
-@media only screen and (min-width: 1273px)and (max-width: 1672px) {
+@media only screen and (min-width: 720px) and (max-width: 1272px) {
   .school-news-card {
-    max-width: 568px;
+    min-width: 720px;
+    max-width: 720px;
     min-height: 563px;
   }
 }
-@media only screen and (min-width: 568px)and (max-width: 1272px) {
+@media only screen and (min-width: 568px) and (max-width: 720px) {
   .school-news-card {
-    max-width: auto;
+    width: 563px;
+    min-height: 563px;
+  }
+}
+@media only screen and (max-width: 568px) {
+  .school-news-card {
+    width: 363px;
     min-height: 563px;
   }
 }

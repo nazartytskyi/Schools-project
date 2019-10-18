@@ -5,6 +5,10 @@ import propTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
+import { setUserRole } from '../../../actions/setUserRole';
+import RequestsAlert from './RequestsAlert';
+import FavSchoolsPage from '../FavSchoolsPage/FavSchoolsPage';
+
 import axios from 'axios';
 
 // import firebase from '../../firebase-service/firebase-service';
@@ -25,8 +29,8 @@ import {
   MenuItem
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MaterialTable from 'material-table';
 
+import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
@@ -77,6 +81,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getAllUsers: () => {
     return dispatch(getAllUsers());
+  },
+  setUserRole: (uid, role) => {
+    return dispatch(setUserRole(uid, role));
   }
 });
 
@@ -90,7 +97,7 @@ const columns = [
   {
     field: 'dateBirth',
     title: 'Дата\u00a0народження',
-    editable: 'never',
+    // editable: 'never',
     type: 'date'
   },
   {
@@ -115,8 +122,13 @@ const columns = [
   {
     field: 'dateApply',
     title: 'Дата\u00a0подання',
-    editable: 'never',
+    // editable: 'never',
     type: 'date'
+  },
+  {
+    field: 'comment',
+    title: 'Коментар',
+    minWidth: 150
   },
   {
     field: 'adress',
@@ -125,6 +137,11 @@ const columns = [
     render: rowData => {
       return `м.\u00a0${rowData.adress.city}, вул.\u00a0${rowData.adress.street},\u00a0${rowData.adress.building}`;
     }
+  },
+  {
+    field: 'schoolName',
+    title: 'Назва\u00a0школи',
+    editable: 'never'
   }
 ];
 const columnsUsers = [
@@ -139,15 +156,9 @@ const columnsUsers = [
     editable: 'never'
   },
   {
-    field: 'uid',
-    title: 'ID\u00a0користувача',
-    editable: 'never'
-  },
-  {
-    field: 'userRole',
+    field: 'role',
     title: 'Роль',
     lookup: {
-      '': 'Відсутня',
       teacher: 'Вчитель',
       superadmin: 'Суперадмін',
       administration: 'Адміністрація школи',
@@ -155,10 +166,22 @@ const columnsUsers = [
     }
   }
 ];
+
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { menu: 'mainInfo', columns, columnsUsers };
+    this.rolesAccess = {
+      parent: ['mainInfo', 'favoriteSchools'],
+      teacher: ['mainInfo', 'favoriteSchools'],
+      administration: ['mainInfo', 'favoriteSchools', 'requests'],
+      superadmin: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles']
+    };
+
+    this.access = this.rolesAccess[
+      this.props.users.userRole ? this.props.users.userRole : 'parent'
+    ];
+    this.state = { menu: 'mainInfo', columns, columnsUsers, openMessage: true };
+    this.customMenuButton(this.state.menu);
   }
 
   componentDidMount() {
@@ -166,10 +189,61 @@ class Profile extends Component {
       this.props.getAllUsers();
     }
   }
+  customMenuButton() {
+    let access = {};
+    access[this.state.menu] = 'profile-menu-button-active';
+    this.accessButtons = {
+      mainInfo: (
+        <Button
+          className={access.mainInfo}
+          key="mainInfo"
+          onClick={this.showMainInfo.bind(this)}
+        >
+          Основна&#160;інформація
+        </Button>
+      ),
+      favoriteSchools: (
+        <Button
+          className={access.favoriteSchools}
+          key="favoriteSchools"
+          onClick={this.showFavoriteSchools.bind(this)}
+        >
+          Улюблені&#160;школи
+        </Button>
+      ),
+      requests: (
+        <Button
+          className={access.requests}
+          key="requests"
+          onClick={this.showRequests.bind(this)}
+        >
+          Заявки
+        </Button>
+      ),
+      setRoles: (
+        <Button
+          className={access.setRoles}
+          key="setRoles"
+          onClick={this.showSetRoles.bind(this)}
+        >
+          Керування&#160;доступом
+        </Button>
+      )
+    };
+    return this.access.map(item => {
+      return this.accessButtons[item];
+    });
+  }
   showMainInfo() {
     this.setState({
       ...this.state,
       menu: 'mainInfo'
+    });
+  }
+  showFavoriteSchools() {
+    this.setState({
+      ...this.state,
+      menu: 'favoriteSchools'
     });
   }
   showRequests() {
@@ -184,13 +258,38 @@ class Profile extends Component {
       menu: 'setRoles'
     });
   }
+  handleCloseMessage() {
+    this.setState({
+      ...this.state,
+      openMessage: false
+    });
+  }
   render() {
     let profileContainer;
     switch (this.state.menu) {
       case 'requests':
-        let requests = this.props.schools.data
-          ? this.props.schools.data[0].firstGrade.requests
-          : [];
+        let requests = [];
+        if (this.props.users.userRole === 'superadmin') {
+          for (let i = 0; i < this.props.schools.data.length; i++) {
+            requests = requests.concat(
+              this.props.schools.data[i].firstGrade.requests.map(request => {
+                request.schoolName = this.props.schools.data[i].name;
+                request.schoolId = this.props.schools.data[i]._id;
+                return request;
+              })
+            );
+          }
+        } else {
+          requests = this.props.schools.data
+            ? this.props.schools.data[0].firstGrade.requests.map(request => {
+                request.schoolName = this.props.schools.data[0].name;
+                return request;
+              })
+            : [];
+        }
+        // requests = this.props.schools.data
+        //   ? this.props.schools.data[0].firstGrade.requests
+        //   : [];
         profileContainer = (
           <MaterialTable
             icons={tableIcons}
@@ -204,7 +303,7 @@ class Profile extends Component {
                   setTimeout(() => {
                     resolve();
                     this.forceUpdate();
-                  }, 600);
+                  }, 800);
                 })
             }}
           />
@@ -218,21 +317,23 @@ class Profile extends Component {
             title="Користувачі"
             columns={this.state.columnsUsers}
             data={users}
-            editable={
-              {
-                // onRowUpdate: (newData, oldData) =>
-                //   new Promise(resolve => {
-                //     console.log('onRowUpdate');
-                //     this.props.updateRequest({ ...newData });
-                //     setTimeout(() => {
-                //       resolve();
-                //       this.forceUpdate();
-                //     }, 600);
-                //   })
-              }
-            }
+            editable={{
+              onRowUpdate: (newData, oldData) =>
+                new Promise(resolve => {
+                  // console.log('onRowUpdate');
+                  // console.log(newData, 'newData');
+                  this.props.setUserRole(newData.uid, newData.role);
+                  setTimeout(() => {
+                    resolve();
+                    this.forceUpdate();
+                  }, 800);
+                })
+            }}
           />
         );
+        break;
+      case 'favoriteSchools':
+        profileContainer = <FavSchoolsPage />;
         break;
       case 'mainInfo':
       default:
@@ -246,7 +347,9 @@ class Profile extends Component {
         if (Object.keys(this.props.users).length && this.props.users.user) {
           userRole = this.props.users.userRole;
           username = this.props.users.user.displayName;
-          userPicture = this.props.users.user.photoURL;
+          userPicture = this.props.users.user.photoURL
+            ? this.props.users.user.photoURL
+            : 'https://i1.sndcdn.com/artworks-000241752752-qz4n69-t500x500.jpg';
           email = this.props.users.user.email;
           lastLoginAt = this.props.users.user.metadata.lastSignInTime;
           creationTime = this.props.users.user.metadata.creationTime;
@@ -283,18 +386,17 @@ class Profile extends Component {
     }
 
     return (
-      <Container maxWidth="lg" className="profile-container">
-        <div className="profile-menu">
-          <Button onClick={this.showMainInfo.bind(this)}>
-            Основна інформація
-          </Button>
-          <Button onClick={this.showRequests.bind(this)}>Заявки</Button>
-          <Button onClick={this.showSetRoles.bind(this)}>
-            Керування доступом
-          </Button>
+      <>
+        <div className="profile-container">
+          <div className="profile-menu">{this.customMenuButton()}</div>
+          <div className="profile-data">{profileContainer}</div>
         </div>
-        {profileContainer}
-      </Container>
+        <RequestsAlert
+          closeMessage={this.handleCloseMessage.bind(this)}
+          open={this.state.openMessage}
+          message="У Вас є подані заявки"
+        />
+      </>
     );
   }
 }
@@ -304,7 +406,8 @@ Profile.propTypes = {
   schools: propTypes.object,
   allUsers: propTypes.object,
   updateRequest: propTypes.func,
-  getAllUsers: propTypes.func
+  getAllUsers: propTypes.func,
+  setUserRole: propTypes.func
 };
 
 export default connect(

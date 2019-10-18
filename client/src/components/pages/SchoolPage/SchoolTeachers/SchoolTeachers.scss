@@ -1,17 +1,23 @@
 @import '../../../Variables.scss';
 .school-teacher-card {
-  width: 300px;
-  padding: 15px;
+  width: 265px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   font-size: $secondFontSize;
   font-family: $mainFont;
+  
+}
+.MuiPaper-elevation1.school-teacher-card {
+  box-shadow: none;
+}
+.MuiExpansionPanel-root.Mui-expanded {
+  margin: 0 !important;
 }
 .teachers-card-section {
   float: right;
-  position: absolute;
-  right: 0px;
   bottom: 2163px;
+  right: 20px;
   text-align: center;
 }
 .teacher-avatar {
@@ -37,6 +43,10 @@
 @media only screen and (max-width: 568px) {
   .teachers-card-section{
     bottom: 0px;
-    width: 50%;
+    width: 100%;
+    right: 0px;
+  }
+  .school-teacher-card {
+    width: 100%;
   }
 }
