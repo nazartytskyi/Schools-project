@@ -7,6 +7,7 @@ import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
 import { setUserRole } from '../../../actions/setUserRole';
 import RequestsAlert from './RequestsAlert';
+import FavSchoolsPage from '../FavSchoolsPage/FavSchoolsPage';
 
 import axios from 'axios';
 
@@ -96,7 +97,7 @@ const columns = [
   {
     field: 'dateBirth',
     title: 'Дата\u00a0народження',
-    editable: 'never',
+    // editable: 'never',
     type: 'date'
   },
   {
@@ -121,8 +122,13 @@ const columns = [
   {
     field: 'dateApply',
     title: 'Дата\u00a0подання',
-    editable: 'never',
+    // editable: 'never',
     type: 'date'
+  },
+  {
+    field: 'comment',
+    title: 'Коментар',
+    minWidth: 150
   },
   {
     field: 'adress',
@@ -167,7 +173,7 @@ class Profile extends Component {
     this.rolesAccess = {
       parent: ['mainInfo', 'favoriteSchools'],
       teacher: ['mainInfo', 'favoriteSchools'],
-      administration: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles'],
+      administration: ['mainInfo', 'favoriteSchools', 'requests'],
       superadmin: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles']
     };
 
@@ -268,6 +274,7 @@ class Profile extends Component {
             requests = requests.concat(
               this.props.schools.data[i].firstGrade.requests.map(request => {
                 request.schoolName = this.props.schools.data[i].name;
+                request.schoolId = this.props.schools.data[i]._id;
                 return request;
               })
             );
@@ -326,7 +333,7 @@ class Profile extends Component {
         );
         break;
       case 'favoriteSchools':
-        profileContainer = '';
+        profileContainer = <FavSchoolsPage />;
         break;
       case 'mainInfo':
       default:
@@ -340,7 +347,9 @@ class Profile extends Component {
         if (Object.keys(this.props.users).length && this.props.users.user) {
           userRole = this.props.users.userRole;
           username = this.props.users.user.displayName;
-          userPicture = this.props.users.user.photoURL;
+          userPicture = this.props.users.user.photoURL
+            ? this.props.users.user.photoURL
+            : 'https://i1.sndcdn.com/artworks-000241752752-qz4n69-t500x500.jpg';
           email = this.props.users.user.email;
           lastLoginAt = this.props.users.user.metadata.lastSignInTime;
           creationTime = this.props.users.user.metadata.creationTime;

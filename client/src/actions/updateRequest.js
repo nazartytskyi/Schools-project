@@ -2,7 +2,7 @@ import axios from 'axios';
 import { auth } from '../components/shared/firebase-service/firebase-service';
 
 export const updateRequest = requestToUpdate => dispatch => {
-  let schoolId = '5d8259d20dafb81f14fc859e';
+  let schoolId = requestToUpdate.schoolId;
   auth()
     .currentUser.getIdToken()
     .then(idToken => {
