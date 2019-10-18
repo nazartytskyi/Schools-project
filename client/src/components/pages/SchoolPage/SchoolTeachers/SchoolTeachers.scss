@@ -6,7 +6,6 @@
   flex-direction: column;
   font-size: $secondFontSize;
   font-family: $mainFont;
-  
 }
 .MuiPaper-elevation1.school-teacher-card {
   box-shadow: none;
@@ -14,10 +13,16 @@
 .MuiExpansionPanel-root.Mui-expanded {
   margin: 0 !important;
 }
+.MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.teachers-card-section.MuiExpansionPanel-rounded.MuiPaper-rounded {
+  position: absolute;
+}
 .teachers-card-section {
-  float: right;
-  bottom: 2163px;
+  position: absolute;
+  width: 297px;
+  height: 89px;
+  top: 325px;
   right: 20px;
+  z-index: 1000;
   text-align: center;
 }
 .teacher-avatar {
@@ -28,24 +33,36 @@
 }
 @media only screen and (min-width: 1273px)and (max-width: 1679px) {
   .teachers-card-section {
-    bottom: 0;
+    position: relative;
+    top: 0px;
+  }
+  .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.teachers-card-section.MuiExpansionPanel-rounded.MuiPaper-rounded {
+    position: relative;
   } 
 }
 @media only screen and (min-width: 568px)and (max-width: 1272px) {
   .teachers-card-section{
-    bottom: 0px;
+    position: relative;
+    top: 0px;
     width: 45%;
   }
+  .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.teachers-card-section.MuiExpansionPanel-rounded.MuiPaper-rounded {
+    position: relative;
+  } 
   .school-teacher-card {
     width: 100%;
   }
 }
 @media only screen and (max-width: 568px) {
   .teachers-card-section{
-    bottom: 0px;
+    position: relative;
+    top: 0px;
     width: 100%;
     right: 0px;
   }
+  .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.teachers-card-section.MuiExpansionPanel-rounded.MuiPaper-rounded {
+    position: relative;
+  } 
   .school-teacher-card {
     width: 100%;
   }

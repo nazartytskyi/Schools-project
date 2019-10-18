@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import TablePagination from '@material-ui/core/TablePagination';
+import { connect } from 'react-redux';
 
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
@@ -18,6 +18,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -41,75 +42,46 @@ const tableIcons = {
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
-export default function InfoTable() {
-  const [state, setState] = React.useState({
-    columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Birth Data', field: 'birthData', type: 'date' },
-      { title: 'status',  field: 'status' },
-      { title: 'dateApply', field: 'dateApply',  type: 'date'},
-      { title: 'firstPriority', field: 'firstPriority'}
-    ],
-    data: [
-      { 
-        name: 'Прийма Ярослав Юрійович',
-        birthData: '11.10.1999',
-        status: 'Подано оригінали',
-        dateApply: '16.10.2019',
-        firstPriority: 'Yes'
-      },
-      {
-        name: 'Прийма Ярослав Юрійович',
-        birthData: '11.10.1999',
-        status: 'Підтверджено',
-        dateApply: '12.10.2019',
-        firstPriority: 'Yes'
-      },
-      {
-        name: 'Прийма Ярослав Юрійович',
-        birthData: '11.10.1999',
-        status: 'Підтверджено',
-        dateApply: '12.10.2019',
-        firstPriority: 'Yes'
-      },
-      {
-        name: 'Прийма Ярослав Юрійович',
-        birthData: '11.10.1999',
-        status: 'Підтверджено',
-        dateApply: '12.10.2019',
-        firstPriority: 'No'
-      },
-      {
-        name: 'Прийма Ярослав Юрійович',
-        birthData: '11.10.1999',
-        status: 'Підтверджено',
-        dateApply: '12.10.2019',
-        firstPriority: 'No'
-      },
-      {
-        name: 'Прийма Ярослав Юрійович',
-        birthData: '11.10.1999',
-        status: 'Підтверджено',
-        dateApply: '12.10.2019',
-        firstPriority: 'Yes'
-      },
-      {
-        name: 'Прийма Ярослав Юрійович',
-        birthData: '11.10.1999',
-        status: 'Підтверджено',
-        dateApply: '12.10.2019',
-        firstPriority: 'No'
-      },
-    ],
-  });
 
+const mapStateToProps = state => ({
+  ...state
+});
+const columns = [
+  { title: 'ПІБ', field: 'name' },
+  { title: 'Дата народження', field: 'birthData', type: 'date' },
+  { title: 'Статус',  field: 'status' },
+  { title: 'Дата подання', field: 'dateApply',  type: 'date'},
+  { title: 'Перша черга', field: 'firstPriority', type: 'boolean'},
+  { title: 'Коментар', field: 'comment'}
+]
+class InfoTable extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {columns};
+  }
+  render() {
+    const { currentSchool: { firstGrade: { requests } } } = this.props;
+    const data = requests.map((request) => {
+      return { 
+        name: request.studentName,
+        birthData: request.dateBirth,
+        status: request.status,
+        dateApply: request.dateApply,
+        firstPriority: request.firstPriority,
+        comment: request.comment || '-'
+      }
+    })
+    
+  
   return (
     <MaterialTable
       icons={tableIcons}
       title="Заявки"
-      columns={state.columns}
-      data={state.data}
+      data={data}
+      columns={this.state.columns}
       size='large'
     />
   );
+  }
 }
+export default connect(mapStateToProps)(InfoTable);

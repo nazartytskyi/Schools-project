@@ -7,8 +7,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Avatar from '@material-ui/core/Avatar';
 import { Container } from '@material-ui/core';
 import './SchoolTeachers.scss';
-const SchoolTeachers = ({teacher, indexTeacher}) => (
-  <Card className="school-teacher-card" key={indexTeacher}>
+const SchoolTeachers = ({teacher, IndexTeacher,currentSchool}) => (
+  <Card className="school-teacher-card" key={IndexTeacher}>
     <Avatar src={teacher.photo} className='teacher-avatar'></Avatar>
     <Typography component='div'>
       <p>{teacher.name}</p>
