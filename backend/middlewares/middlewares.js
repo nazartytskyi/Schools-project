@@ -49,19 +49,23 @@ module.exports.checkIfAdmin = (req, res, next) => {
 };
 
 module.exports.setUserRole = (req, res) => {
-  const { update } = req.body;
+  const { role } = req.body;
+  console.log(role, ' setUserRolerole');
+  console.log(req.params.uid, 'setUserRole req.params.uid');
   admin
     .auth()
-    .setCustomUserClaims(req.params.uid, update)
+    .setCustomUserClaims(req.params.uid, { role })
     .then(() => {
       console.log('setCustomUserClaims success');
     })
-    .catch(() => {
+    .catch(err => {
       console.log('setCustomUserClaims fail');
+      console.log(err, 'err');
     });
   Users.findOne({ _id: req.params.uid }, (err, user) => {
     if (user) {
-      user.role = update.role;
+      console.log(role, 'role');
+      user.role = role;
       user.save();
       return res.send({ message: 'Success' });
     } else {
@@ -100,9 +104,20 @@ module.exports.getUser = (req, res, next) => {
   });
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   let user = new Users({ _id: req.authId, choosedSchools: [], role: 'parent' });
   user.save();
+  let role = 'parent';
+  admin
+    .auth()
+    .setCustomUserClaims(req.authId, { role })
+    .then(() => {
+      console.log('setCustomUserClaims success');
+    })
+    .catch(err => {
+      console.log('setCustomUserClaims fail');
+      console.log(err, 'err');
+    });
   res.status(201).send(user);
 };
 
@@ -186,7 +201,12 @@ module.exports.getAllUsers = (req, res) => {
           });
           if (userMongoIndex !== -1) {
             userList.push({ ...userFirebase });
-            userList[userList.length - 1].role = dataMongo[userMongoIndex].role;
+            if (dataMongo[userMongoIndex].role) {
+              userList[userList.length - 1].role =
+                dataMongo[userMongoIndex].role;
+            } else {
+              userList[userList.length - 1].role = 'parent';
+            }
           }
         });
         res.status(200).send(userList);

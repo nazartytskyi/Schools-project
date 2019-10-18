@@ -10,10 +10,9 @@ export const removeNews = (idSchool, idNews) => dispatch => {
         console.log(idNews, 'idNews');
         console.log(idSchool, 'idSchool');
         axios
-          .delete(
-            `http://localhost:3001/api/schools/${idSchool}/news/${idNews}`,
-            { headers: { authorization: idToken } }
-          )
+          .delete(`/api/schools/${idSchool}/news/${idNews}`, {
+            headers: { authorization: idToken }
+          })
           .then(() => {
             console.log(idNews);
             return dispatch({
@@ -23,6 +22,5 @@ export const removeNews = (idSchool, idNews) => dispatch => {
             });
           });
       });
-    return null;
   }
 };

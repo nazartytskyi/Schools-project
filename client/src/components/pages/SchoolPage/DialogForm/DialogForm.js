@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -7,52 +8,65 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import './DialogForm.scss';
-import { addRequest } from './../../../../actions/addRequest'
+import { addRequest } from './../../../../actions/addRequest';
 
-export default class DialogForm extends React.Component {
+const mapStateToProps = state => ({
+  ...state
+});
+const mapDispatchToProps = dispatch => ({
+  addRequest: (request, schoolId) => {
+    return dispatch(addRequest(request, schoolId));
+  }
+});
+class DialogForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { form: {}, isDialogOpen: true};
+    this.state = { form: {}, isDialogOpen: true };
   }
 
   onFieldChanged(fieldName, value) {
-    this.setState( 
-      {
-        form: {
-          ...this.state.form,
-          [fieldName]: value
-        } 
+    this.setState({
+      form: {
+        ...this.state.form,
+        [fieldName]: value
+      }
     });
   }
 
   isFormValid(form) {
-    if ( form.studentName
-      && form.dateBirth
-      && form.fatherName
-      && form.motherName
-      && form.adress
-      && form.adress.city
-      && form.adress.district
-      && form.adress.street
-      && form.adress.building
-      && form.email
+    if (
+      form.studentName &&
+      form.dateBirth &&
+      form.fatherName &&
+      form.motherName &&
+      form.adress &&
+      form.adress.city &&
+      form.adress.district &&
+      form.adress.street &&
+      form.adress.building &&
+      form.email
     ) {
-      return true
+      return true;
     }
 
     return false;
   }
 
   sendRequest(form) {
-    form.dateApply = Date.now();
-    addRequest(form, this.props.schoolId);
-    this.setState({form: {}});
+    form.dateApply = new Date().toLocaleDateString();
+    form.dateBirth = new Date(form.dateBirth).toLocaleDateString();
+    form.comment = '';
+    this.props.addRequest(form, this.props.schoolId);
+    this.setState({ form: {} });
     this.props.close();
   }
 
   render() {
     return (
-      <Dialog onClose={this.props.close} open={this.state.isDialogOpen && this.props.open || false}>
+      <Dialog
+        onClose={this.props.close}
+        open={(this.state.isDialogOpen && this.props.open) || false}
+      >
         <form className="dialog-form" noValidate autoComplete="off">
           <TextField
             required={true}
@@ -63,7 +77,7 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('studentName', e.target.value)}
+            onChange={e => this.onFieldChanged('studentName', e.target.value)}
           />
           <TextField
             required
@@ -74,7 +88,7 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('dateBirth', e.target.value)}
+            onChange={e => this.onFieldChanged('dateBirth', e.target.value)}
           />
 
           <TextField
@@ -86,7 +100,7 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('fatherName', e.target.value)}
+            onChange={e => this.onFieldChanged('fatherName', e.target.value)}
           />
 
           <TextField
@@ -98,7 +112,7 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('motherName', e.target.value)}
+            onChange={e => this.onFieldChanged('motherName', e.target.value)}
           />
 
           <TextField
@@ -110,9 +124,14 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('adress',{ ...this.state.form.adress, city: e.target.value })}
+            onChange={e =>
+              this.onFieldChanged('adress', {
+                ...this.state.form.adress,
+                city: e.target.value
+              })
+            }
           />
-          
+
           <TextField
             required={true}
             id="district"
@@ -122,7 +141,12 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('adress', { ...this.state.form.adress, district: e.target.value })}
+            onChange={e =>
+              this.onFieldChanged('adress', {
+                ...this.state.form.adress,
+                district: e.target.value
+              })
+            }
           />
 
           <TextField
@@ -134,7 +158,12 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('adress', { ...this.state.form.adress, street: e.target.value })}
+            onChange={e =>
+              this.onFieldChanged('adress', {
+                ...this.state.form.adress,
+                street: e.target.value
+              })
+            }
           />
 
           <TextField
@@ -146,9 +175,14 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('adress', { ...this.state.form.adress, building: e.target.value })}
+            onChange={e =>
+              this.onFieldChanged('adress', {
+                ...this.state.form.adress,
+                building: e.target.value
+              })
+            }
           />
-              
+
           <TextField
             required={true}
             id="email"
@@ -158,17 +192,19 @@ export default class DialogForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={(e) => this.onFieldChanged('email', e.target.value)}
+            onChange={e => this.onFieldChanged('email', e.target.value)}
           />
           <FormControlLabel
             control={
               <Checkbox
                 color="primary"
-                onChange={(e) => this.onFieldChanged('firstPriority', e.target.checked)}
+                onChange={e =>
+                  this.onFieldChanged('firstPriority', e.target.checked)
+                }
               />
             }
             label="Перший пріоритет"
-          />      
+          />
 
           <Button
             className="submit-btn"
@@ -177,12 +213,16 @@ export default class DialogForm extends React.Component {
             endIcon={<Icon>Надіслати</Icon>}
             onClick={() => this.sendRequest(this.state.form)}
             disabled={!this.isFormValid(this.state.form)}
-          > 
+          >
             Надіслати
           </Button>
-  
         </form>
       </Dialog>
-    )
+    );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DialogForm);
