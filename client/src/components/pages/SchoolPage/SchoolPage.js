@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
   deleteFavoriteSchool: (schoolId) => dispatch(deleteFavoriteSchool(schoolId))
 });
 
-class SchoolPage extends PureComponent {
+class SchoolPage extends Component {
   constructor(props) {
     super(props)
     this.state = {expanded: new Set(), isFavorite: false, isSuccess: false, successAdd: false,schools: this.props.schools.data};
