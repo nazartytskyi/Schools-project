@@ -12,8 +12,14 @@
     justify-content: space-around;
     align-self: stretch;
     // margin-left: 100px;
+    height: 45px;
     .profile-menu-button-active{
       border: 3px solid rgb(177, 177, 177);
+    }
+  }
+  @media (max-width: 1024px) {
+    .profile-menu {
+      display: none;
     }
   }
   .profile-data{
@@ -54,3 +60,4 @@
     }
   }
 }
+

@@ -8,6 +8,7 @@ import { getAllUsers } from '../../../actions/getAllUsers';
 import { setUserRole } from '../../../actions/setUserRole';
 import RequestsAlert from './RequestsAlert';
 import FavSchoolsPage from '../FavSchoolsPage/FavSchoolsPage';
+import ProfileToggleMenu from './ToggleMenu/ToggleMenu';
 
 import axios from 'axios';
 
@@ -180,7 +181,12 @@ class Profile extends Component {
     this.access = this.rolesAccess[
       this.props.users.userRole ? this.props.users.userRole : 'parent'
     ];
-    this.state = { menu: 'mainInfo', columns, columnsUsers, openMessage: true };
+    this.state = {
+      menu: 'mainInfo',
+      columns,
+      columnsUsers,
+      openMessage: this.props.users.userRole === 'administration'
+    };
     this.customMenuButton(this.state.menu);
   }
 
@@ -266,30 +272,40 @@ class Profile extends Component {
   }
   render() {
     let profileContainer;
+    let requestsApplied = 0;
+    let requests = [];
+
+    if (this.props.users.userRole === 'superadmin') {
+      for (let i = 0; i < this.props.schools.data.length; i++) {
+        requests = requests.concat(
+          this.props.schools.data[i].firstGrade.requests.map(request => {
+            request.schoolName = this.props.schools.data[i].name;
+            request.schoolId = this.props.schools.data[i]._id;
+            return request;
+          })
+        );
+      }
+    } else {
+      requests = this.props.schools.data
+        ? this.props.schools.data[0].firstGrade.requests.map(request => {
+            request.schoolName = this.props.schools.data[0].name;
+            return request;
+          })
+        : [];
+    }
+    for (let i = 0; i < requests.length; i++) {
+      if (requests[i].status === 'подано') {
+        requestsApplied++;
+      }
+    }
+    // requests.forEach(request => {
+    //   if (request.status === 'подано') {
+    //     console.log(request);
+    //     requestsApplied++;
+    //   }
+    // });
     switch (this.state.menu) {
       case 'requests':
-        let requests = [];
-        if (this.props.users.userRole === 'superadmin') {
-          for (let i = 0; i < this.props.schools.data.length; i++) {
-            requests = requests.concat(
-              this.props.schools.data[i].firstGrade.requests.map(request => {
-                request.schoolName = this.props.schools.data[i].name;
-                request.schoolId = this.props.schools.data[i]._id;
-                return request;
-              })
-            );
-          }
-        } else {
-          requests = this.props.schools.data
-            ? this.props.schools.data[0].firstGrade.requests.map(request => {
-                request.schoolName = this.props.schools.data[0].name;
-                return request;
-              })
-            : [];
-        }
-        // requests = this.props.schools.data
-        //   ? this.props.schools.data[0].firstGrade.requests
-        //   : [];
         profileContainer = (
           <MaterialTable
             icons={tableIcons}
@@ -384,17 +400,18 @@ class Profile extends Component {
         );
         break;
     }
-
+    let menu = this.customMenuButton();
     return (
       <>
         <div className="profile-container">
-          <div className="profile-menu">{this.customMenuButton()}</div>
+          <ProfileToggleMenu menuItems={menu} />
+          <div className="profile-menu">{menu}</div>
           <div className="profile-data">{profileContainer}</div>
         </div>
         <RequestsAlert
           closeMessage={this.handleCloseMessage.bind(this)}
           open={this.state.openMessage}
-          message="У Вас є подані заявки"
+          message={'У Вас є ' + requestsApplied + ' подана заявки'}
         />
       </>
     );
