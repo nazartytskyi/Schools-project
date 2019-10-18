@@ -4,37 +4,55 @@
 }
 .vacancy-card-aside {
   position: absolute;
-  bottom: 2163px;
   width: 297px;
-  float: left;
+  height: 89px;
   left: 20px;
+  z-index: 1000;
+  top: 325px;
+}
+.MuiExpansionPanel-root.Mui-expanded {
+  height: 525px;
+  overflow-y: scroll;
 }
 .MuiPaper-elevation1.school-vacancy-card {
   box-shadow: none;
 }
+.MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.MuiExpansionPanel-rounded.MuiPaper-rounded{
+  position: absolute;
+}
 @media only screen and (min-width: 1273px)and (max-width: 1679px) {
   .vacancy-card-aside {
-    bottom: 0px;  
+    position: relative;
+    top: 0px;
+  }
+  .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.MuiExpansionPanel-rounded.MuiPaper-rounded{
+    position: relative;
   }
 }
 @media only screen and (min-width: 568px)and (max-width: 1272px) {
   .vacancy-card-aside {
-    bottom: 0px;
     width: 45%;
+    position: relative;
+    top: 0px;
+  }
+  .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.MuiExpansionPanel-rounded.MuiPaper-rounded{
+    position: relative;
   }
   .school-vacancy-card {
-    bottom: 0px;
     width: 100%;
   }
 }
 @media only screen and (max-width: 568px) {
   .vacancy-card-aside {
-    bottom: 0px;
     width: 100%;
     left: 0px;
+    position: relative;
+    top: 0px;
+  }
+  .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.MuiExpansionPanel-rounded.MuiPaper-rounded{
+    position: relative;
   }
   .school-vacancy-card {
-    bottom: 0px;
     width: 100%;
   }
 }
