@@ -106,6 +106,7 @@ class SchoolPage extends Component {
                   state={this.state}
                   SchoolNewsId={SchoolNewsId}
                   handleExpandClick={this.handleExpandClick}
+                  currentSchool={currentSchool}
                 />
               </div>
             );
