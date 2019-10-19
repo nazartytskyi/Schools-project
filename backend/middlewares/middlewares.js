@@ -139,7 +139,7 @@ module.exports.addFavoriteSchool = (req, res) => {
 };
 
 module.exports.deleteFavoriteSchool = (req, res) => {
-  const schoolId  = req.params.schoolId;
+  const schoolId = req.params.schoolId;
   Users.findOne({ _id: req.authId }, function(err, user) {
     if (user) {
       let schoolIndex = user.choosedSchools.indexOf(schoolId);
@@ -183,7 +183,7 @@ module.exports.updateRequest = (req, res) => {
       school.save();
       res.status(200).send('Request updated');
     } else {
-      res.status(500).send('school not found in collection');
+      res.status(500).send({ error: 'school not found in collection' });
     }
   });
 };

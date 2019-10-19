@@ -56,6 +56,7 @@ class DialogForm extends React.Component {
     form.dateApply = new Date().toLocaleDateString();
     form.dateBirth = new Date(form.dateBirth).toLocaleDateString();
     form.comment = '';
+    form.status = 'подано';
     this.props.addRequest(form, this.props.schoolId);
     this.setState({ form: {} });
     this.props.close();

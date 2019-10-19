@@ -75,8 +75,7 @@ export class Login extends Component {
   setUser = user => {
     this.props.setUser(user);
     if (auth().currentUser) {
-      firebase
-        .auth()
+      auth()
         .currentUser.getIdToken()
         .then(idToken => {
           axios
