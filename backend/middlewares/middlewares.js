@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const admin = require('../firebase-admin/firebase-admin');
 const Schools = require('../data/schools');
 const Users = require('../data/users');
+const SchoolsCounter = require('../data/schoolsCounter');
 
 module.exports.checkIfAuthenticated = (req, res, next) => {
   if (typeof req.headers.authorization === 'string') {
@@ -83,16 +84,16 @@ module.exports.getSchools = (req, res) => {
   });
 };
 
-module.exports.updateSchool = (req, res) => {
-  const id = req.params.id;
-  const { update } = req.body;
-  Schools.findByIdAndUpdate(id, update, err => {
-    if (err) {
-      return res.json({ success: false, error: err });
-    }
-    return res.json({ success: true });
-  });
-};
+// module.exports.updateSchool = (req, res) => {
+//   const id = req.params.id;
+//   const { update } = req.body;
+//   Schools.findByIdAndUpdate(id, update, err => {
+//     if (err) {
+//       return res.json({ success: false, error: err });
+//     }
+//     return res.json({ success: true });
+//   });
+// };
 
 module.exports.getUser = (req, res, next) => {
   Users.findOne({ _id: req.authId }, function(err, user) {
@@ -104,7 +105,7 @@ module.exports.getUser = (req, res, next) => {
   });
 };
 
-module.exports.createUser = (req, res, next) => {
+module.exports.createUser = (req, res) => {
   let user = new Users({ _id: req.authId, choosedSchools: [], role: 'parent' });
   user.save();
   let role = 'parent';
@@ -273,6 +274,53 @@ module.exports.removeVacancy = (req, res) => {
       res.status(200).send('Vacancy removed');
     } else {
       res.status(500).send('School not found in collection users');
+    }
+  });
+};
+
+module.exports.addFeedback = (req, res) => {
+  const { feedback } = req.body;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      feedback._id = new mongoose.Types.ObjectId();
+      school.feedbacks.push(feedback);
+      school.save();
+      res.status(201).send(feedback);
+    } else {
+      res.status(500).send('School not found');
+    }
+  });
+};
+
+module.exports.removeFeedback = (req, res) => {
+  const idFeedback = req.params.idFeedback;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      let indexFeedbackToDelete = school.feedbacks.findIndex(feedback => {
+        return feedback._id.toString() === idFeedback;
+      });
+      school.feedbacks.splice(indexFeedbackToDelete, 1);
+      school.save();
+      res.status(200).send('Feedback removed');
+    } else {
+      res.status(500).send('School not found');
+    }
+  });
+};
+
+module.exports.addSchool = (req, res) => {
+  const { school } = req.body;
+  let schoolDocument = new Schools(school);
+  schoolDocument._id = new mongoose.Types.ObjectId();
+  SchoolsCounter.findOne({}, function(err, resCount) {
+    if (resCount) {
+      schoolDocument.id = resCount.schoolsCounter;
+      resCount.schoolsCounter++;
+      resCount.save();
+      schoolDocument.save();
+      res.status(201).send(schoolDocument);
+    } else {
+      res.status(500).send('School counter not found');
     }
   });
 };

@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { auth } from '../components/shared/firebase-service/firebase-service';
 
-export const removeNews = (idSchool, idNews) => dispatch => {
+export const removeFeedback = (idSchool, idFeedback) => dispatch => {
   if (auth().currentUser) {
     auth()
       .currentUser.getIdToken()
       .then(idToken => {
         axios
-          .delete(`/api/schools/${idSchool}/news/${idNews}`, {
+          .delete(`/api/schools/${idSchool}/feedback/${idFeedback}`, {
             headers: { authorization: idToken }
           })
           .then(() => {
             return dispatch({
-              type: 'REMOVE_NEWS',
+              type: 'REMOVE_FEEDBACK',
               idSchool,
-              idNews
+              idFeedback
             });
           });
       });
