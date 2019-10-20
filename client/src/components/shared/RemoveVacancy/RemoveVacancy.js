@@ -23,7 +23,7 @@ export class RemoveVacancy extends Component {
   }
 
   render() {
-    if(this.props.users.user !== null) {
+    if(this.props.users.userRole === 'administration') {
       return (
         <div className="remove-vacancy">
           <Button variant="contained" onClick={this.removeVacancy}>
