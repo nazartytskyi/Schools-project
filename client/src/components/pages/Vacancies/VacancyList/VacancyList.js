@@ -48,11 +48,12 @@ export class VacancyList extends Component {
               <Link className="news-link" to={`/school/${vacancy.schoolId}`}>
               <Typography variant="body1" color="textPrimary">{vacancy.school}</Typography>
               </Link>
-              <Typography variant="body2" color="textSecondary">вул: 
-                                                                  {' '}{vacancy.adress.street} 
-                                                                  {' '}{vacancy.adress.building}, 
-                                                                  {' '}{vacancy.adress.district} район, м.
-                                                                  {' '}{vacancy.adress.city}
+              <Typography variant="body2" color="textSecondary">
+                вул: 
+                {' '}{vacancy.adress.street} 
+                {' '}{vacancy.adress.building}, 
+                {' '}{vacancy.adress.district} район, м.
+                {' '}{vacancy.adress.city}
               </Typography>
               <Typography variant="body1" color="textPrimary">тел: {vacancy.phoneNumber}</Typography>
               <div className="respond">

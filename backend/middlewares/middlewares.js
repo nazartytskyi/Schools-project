@@ -253,7 +253,7 @@ module.exports.addVacancy = (req, res) => {
   Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
     if (school) {
       vacancy._id = new mongoose.Types.ObjectId();
-      school.vacancies.push(vacancy);
+      school.vacancies.unshift(vacancy);
       school.save();
       res.status(201).send(vacancy);
     } else {

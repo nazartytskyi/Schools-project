@@ -3,7 +3,7 @@ import './RemoveVacancy.scss';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import {removeVacancy} from '../../../actions/removeVacancy';
-import { getSchools } from '../../../actions/getSchools';
+import propTypes from 'prop-types';
 
 const mapStateToProps = state => ({
   schools: state.schools.data,
@@ -13,19 +13,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   removeVacancy: (idSchool, idVacancy) => {
     return dispatch(removeVacancy(idSchool, idVacancy));
-  },
-  getSchools: () => dispatch(getSchools())
-
+  }
 });
 
 export class RemoveVacancy extends Component {
 
-
   removeVacancy = () => {
-    console.log(this.props.schoolId);
-    console.log(this.props.vacancyId);
-    
-  this.props.removeVacancy(this.props.schoolId, this.props.vacancyId);
+  this.props.removeVacancy(this.props.currentSchool._id, this.props.vacancyId);
   }
 
   render() {
@@ -35,16 +29,22 @@ export class RemoveVacancy extends Component {
           <Button variant="contained" onClick={this.removeVacancy}>
              Видалити
           </Button>
-          <div>{this.props.newsId}</div>
         </div>
       )
     }else {
       return (
-        <div className="remove-vacancy"></div>
+        <div></div>
       )
     }
     
   }
 }
+
+RemoveVacancy.propTypes = {
+  removeVacancy: propTypes.func.isRequired,
+  currentSchool: propTypes.object.isRequired,
+  vacancyId: propTypes.string.isRequired,
+  users: propTypes.object.isRequired  
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(RemoveVacancy);
