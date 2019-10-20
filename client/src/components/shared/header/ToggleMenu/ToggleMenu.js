@@ -28,24 +28,48 @@ export default function SimpleMenu() {
         onClose={handleClose}
         className="toggle-menu"
       >
-        <Link to='/search' className="toggle-menu-link"><MenuItem><Typography color="textPrimary">
-          Знайти школи
-        </Typography></MenuItem></Link>
-        <Link to='/news' className="toggle-menu-link"><MenuItem><Typography color="textPrimary">
-          Новини
-        </Typography></MenuItem></Link>
-        <Link to='/hi' className="toggle-menu-link"><MenuItem><Typography color="textPrimary">
-          Рейтинги
-        </Typography></MenuItem></Link>
-        <Link to='/vacancies' className="toggle-menu-link"><MenuItem><Typography color="textPrimary">
-          Вакансії
-        </Typography></MenuItem></Link>
-        <Link to='/contacts' className="toggle-menu-link"><MenuItem><Typography color="textPrimary">
-          Контакти
-        </Typography></MenuItem></Link>
-        <Link to='/about' className="toggle-menu-link"><MenuItem><Typography color="textPrimary">
-          Про проект
-        </Typography></MenuItem></Link>
+        <Link to='/search' className="toggle-menu-link">
+          <MenuItem onClick={handleClose}>
+            <Typography color="textPrimary">
+              Знайти школи
+            </Typography>
+          </MenuItem>
+        </Link>
+        <Link to='/news' className="toggle-menu-link">
+          <MenuItem onClick={handleClose}>
+            <Typography color="textPrimary">
+              Новини
+            </Typography>
+          </MenuItem>
+        </Link>
+        <Link to='/hi' className="toggle-menu-link">
+          <MenuItem onClick={handleClose}>
+            <Typography color="textPrimary">
+              Рейтинги
+            </Typography>
+          </MenuItem>
+        </Link>
+        <Link to='/vacancies' className="toggle-menu-link">
+          <MenuItem onClick={handleClose}>
+            <Typography color="textPrimary">
+              Вакансії
+            </Typography>
+          </MenuItem>
+        </Link>
+        <Link to='/contacts' className="toggle-menu-link">
+          <MenuItem onClick={handleClose}>
+            <Typography color="textPrimary">
+              Контакти
+            </Typography>
+          </MenuItem>
+        </Link>
+        <Link to='/about' className="toggle-menu-link">
+          <MenuItem onClick={handleClose}>
+            <Typography color="textPrimary">
+              Про проект
+            </Typography>
+          </MenuItem>
+        </Link>
       </Menu>
     </div>
   );
