@@ -289,6 +289,7 @@ class Profile extends Component {
       requests = this.props.schools.data
         ? this.props.schools.data[0].firstGrade.requests.map(request => {
             request.schoolName = this.props.schools.data[0].name;
+            request.schoolId = this.props.schools.data[0]._id;
             return request;
           })
         : [];
@@ -315,11 +316,10 @@ class Profile extends Component {
             editable={{
               onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
-                  this.props.updateRequest({ ...newData });
                   setTimeout(() => {
+                    this.props.updateRequest({ ...newData });
                     resolve();
-                    this.forceUpdate();
-                  }, 800);
+                  }, 600);
                 })
             }}
           />
@@ -336,13 +336,10 @@ class Profile extends Component {
             editable={{
               onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
-                  // console.log('onRowUpdate');
-                  // console.log(newData, 'newData');
-                  this.props.setUserRole(newData.uid, newData.role);
                   setTimeout(() => {
+                    this.props.setUserRole(newData.uid, newData.role);
                     resolve();
-                    this.forceUpdate();
-                  }, 800);
+                  }, 600);
                 })
             }}
           />
@@ -367,8 +364,12 @@ class Profile extends Component {
             ? this.props.users.user.photoURL
             : 'https://i1.sndcdn.com/artworks-000241752752-qz4n69-t500x500.jpg';
           email = this.props.users.user.email;
-          lastLoginAt = this.props.users.user.metadata.lastSignInTime;
-          creationTime = this.props.users.user.metadata.creationTime;
+          lastLoginAt = new Date(
+            parseInt(this.props.users.user.metadata.b)
+          ).toLocaleString();
+          creationTime = new Date(
+            parseInt(this.props.users.user.metadata.a)
+          ).toLocaleString();
         } else {
           redir = <Redirect push to={'/error/401'} />;
         }
@@ -411,7 +412,9 @@ class Profile extends Component {
         <RequestsAlert
           closeMessage={this.handleCloseMessage.bind(this)}
           open={this.state.openMessage}
-          message={'У Вас є ' + requestsApplied + ' подана заявки'}
+          message={
+            'У Вас є ' + requestsApplied + ' заявка(и) у статусі подано.'
+          }
         />
       </>
     );
