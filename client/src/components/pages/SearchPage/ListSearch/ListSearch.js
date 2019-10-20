@@ -275,35 +275,6 @@ function ListSearch(props) {
       }
     });
 
-  
-
-    // const distanceArr = [];
-    // schools.forEach(school => distanceArr.push(getDistance(props.userCoordinates, school.coordinates)));
-    // debugger
-    // Promise.all(distanceArr).then(distanceArr => {
-    //   console.log(distanceArr);
-    //   schools.forEach((school, index) => { 
-    //    if(props.userCoordinates.hasOwnProperty('lat')) {
-    //         rows.push(createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), distanceArr[index].rows[0].elements[0].distance.text || '0'))
-    //     } else {
-    //       rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-'));
-    //     }
-    //   });
-      
-    //   forceUpdate();
-    // });
-    
-    // schools.forEach(  (school) => {
-    //   if(props.userCoordinates.hasOwnProperty('lat')){
-
-    //     getDistance(props.userCoordinates, school.coordinates).then( data => {
-          
-    //       rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), data.distance ));
-    //     });
-    //  } else {
-    //   rows.push( createData(school.id, school.name, school.avgZno, school.firstGrade.free, getAvgFeedbackRate(school), '-'));
-    //  }
-    // });
   }
 
   const isSelected = name => selected.indexOf(name) !== -1;
@@ -348,7 +319,7 @@ function ListSearch(props) {
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.zno}</TableCell>
-                      <TableCell align="right">{row.vacant}</TableCell>
+                      <TableCell align="right">{row.vacant || '-'}</TableCell>
                       <TableCell align="right">{row.rate}</TableCell>
                       <TableCell align="right">{row.distance}</TableCell>
                     </TableRow>

@@ -1,5 +1,9 @@
 div.list-wrapper {
     margin: 0;
+
+    tr:hover {
+        cursor: pointer;
+    }
     
     .MuiTableCell-root {
         text-align: center;
