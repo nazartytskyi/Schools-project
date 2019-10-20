@@ -256,7 +256,7 @@ export class Vacancies extends Component {
 }
 
 Vacancies.propTypes = {
-  schools: propTypes.object.isRequired
+  schools: propTypes.array.isRequired
 };
 
 export default connect(mapStateToProps)(Vacancies);
