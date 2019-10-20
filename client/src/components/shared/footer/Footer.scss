@@ -1,4 +1,5 @@
 @import '../../Variables.scss';
+
 html,body,#root{
   height: 100%;
   margin:0;
@@ -23,10 +24,16 @@ html,body,#root{
   color: $secondaryColor;
 }
 
-.logo {
-  color: $secondaryColor;
-  text-align: center;
-  .MuiTypography-body2 {
-    font-style: italic;
+.logo img{
+  height: 40px;
+  width: 160px;
+  margin: 10px 0;
+}
+
+@media (max-width: 1200px) {
+
+  .logo img {
+    height: 30px;
+    width: 120px;
   }
 }

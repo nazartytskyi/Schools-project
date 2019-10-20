@@ -4,9 +4,13 @@
   display: none;
 }
 
+.drawer-search .MuiDrawer-paperAnchorLeft{
+  z-index: 1210;
+}
+
 .filter-drawer {
-  margin-top: 70px;
   width: 250px;
+  z-index: 1210;
 }
 
 @media (max-width: 768px) {

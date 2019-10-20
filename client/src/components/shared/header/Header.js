@@ -6,6 +6,7 @@ import Login from './Login/Login';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import SimpleMenu from './ToggleMenu/ToggleMenu';
+import logo from '../../../img/logo.png';
 
 export class Header extends Component {
   render() {
@@ -15,8 +16,8 @@ export class Header extends Component {
           <Container maxWidth="lg" className="header-container">
             <div className="header-logo">
               <div>
-                <Link to='/'><SchoolIcon className="material-icons" fontSize="large">school</SchoolIcon></Link>
-                <Typography>S_сool_S</Typography>
+                <Link to='/'><img src={logo} alt="logo"/></Link>
+               
               </div>
               <SimpleMenu/>
             </div>
