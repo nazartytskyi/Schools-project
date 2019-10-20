@@ -32,3 +32,15 @@
 .firebaseui-tos {
   display: none;
 }
+
+@media (max-width: 1200px) {
+  .userGreeting {
+    width: 220px;
+  }
+
+  .login .login-btn {
+    font-size: 10px;
+  } 
+}
+
+

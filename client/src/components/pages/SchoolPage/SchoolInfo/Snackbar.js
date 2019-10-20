@@ -95,13 +95,30 @@ export default function CustomizedSnackbars(props) {
           horizontal: 'right'
         }}
         open={props.isSuccess}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleClose}
       >
         <MySnackbarContentWrapper
           onClose={handleClose}
           variant="error"
           message="Спочатку залогіньтесь!"
+        />
+      </Snackbar>
+
+      <Snackbar 
+        className='snack'
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        open={props.successAdd}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <MySnackbarContentWrapper
+          onClose={handleClose}
+          variant="success"
+          message="Успішно додано"
         />
       </Snackbar>
     </div>

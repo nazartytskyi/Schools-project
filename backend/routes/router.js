@@ -4,7 +4,7 @@ const {
   checkIfAdmin,
   setUserRole,
   getSchools,
-  updateSchool,
+  // updateSchool,
   getUser,
   createUser,
   addFavoriteSchool,
@@ -13,7 +13,12 @@ const {
   addRequest,
   updateRequest,
   getAllUsers,
-  removeNews
+  removeNews,
+  addVacancy,
+  removeVacancy,
+  addFeedback,
+  removeFeedback,
+  addSchool
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
@@ -24,7 +29,8 @@ const router = express.Router();
 //   res.send('success');
 // });
 
-router.post('/setrole/:uid', checkIfAdmin, setUserRole);
+router.put('/user/:uid/role', checkIfAdmin, setUserRole);
+router.get('/user/', checkIfAuthenticated, getUser, createUser, setUserRole);
 
 // this is our get method
 // this method fetches all available data in our database
@@ -32,13 +38,16 @@ router.get('/getData', getSchools);
 
 // this is our update method
 // this method overwrites existing data in our database
-router.post('/update/schools/:id', updateSchool);
+// router.post('/update/schools/:id', updateSchool);
 
-router.get('/user', checkIfAuthenticated, getUser, createUser);
 router.get('/allUsers', checkIfAdmin, getAllUsers);
 
 router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
-router.delete('/favoriteSchool/:schoolId', checkIfAuthenticated, deleteFavoriteSchool);
+router.delete(
+  '/favoriteSchool/:schoolId',
+  checkIfAuthenticated,
+  deleteFavoriteSchool
+);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
 router.delete(
@@ -49,5 +58,21 @@ router.delete(
 
 router.post('/schools/:schoolId/request', checkIfAuthenticated, addRequest);
 router.put('/schools/:schoolId/request', checkIfAuthenticated, updateRequest);
+
+router.post('/schools/:schoolId/vacancy', checkIfAuthenticated, addVacancy);
+router.delete(
+  '/schools/:schoolId/vacancy/:idVacancy',
+  checkIfAuthenticated,
+  removeVacancy
+);
+
+router.post('/schools/:schoolId/feedback', checkIfAuthenticated, addFeedback);
+router.delete(
+  '/schools/:schoolId/feedback/:idFeedback',
+  checkIfAuthenticated,
+  removeFeedback
+);
+
+router.post('/schools/', checkIfAuthenticated, addSchool);
 
 module.exports = router;

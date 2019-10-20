@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const admin = require('../firebase-admin/firebase-admin');
 const Schools = require('../data/schools');
 const Users = require('../data/users');
+const SchoolsCounter = require('../data/schoolsCounter');
 
 module.exports.checkIfAuthenticated = (req, res, next) => {
   if (typeof req.headers.authorization === 'string') {
@@ -49,19 +50,23 @@ module.exports.checkIfAdmin = (req, res, next) => {
 };
 
 module.exports.setUserRole = (req, res) => {
-  const { update } = req.body;
+  const { role } = req.body;
+  console.log(role, ' setUserRolerole');
+  console.log(req.params.uid, 'setUserRole req.params.uid');
   admin
     .auth()
-    .setCustomUserClaims(req.params.uid, update)
+    .setCustomUserClaims(req.params.uid, { role })
     .then(() => {
       console.log('setCustomUserClaims success');
     })
-    .catch(() => {
+    .catch(err => {
       console.log('setCustomUserClaims fail');
+      console.log(err, 'err');
     });
   Users.findOne({ _id: req.params.uid }, (err, user) => {
     if (user) {
-      user.role = update.role;
+      console.log(role, 'role');
+      user.role = role;
       user.save();
       return res.send({ message: 'Success' });
     } else {
@@ -79,16 +84,16 @@ module.exports.getSchools = (req, res) => {
   });
 };
 
-module.exports.updateSchool = (req, res) => {
-  const id = req.params.id;
-  const { update } = req.body;
-  Schools.findByIdAndUpdate(id, update, err => {
-    if (err) {
-      return res.json({ success: false, error: err });
-    }
-    return res.json({ success: true });
-  });
-};
+// module.exports.updateSchool = (req, res) => {
+//   const id = req.params.id;
+//   const { update } = req.body;
+//   Schools.findByIdAndUpdate(id, update, err => {
+//     if (err) {
+//       return res.json({ success: false, error: err });
+//     }
+//     return res.json({ success: true });
+//   });
+// };
 
 module.exports.getUser = (req, res, next) => {
   Users.findOne({ _id: req.authId }, function(err, user) {
@@ -103,6 +108,17 @@ module.exports.getUser = (req, res, next) => {
 module.exports.createUser = (req, res) => {
   let user = new Users({ _id: req.authId, choosedSchools: [], role: 'parent' });
   user.save();
+  let role = 'parent';
+  admin
+    .auth()
+    .setCustomUserClaims(req.authId, { role })
+    .then(() => {
+      console.log('setCustomUserClaims success');
+    })
+    .catch(err => {
+      console.log('setCustomUserClaims fail');
+      console.log(err, 'err');
+    });
   res.status(201).send(user);
 };
 
@@ -124,7 +140,7 @@ module.exports.addFavoriteSchool = (req, res) => {
 };
 
 module.exports.deleteFavoriteSchool = (req, res) => {
-  const schoolId  = req.params.schoolId;
+  const schoolId = req.params.schoolId;
   Users.findOne({ _id: req.authId }, function(err, user) {
     if (user) {
       let schoolIndex = user.choosedSchools.indexOf(schoolId);
@@ -168,7 +184,7 @@ module.exports.updateRequest = (req, res) => {
       school.save();
       res.status(200).send('Request updated');
     } else {
-      res.status(500).send('school not found in collection');
+      res.status(500).send({ error: 'school not found in collection' });
     }
   });
 };
@@ -186,7 +202,12 @@ module.exports.getAllUsers = (req, res) => {
           });
           if (userMongoIndex !== -1) {
             userList.push({ ...userFirebase });
-            userList[userList.length - 1].role = dataMongo[userMongoIndex].role;
+            if (dataMongo[userMongoIndex].role) {
+              userList[userList.length - 1].role =
+                dataMongo[userMongoIndex].role;
+            } else {
+              userList[userList.length - 1].role = 'parent';
+            }
           }
         });
         res.status(200).send(userList);
@@ -223,6 +244,83 @@ module.exports.addRequest = (req, res) => {
       res.status(201).send(request);
     } else {
       res.status(500).send('school not found in collection');
+    }
+  });
+};
+
+module.exports.addVacancy = (req, res) => {
+  const { vacancy } = req.body;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      vacancy._id = new mongoose.Types.ObjectId();
+      school.vacancies.unshift(vacancy);
+      school.save();
+      res.status(201).send(vacancy);
+    } else {
+      res.status(500).send('school not found in collection');
+    }
+  });
+};
+
+module.exports.removeVacancy = (req, res) => {
+  const idVacancy = req.params.idVacancy;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      let indexVacancyToDelete = school.vacancies.findIndex(vacancy => {
+        return vacancy._id.toString() === idVacancy;
+      });
+      school.vacancies.splice(indexVacancyToDelete, 1);
+      school.save();
+      res.status(200).send('Vacancy removed');
+    } else {
+      res.status(500).send('School not found in collection users');
+    }
+  });
+};
+
+module.exports.addFeedback = (req, res) => {
+  const { feedback } = req.body;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      feedback._id = new mongoose.Types.ObjectId();
+      school.feedbacks.push(feedback);
+      school.save();
+      res.status(201).send(feedback);
+    } else {
+      res.status(500).send('School not found');
+    }
+  });
+};
+
+module.exports.removeFeedback = (req, res) => {
+  const idFeedback = req.params.idFeedback;
+  Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
+    if (school) {
+      let indexFeedbackToDelete = school.feedbacks.findIndex(feedback => {
+        return feedback._id.toString() === idFeedback;
+      });
+      school.feedbacks.splice(indexFeedbackToDelete, 1);
+      school.save();
+      res.status(200).send('Feedback removed');
+    } else {
+      res.status(500).send('School not found');
+    }
+  });
+};
+
+module.exports.addSchool = (req, res) => {
+  const { school } = req.body;
+  let schoolDocument = new Schools(school);
+  schoolDocument._id = new mongoose.Types.ObjectId();
+  SchoolsCounter.findOne({}, function(err, resCount) {
+    if (resCount) {
+      schoolDocument.id = resCount.schoolsCounter;
+      resCount.schoolsCounter++;
+      resCount.save();
+      schoolDocument.save();
+      res.status(201).send(schoolDocument);
+    } else {
+      res.status(500).send('School counter not found');
     }
   });
 };

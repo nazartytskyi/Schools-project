@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 
 import Login from '../Login/Login';
@@ -48,11 +48,12 @@ export class VacancyList extends Component {
               <Link className="news-link" to={`/school/${vacancy.schoolId}`}>
               <Typography variant="body1" color="textPrimary">{vacancy.school}</Typography>
               </Link>
-              <Typography variant="body2" color="textSecondary">вул: 
-                                                                  {' '}{vacancy.adress.street} 
-                                                                  {' '}{vacancy.adress.building}, 
-                                                                  {' '}{vacancy.adress.district} район, м.
-                                                                  {' '}{vacancy.adress.city}
+              <Typography variant="body2" color="textSecondary">
+                вул: 
+                {' '}{vacancy.adress.street} 
+                {' '}{vacancy.adress.building}, 
+                {' '}{vacancy.adress.district} район, м.
+                {' '}{vacancy.adress.city}
               </Typography>
               <Typography variant="body1" color="textPrimary">тел: {vacancy.phoneNumber}</Typography>
               <div className="respond">

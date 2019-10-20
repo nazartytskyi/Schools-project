@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import propTypes from 'prop-types';
 import { setUser } from '../../../../actions/setUser';
-import { setUserRole } from '../../../../actions/setUserRole';
+import { getUserRole } from '../../../../actions/getUserRole';
 import './Login.scss';
 const firebaseui = require('firebaseui');
 
@@ -19,28 +19,23 @@ const mapDispatchToProps = dispatch => ({
   setUser: user => {
     return dispatch(setUser(user));
   },
-  setUserRole: userRole => {
-    return dispatch(setUserRole(userRole));
+  getUserRole: userRole => {
+    return dispatch(getUserRole(userRole));
   }
 });
 const uiConfig = {
   callbacks: {
-    // Avoid redirects after sign-in.
     signInSuccessWithAuthResult: () => false
   },
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
-  // credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   signInFlow: 'popup',
   immediateFederatedRedirect: false,
-  // tosUrl and privacyPolicyUrl accept either url string or a callback
-  // function.
-  // Terms of service url/callback.
   tosUrl: '/termsofservice',
-  // Privacy policy url/callback.
+  
   privacyPolicyUrl: function() {
     window.location.assign('/privacypolicy');
   }
@@ -65,12 +60,12 @@ export class Login extends Component {
     this.setState({ anchorEl: null });
   };
 
-  createEmail = (email) => {
-    if(email) {
+  createEmail = email => {
+    if (email) {
       return `mailto:${email}`;
     }
-  }
-  
+  };
+
   setUser = user => {
     this.props.setUser(user);
     if (auth().currentUser) {
@@ -78,13 +73,13 @@ export class Login extends Component {
         .currentUser.getIdTokenResult()
         .then(idTokenResult => {
           if (idTokenResult.claims.parent) {
-            this.props.setUserRole('parent');
+            this.props.getUserRole('parent');
           }
           if (idTokenResult.claims.superadmin) {
-            this.props.setUserRole('superadmin');
+            this.props.getUserRole('superadmin');
           }
           if (idTokenResult.claims.administration) {
-            this.props.setUserRole('administration');
+            this.props.getUserRole('administration');
           }
         })
         .catch(() => {
@@ -104,13 +99,13 @@ export class Login extends Component {
     if (username) {
       login = (
         <Button
-            variant="contained"
-            className="respond-btn"
-            aria-describedby={id}
-            href={this.createEmail(this.props.email)}
-          >
-            Відправити резюме
-          </Button>
+          variant="contained"
+          className="respond-btn"
+          aria-describedby={id}
+          href={this.createEmail(this.props.email)}
+        >
+          Відправити резюме
+        </Button>
       );
     } else {
       login = (
@@ -137,7 +132,7 @@ export class Login extends Component {
               horizontal: 'right'
             }}
           >
-            <div className='login-container'>
+            <div className="login-container">
               <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth()} />
             </div>
           </Popover>
@@ -150,7 +145,7 @@ export class Login extends Component {
 
 Login.propTypes = {
   setUser: propTypes.func,
-  setUserRole: propTypes.func,
+  getUserRole: propTypes.func,
   users: propTypes.object,
   email: propTypes.string
 };

@@ -4,12 +4,59 @@ const SchoolsSchema = mongoose.Schema;
 // this will be our data base's data structure
 const schoolsSchema = new SchoolsSchema(
   {
+    _id: mongoose.ObjectId,
     id: Number,
     name: String,
     description: String,
+    photo: String,
     phoneNumber: String,
     adress: Object,
     language: String,
+    email: String,
+    foreignLanguages: [String],
+    director: {
+      name: String,
+      photo: String,
+      age: String
+    },
+    teachers: [
+      {
+        _id: mongoose.ObjectId,
+        name: String,
+        subject: String,
+        photo: String,
+        age: String
+      }
+    ],
+    students: [
+      {
+        _id: mongoose.ObjectId,
+        name: String,
+        subject: String,
+        photo: String,
+        age: String
+      }
+    ],
+    feedbacks: [
+      {
+        _id: mongoose.ObjectId,
+        rate: Number,
+        author: String,
+        text: String
+      }
+    ],
+    adress: {
+      _id: false,
+      city: String,
+      district: String,
+      street: String,
+      building: String
+    },
+    coordinates: {
+      _id: false,
+      lat: Number,
+      lng: Number
+    },
     news: [
       {
         _id: mongoose.ObjectId,
@@ -19,13 +66,25 @@ const schoolsSchema = new SchoolsSchema(
         date: String
       }
     ],
+    vacancies: [
+      {
+        _id: mongoose.ObjectId,
+        title: String,
+        description: String,
+        salary: String,
+        employment: String,
+        date: String
+      }
+    ],
     firstGrade: {
       _id: false,
       total: Number,
       enrolled: Number,
       requests: [
         {
+          _id: mongoose.ObjectId,
           dateApply: String,
+          comment: String,
           status: String,
           firstPriority: Boolean,
           studentName: String,

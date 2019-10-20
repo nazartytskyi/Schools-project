@@ -15,15 +15,12 @@ const mapDispatchToProps = dispatch => ({
     return dispatch(removeNews(idSchool, idNews));
   },
   getSchools: () => dispatch(getSchools())
-
 });
 
 export class RemoveNews extends Component {
 
-
   removeNews = () => {
-    
-    this.props.removeNews(this.props.schoolId, this.props.newsId);
+   this.props.removeNews(this.props.currentSchool._id,this.props.item._id);
   }
 
   render() {
@@ -33,15 +30,13 @@ export class RemoveNews extends Component {
           <Button variant="contained" onClick={this.removeNews}>
              Видалити
           </Button>
-          <div>{this.props.newsId}</div>
         </div>
       )
     }else {
       return (
         <div className="remove-news"></div>
       )
-    }
-    
+    } 
   }
 }
 

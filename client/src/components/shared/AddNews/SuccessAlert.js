@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { makeStyles } from '@material-ui/core/styles';
+import './SuccessAlert.scss';
 
 const variantIcon = {
   success: CheckCircleIcon
@@ -73,9 +74,10 @@ export default function CustomizedSnackbars(props) {
   return (
     <div>
       <Snackbar
+      className="add-snackbar"
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left'
+          horizontal: 'rigth'
         }}
         open={props.isSuccess}
         autoHideDuration={5000}
@@ -84,7 +86,7 @@ export default function CustomizedSnackbars(props) {
         <MySnackbarContentWrapper
           onClose={handleClose}
           variant="success"
-          message="Новина додана!"
+          message={props.alertMessage}
         />
       </Snackbar>
     </div>

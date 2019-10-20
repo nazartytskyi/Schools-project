@@ -9,14 +9,16 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import './SchoolNews.scss'
+import './SchoolNews.scss';
+import RemoveNews from '../../../shared/RemoveNews/RemoveNews'
 
-const SchoolNews = ({item, SchoolNewsId,state,handleExpandClick}) => (
+const SchoolNews = ({item, SchoolNewsId,state,handleExpandClick,currentSchool}) => (
   <Card className='school-news-card'>
     <CardHeader
       title={item.title}
       subheader={item.date}
     />
+    <RemoveNews currentSchool={currentSchool} item={item}/>
     <CardMedia
       className='media'
       image={item.img}

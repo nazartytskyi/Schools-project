@@ -10,137 +10,177 @@ import SchoolTeachers from './SchoolTeachers/SchoolTeachers';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CustomizedSnackbars from './SchoolInfo/Snackbar';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
+import './SchoolPage.scss';
 
 const mapStateToProps = state => ({
   ...state
 });
 
 const mapDispatchToProps = dispatch => ({
-  addFavoriteSchool: (schoolId) => dispatch(addFavoriteSchool(schoolId)),
-  deleteFavoriteSchool: (schoolId) => dispatch(deleteFavoriteSchool(schoolId))
+  addFavoriteSchool: schoolId => dispatch(addFavoriteSchool(schoolId)),
+  deleteFavoriteSchool: schoolId => dispatch(deleteFavoriteSchool(schoolId))
 });
 
 class SchoolPage extends Component {
+  static getDerivedStateFromProps(props, state) {
+    if (props.schools !== state.schools) {
+      return {
+        schools: props.schools.data
+      };
+    }
+    return null;
+  }
+  
   constructor(props) {
-    super(props)
-    this.state = {expanded: new Set(), isFavorite: false, isSuccess: false};
+    super(props);
+    this.state = {
+      expanded: new Set(),
+      isFavorite: false,
+      isSuccess: false,
+      successAdd: false,
+      schools: this.props.schools.data
+    };
   }
 
-  handleExpandClick = (SchoolNewsId) => {
-    const { expanded } = this.state; 
-    !expanded.has(SchoolNewsId) ? expanded.add(SchoolNewsId) : expanded.delete(SchoolNewsId);
-    this.setState({expanded: expanded});
-  }
+  handleExpandClick = SchoolNewsId => {
+    const { expanded } = this.state;
+    !expanded.has(SchoolNewsId)
+      ? expanded.add(SchoolNewsId)
+      : expanded.delete(SchoolNewsId);
+    this.setState({ expanded: expanded });
+  };
   closeMessage = () => {
-    this.setState({...this.state, isSuccess: false});
-  }
-  addSchool = (currentSchool) => {
+    this.setState({ ...this.state, isSuccess: false, successAdd: false });
+  };
+  addSchool = currentSchool => {
     this.props.addFavoriteSchool(currentSchool._id);
-    this.setState({...this.state, isFavorite: true});
+    this.setState({ ...this.state, isFavorite: true, successAdd: true });
   };
-  deleteFavorite = (currentSchool) => {
+  deleteFavorite = currentSchool => {
     this.props.deleteFavoriteSchool(currentSchool._id);
-    this.setState({...this.state, isFavorite: false});
+    this.setState({ ...this.state, isFavorite: false, successAdd: false });
   };
-  checkFavorite = (currentSchool) => {
-    if(this.props.users.user !== null) {
-      this.setState({...this.state, isSuccess:false})
-      if(!this.state.isFavorite) {
-        this.addSchool(currentSchool)
+  checkFavorite = currentSchool => {
+    if (this.props.users.user !== null) {
+      this.setState({ ...this.state, isSuccess: false });
+      if (!this.state.isFavorite) {
+        this.addSchool(currentSchool);
       } else {
-        this.deleteFavorite(currentSchool)
+        this.deleteFavorite(currentSchool);
       }
     } else {
-      this.setState({...this.state, isSuccess:true})
+      this.setState({ ...this.state, isSuccess: true, isFavorite: false });
     }
-  }
+  };
   changeHeart = () => {
-    if(this.state.isFavorite) {
-      return <FavoriteIcon/>
-    } else if(!this.state.isFavorite) {
-      return <FavoriteBorderIcon/>
+    if (this.state.isFavorite) {
+      return <FavoriteIcon />;
+    } else if (!this.state.isFavorite) {
+      return <FavoriteBorderIcon />;
     }
-  }
+  };
+
   render() {
-    const schools = this.props.schools.data || [];
-    const {schoolId} = this.props.match.params;
+    const schools = this.state.schools || [];
+    const { schoolId } = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
-    return (
-      currentSchool !== undefined ?
+    return currentSchool !== undefined ? (
       <div>
         <SchoolInfo
-          checkFavorite={this.checkFavorite}  
+          checkFavorite={this.checkFavorite}
           changeHeart={this.changeHeart}
           currentSchool={currentSchool}
+          state={this.state}
         />
-        <Container className='school-news' maxWidth="lg">
+        <Container className="school-news" maxWidth="lg">
           {currentSchool.news.map((item, indexNews) => {
             let SchoolNewsId = `${currentSchool}${indexNews}`;
-            return <div key={item.description} >
-              <SchoolNews
-                item = {item}
-                state={this.state} 
-                SchoolNewsId={SchoolNewsId}
-                handleExpandClick={this.handleExpandClick}
-              />
-            </div>
+            return (
+              <div key={item.description}>
+                <SchoolNews
+                  item={item}
+                  state={this.state}
+                  SchoolNewsId={SchoolNewsId}
+                  handleExpandClick={this.handleExpandClick}
+                  currentSchool={currentSchool}
+                />
+              </div>
+            );
           })}
         </Container>
-        <ExpansionPanel className='vacancy-card-aside'>
-          <ExpansionPanelSummary
+        <div className="teachers-and-vacancies">
+          <ExpansionPanel className="vacancy-card-aside">
+            <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
               <h2>Вакансії</h2>
-          </ExpansionPanelSummary>
-          {currentSchool.vacancies.map((vacancy, index) => {
-            let SchoolNewsId = index;
-            return <div key={vacancy.description } >
-              <SchoolVacancies
-                SchoolNewsId={SchoolNewsId}
-                adress={vacancy.adress}
-                state={this.state}
-                vacancy={vacancy}
-                handleExpandClick={this.handleExpandClick}
-              />
-            </div>
-          })}
-        </ExpansionPanel>
-        <ExpansionPanel className='teachers-card-section'>
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <h2>Вчителі</h2>
-          </ExpansionPanelSummary>
-          {currentSchool.teachers ? currentSchool.teachers.map((teacher,indexTeacher) => {
-            let SchoolNewsId = indexTeacher;
-            return <div key={teacher.name} >
-              <SchoolTeachers
-                teacher={teacher}
-                SchoolNewsId={SchoolNewsId}
-              />
-            </div>
-          }) : <CircularProgress className='school-loader' />}
-        </ExpansionPanel>
-        <CustomizedSnackbars 
-          isSuccess={this.state.isSuccess} 
+            </ExpansionPanelSummary>
+            {currentSchool.vacancies.map((vacancy, index) => {
+              let Index = index;
+              return (
+                <div key={vacancy.description}>
+                  <SchoolVacancies
+                    Index={Index}
+                    adress={vacancy.adress}
+                    state={this.state}
+                    vacancy={vacancy}
+                    handleExpandClick={this.handleExpandClick}
+                    currentSchool={currentSchool}
+                    vacancyId={vacancy._id}
+                  />
+                </div>
+              );
+            })}
+          </ExpansionPanel>
+          <ExpansionPanel className="teachers-card-section">
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <h2>Вчителі</h2>
+            </ExpansionPanelSummary>
+            {currentSchool.teachers ? (
+              currentSchool.teachers.map((teacher, indexTeacher) => {
+                let IndexTeacher = indexTeacher;
+                return (
+                  <div key={teacher.name}>
+                    <SchoolTeachers
+                      teacher={teacher}
+                      IndexTeacher={IndexTeacher}
+                      currentSchool={currentSchool}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <CircularProgress className="school-loader" />
+            )}
+          </ExpansionPanel>
+        </div>
+        <CustomizedSnackbars
+          isSuccess={this.state.isSuccess}
+          isFavorite={this.state.isFavorite}
+          successAdd={this.state.successAdd}
           closeMessage={this.closeMessage.bind(this)}
-        /> 
+        />
       </div>
-      : <CircularProgress className='school-loader' />
-    )
+    ) : (
+      <CircularProgress className="school-loader" />
+    );
   }
 }
 SchoolPage.propTypes = {
   schools: PropTypes.object,
   addSchool: PropTypes.func
-}
-export default connect(mapStateToProps, mapDispatchToProps)(SchoolPage);
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SchoolPage);
