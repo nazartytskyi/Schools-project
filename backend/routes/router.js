@@ -4,7 +4,7 @@ const {
   checkIfAdmin,
   setUserRole,
   getSchools,
-  updateSchool,
+  // updateSchool,
   getUser,
   createUser,
   addFavoriteSchool,
@@ -15,7 +15,10 @@ const {
   getAllUsers,
   removeNews,
   addVacancy,
-  removeVacancy
+  removeVacancy,
+  addFeedback,
+  removeFeedback,
+  addSchool
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
@@ -35,12 +38,16 @@ router.get('/getData', getSchools);
 
 // this is our update method
 // this method overwrites existing data in our database
-router.post('/update/schools/:id', updateSchool);
+// router.post('/update/schools/:id', updateSchool);
 
 router.get('/allUsers', checkIfAdmin, getAllUsers);
 
 router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
-router.delete('/favoriteSchool/:schoolId', checkIfAuthenticated, deleteFavoriteSchool);
+router.delete(
+  '/favoriteSchool/:schoolId',
+  checkIfAuthenticated,
+  deleteFavoriteSchool
+);
 
 router.post('/schools/:schoolId/addNews', checkIfAuthenticated, addNews);
 router.delete(
@@ -58,5 +65,14 @@ router.delete(
   checkIfAuthenticated,
   removeVacancy
 );
+
+router.post('/schools/:schoolId/feedback', checkIfAuthenticated, addFeedback);
+router.delete(
+  '/schools/:schoolId/feedback/:idFeedback',
+  checkIfAuthenticated,
+  removeFeedback
+);
+
+router.post('/schools/', checkIfAuthenticated, addSchool);
 
 module.exports = router;
