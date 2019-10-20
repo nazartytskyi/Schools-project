@@ -27,11 +27,15 @@ const SchoolVacancies = ({Index,vacancy,index,state,handleExpandClick,currentSch
     </div>
   </div>
   <CardContent className="card-content">
-    <Typography variant="body1" color="textPrimary">{vacancy.school}</Typography>
+    <Typography variant="body1" color="textPrimary">{currentSchool.name}</Typography>
     <Typography variant="body2" color="textSecondary">
-      {' '}{vacancy.adress} 
+      вул: 
+      {' '}{currentSchool.adress.street} 
+      {' '}{currentSchool.adress.building}, 
+      {' '}{currentSchool.adress.district} район, м.
+      {' '}{currentSchool.adress.city}.
     </Typography>
-    <Typography variant="body1" color="textPrimary">тел: {vacancy.phoneNumber}</Typography>
+    <Typography variant="body1" color="textPrimary">тел: {currentSchool.phoneNumber}</Typography>
     <div className="respond">
     <Login/>
     

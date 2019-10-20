@@ -25,22 +25,17 @@ const mapDispatchToProps = dispatch => ({
 });
 const uiConfig = {
   callbacks: {
-    // Avoid redirects after sign-in.
     signInSuccessWithAuthResult: () => false
   },
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
-  // credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   signInFlow: 'popup',
   immediateFederatedRedirect: false,
-  // tosUrl and privacyPolicyUrl accept either url string or a callback
-  // function.
-  // Terms of service url/callback.
   tosUrl: '/termsofservice',
-  // Privacy policy url/callback.
+  
   privacyPolicyUrl: function() {
     window.location.assign('/privacypolicy');
   }

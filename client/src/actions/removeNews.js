@@ -6,9 +6,6 @@ export const removeNews = (idSchool, idNews) => dispatch => {
     auth()
       .currentUser.getIdToken()
       .then(idToken => {
-        console.log(idToken, 'idToken');
-        console.log(idNews, 'idNews');
-        console.log(idSchool, 'idSchool');
         axios
           .delete(`/api/schools/${idSchool}/news/${idNews}`, {
             headers: { authorization: idToken }

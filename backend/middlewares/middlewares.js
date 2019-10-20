@@ -139,7 +139,7 @@ module.exports.addFavoriteSchool = (req, res) => {
 };
 
 module.exports.deleteFavoriteSchool = (req, res) => {
-  const schoolId  = req.params.schoolId;
+  const schoolId = req.params.schoolId;
   Users.findOne({ _id: req.authId }, function(err, user) {
     if (user) {
       let schoolIndex = user.choosedSchools.indexOf(schoolId);
@@ -252,7 +252,7 @@ module.exports.addVacancy = (req, res) => {
   Schools.findOne({ _id: req.params.schoolId }, function(err, school) {
     if (school) {
       vacancy._id = new mongoose.Types.ObjectId();
-      school.vacancies.push(vacancy);
+      school.vacancies.unshift(vacancy);
       school.save();
       res.status(201).send(vacancy);
     } else {

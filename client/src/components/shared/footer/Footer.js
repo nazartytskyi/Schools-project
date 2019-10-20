@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import './Footer.scss';
-import SchoolIcon from '@material-ui/icons/School';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import logo from '../../../img/logo.png';
@@ -18,10 +17,7 @@ class Footer extends Component {
               
               </div>
               <div className="footer-copy">
-                &copy; Epam Front-end lab, 2019
-              </div>
-              <div className="footer-nav">
-                <Link to="/">GoBack</Link>
+                <Typography>&copy; Epam Front-end lab, 2019</Typography>
               </div>
             </div>
           </Container>
