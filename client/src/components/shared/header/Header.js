@@ -7,6 +7,8 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import SimpleMenu from './ToggleMenu/ToggleMenu';
 import logo from '../../../img/logo.png';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 export class Header extends Component {
   render() {
@@ -17,7 +19,6 @@ export class Header extends Component {
             <div className="header-logo">
               <div>
                 <Link to='/'><img src={logo} alt="logo"/></Link>
-               
               </div>
               <SimpleMenu/>
             </div>

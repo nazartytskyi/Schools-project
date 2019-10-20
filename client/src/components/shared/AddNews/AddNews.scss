@@ -8,6 +8,10 @@
   height: 50px;
 }
 
+.news-dialog div.MuiDialog-paperWidthSm{
+  max-width: 600px;
+}
+
 .MuiTypography-h5 {
   text-align: center;
 }
@@ -16,8 +20,13 @@
   width: 50%;
 }
 
+.MuiDialog-paperWidthSm .dialog-form {
+  height: auto;
+}
+ 
 .dialog-form {
   padding: 20px;
+  
   .dialog-field {
     margin: 20px 0;
   }

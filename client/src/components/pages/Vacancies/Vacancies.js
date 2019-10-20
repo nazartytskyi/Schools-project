@@ -138,23 +138,6 @@ export class Vacancies extends Component {
     return fullVacancyArray;
   }
 
-  // componentDidMount() {
-  //   fetch('http://localhost:3001/api/getData')
-  //     .then(data => {
-  //       return data.json()
-  //     })
-  //     .then(schools => {
-  //      const fullVacancies = this.createFullVacancyArray(schools.data);
-      
-  //      this.vacancies = fullVacancies;
-  //       this.setState({
-  //         ...this.state, 
-  //         schools: schools.data, 
-  //         filteredVacancies: this.filterVacancies(this.filters)
-  //       });
-  //     });
-  // }
-
   updateInput = (e) => {
     this.setFilter({title: e.target.value.trim()});
   }

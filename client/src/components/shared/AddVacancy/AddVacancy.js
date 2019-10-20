@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import {addNewsAction} from '../../../actions/addNewsAction';
 import CustomizedSnackbars from '../AddNews/SuccessAlert';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -55,8 +54,6 @@ const mapDispatchToProps = dispatch => ({
   getCurrentDate = () => {
     if(this.state.date !== null) {
       let year = this.state.date.getFullYear()
-      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
-                      'August', 'September', 'October', 'November', 'December'];
       let month = this.state.date.getMonth() + 1;
      if(month > 10) {
        month = '0'+ month;
@@ -66,8 +63,6 @@ const mapDispatchToProps = dispatch => ({
     }
   }
 
- 
-
   updatePostInput = (e) => {
     this.setState({...this.state, title: e.target.value, date: new Date()});
   }
@@ -76,8 +71,7 @@ const mapDispatchToProps = dispatch => ({
     if(e.target.value.match(/[^0-9.]/g)) {
       e.target.value = '';
     }
-    this.setState({...this.state, salary: e.target.value});
-    
+    this.setState({...this.state, salary: e.target.value}); 
   }
 
   updateTextarea = (e) => {
@@ -87,7 +81,6 @@ const mapDispatchToProps = dispatch => ({
   changeEmployment = (e) => {
     this.setState({...this.state, employment: e.target.value});
   }
-
 
   displayMessage = () => {
     if(this.state.isFormFilled) {
@@ -111,9 +104,6 @@ const mapDispatchToProps = dispatch => ({
           employment: this.state.employment,
           date: this.getCurrentDate()
         }
-        
-        console.log(this.props.currentSchool._id);
-        console.log(obj);
 
         this.props.addVacancy(obj, this.props.currentSchool._id);
         this.setState({
@@ -125,9 +115,6 @@ const mapDispatchToProps = dispatch => ({
           salary: null,
           date: null
         });
-
-       
-      
     } else {
       this.setState({...this.state, isFormFilled: false});
     }
@@ -136,7 +123,7 @@ const mapDispatchToProps = dispatch => ({
   displayForm = () => {
     if(this.state.isDialogOpened) {
       return (
-        <Dialog open={true} >
+        <Dialog open={true} className="vacancy-dialog" onBackdropClick={this.closeDialog}>
           <form onSubmit={this.addVacancy} className="dialog-form">
             <Typography variant="h5">Додати вакансію</Typography>
             <div className="dialog-field">
@@ -202,15 +189,12 @@ const mapDispatchToProps = dispatch => ({
   };
 
   render() {
-    if(this.props.users.user !== null) {
+    if(this.props.users.userRole === 'administration') {
     return (
       <div className="add-news">
-       
         <Button variant="contained" onClick={this.openDialog}>
           Додати вакансію
         </Button>
-        
-        
         {this.displayForm()}
         <CustomizedSnackbars 
           isSuccess={this.state.isSuccess} 
@@ -229,8 +213,8 @@ const mapDispatchToProps = dispatch => ({
 
 AddVacancy.propTypes = {
   users: propTypes.object.isRequired,
-  addNewsAction: propTypes.func.isRequired,
-  id: propTypes.string.isRequired
+  currentSchool: propTypes.object.isRequired,
+  addVacancy: propTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps )(AddVacancy);
