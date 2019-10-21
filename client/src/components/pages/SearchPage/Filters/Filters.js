@@ -12,8 +12,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Select, InputLabel, FormControl } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+//import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import { geocodeByAddress } from 'react-places-autocomplete';
 
+// `results` is an entire payload from Google API.
 
+  
 class Filters extends Component {
   constructor(props) {
     super(props);

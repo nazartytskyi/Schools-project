@@ -26,10 +26,10 @@ export default class ButtonBases extends React.Component {
           </div>
         </Link>
 
-        <Link to="/search">  
+        <Link to="/news">  
           <div className="button">
             <div className="button__icon"><TrendingUpIcon color="primary"/></div>
-            <h3 className="button__text">Рейтинги шкіл</h3>
+            <h3 className="button__text">Новини</h3>
           </div>
         </Link>
       </div>

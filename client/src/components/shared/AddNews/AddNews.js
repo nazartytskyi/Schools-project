@@ -85,7 +85,6 @@ const mapDispatchToProps = dispatch => ({
       return {visibility: 'hidden', marginTop: '20px'}
     }
     return {visibility: 'visible', marginTop: '20px'}
-    
   }
 
   addNews = (e) => {
@@ -123,7 +122,7 @@ const mapDispatchToProps = dispatch => ({
   displayForm = () => {
     if(this.state.isDialogOpened) {
       return (
-        <Dialog open={true} >
+        <Dialog open={true} className="news-dialog" onBackdropClick={this.closeDialog}>
           <form onSubmit={this.addNews} className="dialog-form">
             <Typography variant="h5">Додати новину</Typography>
             <div className="dialog-field">
@@ -178,7 +177,7 @@ const mapDispatchToProps = dispatch => ({
   };
 
   render() {
-    if(this.props.users.user !== null) {
+    if(this.props.users.userRole === 'administration') {
     return (
       <div className="add-news">
         <CustomizedSnackbars 
@@ -186,16 +185,11 @@ const mapDispatchToProps = dispatch => ({
           closeMessage={this.closeMessage.bind(this)}
           alertMessage="Новина додана"
         />
-       
         <Button variant="contained" onClick={this.openDialog}>
           Додати новину
         </Button>
-        
-        
         {this.displayForm()}
-        
-      </div>
-      
+      </div> 
     );
     }else {
       return (

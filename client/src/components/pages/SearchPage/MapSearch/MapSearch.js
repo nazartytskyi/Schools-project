@@ -74,6 +74,7 @@ class MapSearch extends Component {
       <Marker 
         key={'homeMarker'}       
         position={this.props.userCoordinates}
+        label="Ви"
       />
     )
   
@@ -91,7 +92,6 @@ class MapSearch extends Component {
  
     return (
       <div className="map-wrapper">
-        {/*<Header/>*/}
         <Map
           google={this.props.google}
           zoom={14}
@@ -101,16 +101,16 @@ class MapSearch extends Component {
           {markersArr}
           {homeMarker}
           <InfoWindowEx marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
-            <div>
+            <div className="map-marker">
               {/* <Link to='/app'>{this.state.activeMarker.name}</Link>  */}
               <h2>{this.state.activeMarker.name}</h2>
-              <p>{this.state.activeMarker.adress && this.state.activeMarker.adress.city + this.state.activeMarker.adress.street + this.state.activeMarker.adress.building}</p>
-             <p>Вільні місця: {this.state.activeMarker.free}</p>  
+              <p>{this.state.activeMarker.adress && `${this.state.activeMarker.adress.city} ${this.state.activeMarker.adress.street} ${this.state.activeMarker.adress.building}`}</p>
+             <p>Вільні місця: {this.state.activeMarker.free || '-'}</p>  
             </div>                
           
           </InfoWindowEx>
         </Map>
-        {/*<Footer/>*/}
+
       </div>
       );
   }

@@ -19,7 +19,7 @@ const Root = ({ store }) => (
   <Provider store={store}>
     <Router>
       <Layout>
-        <Route path="/app" component={MainPage} />
+        <Route exact path="/" component={MainPage} />
         <Route path="/search" component={Search} />
         <Route path="/news" component={News} />
         <Route path="/vacancies" component={Vacancies} />

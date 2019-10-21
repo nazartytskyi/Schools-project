@@ -24,7 +24,7 @@ export class RemoveNews extends Component {
   }
 
   render() {
-    if(this.props.users.user !== null) {
+    if(this.props.users.userRole === 'administration') {
       return (
         <div className="remove-news">
           <Button variant="contained" onClick={this.removeNews}>
@@ -34,7 +34,7 @@ export class RemoveNews extends Component {
       )
     }else {
       return (
-        <div className="remove-news"></div>
+        <div></div>
       )
     } 
   }
