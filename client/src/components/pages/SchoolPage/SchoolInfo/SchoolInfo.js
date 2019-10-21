@@ -25,7 +25,7 @@ import DialogForm from './../DialogForm/DialogForm';
 import InfoTable from './InfoTable';
 import AddVacancy from '../../../shared/AddVacancy/AddVacancy';
 
-const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite,chosen}) => {
   const [isDialogOpen, openDialogForm] = React.useState(false);
   return (
       <React.Fragment>
@@ -40,10 +40,10 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite}) => {
                 <Button 
                   color="primary" 
                   className='btn-chosen' 
-                  onClick= {() => checkFavorite(currentSchool)}
+                  onClick= {() => checkFavorite(currentSchool,chosen)}
                   >
                     Додати в обрані
-                    {changeHeart()}
+                    {changeHeart(chosen)}
                 </Button>
                 <Button onClick={() => openDialogForm(true)} color="secondary" className='btn-send-doc'>
                   Надіслати документи
