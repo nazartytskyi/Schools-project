@@ -339,12 +339,6 @@ class Profile extends Component {
         requestsApplied++;
       }
     }
-    // requests.forEach(request => {
-    //   if (request.status === 'подано') {
-    //     console.log(request);
-    //     requestsApplied++;
-    //   }
-    // });
     switch (this.state.menu) {
       case 'addSchool':
         profileContainer = <AddSchoolPage />;
