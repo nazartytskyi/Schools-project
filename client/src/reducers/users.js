@@ -42,6 +42,11 @@ export default (state = {}, action) => {
         ...state,
         allUsers: action.allUsers
       };
+    case 'SET_BINDED_SCHOOL':
+      if (action.uid === state.userFromMongo._id) {
+        state.userFromMongo.bindedSchool = action.schoolId;
+      }
+      return { ...state };
     default:
       return state;
   }

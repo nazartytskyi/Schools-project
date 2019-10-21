@@ -51,8 +51,6 @@ module.exports.checkIfAdmin = (req, res, next) => {
 
 module.exports.setUserRole = (req, res) => {
   const { role } = req.body;
-  console.log(role, ' setUserRolerole');
-  console.log(req.params.uid, 'setUserRole req.params.uid');
   admin
     .auth()
     .setCustomUserClaims(req.params.uid, { role })
@@ -65,7 +63,6 @@ module.exports.setUserRole = (req, res) => {
     });
   Users.findOne({ _id: req.params.uid }, (err, user) => {
     if (user) {
-      console.log(role, 'role');
       user.role = role;
       user.save();
       return res.send({ message: 'Success' });
@@ -240,6 +237,7 @@ module.exports.addRequest = (req, res) => {
     if (school) {
       request._id = new mongoose.Types.ObjectId();
       school.firstGrade.requests.push(request);
+      school.firstGrade.enrolled++;
       school.save();
       res.status(201).send(request);
     } else {
@@ -321,6 +319,20 @@ module.exports.addSchool = (req, res) => {
       res.status(201).send(schoolDocument);
     } else {
       res.status(500).send('School counter not found');
+    }
+  });
+};
+
+module.exports.setBindedSchool = (req, res) => {
+  const { schoolId } = req.body;
+  const uid = req.params.uid;
+  Users.findOne({ _id: uid }, function(err, user) {
+    if (user) {
+      user.bindedSchool = schoolId;
+      user.save();
+      return res.send(user);
+    } else {
+      res.status(500).send('User not found in collection users');
     }
   });
 };

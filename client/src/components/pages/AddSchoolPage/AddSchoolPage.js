@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addSchool: (school) => {
+  addSchool: school => {
     return dispatch(addSchool(school));
   }
 });
@@ -54,13 +54,14 @@ class AddSchoolPage extends React.Component {
   }
 
   sendRequest(form) {
+    form.firstGrade.requests = [];
     this.props.addSchool(form);
     this.setState({ form: {} });
   }
 
   render() {
     return (
-      <Container maxWidth="md">>
+      <Container maxWidth="md">
         <form className="add-school-form" noValidate autoComplete="off">
           <TextField
             required={true}
@@ -95,7 +96,12 @@ class AddSchoolPage extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={e => this.onFieldChanged('firstGrade', {...this.state.form.firstGrade, free: e.target.value })}
+            onChange={e =>
+              this.onFieldChanged('firstGrade', {
+                ...this.state.form.firstGrade,
+                free: e.target.value
+              })
+            }
           />
 
           <TextField
@@ -108,9 +114,8 @@ class AddSchoolPage extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={e => this.onFieldChanged('avgZno', e.target.value )}
+            onChange={e => this.onFieldChanged('avgZno', e.target.value)}
           />
-
 
           <TextField
             required
@@ -191,7 +196,6 @@ class AddSchoolPage extends React.Component {
             }}
             onChange={e => this.onFieldChanged('email', e.target.value)}
           />
- 
 
           <Button
             className="submit-btn"

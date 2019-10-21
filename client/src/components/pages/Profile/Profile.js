@@ -6,6 +6,7 @@ import { Redirect } from 'react-router';
 import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
 import { setUserRole } from '../../../actions/setUserRole';
+import { setBindedSchool } from '../../../actions/setBindedSchool';
 import RequestsAlert from './RequestsAlert';
 import FavSchoolsPage from '../FavSchoolsPage/FavSchoolsPage';
 import ProfileToggleMenu from './ToggleMenu/ToggleMenu';
@@ -86,6 +87,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setUserRole: (uid, role) => {
     return dispatch(setUserRole(uid, role));
+  },
+  setBindedSchool: (uid, schoolId) => {
+    return dispatch(setBindedSchool(uid, schoolId));
   }
 });
 
@@ -99,7 +103,7 @@ const columns = [
   {
     field: 'dateBirth',
     title: 'Дата\u00a0народження',
-    // editable: 'never',
+    editable: 'never',
     type: 'date'
   },
   {
@@ -124,7 +128,7 @@ const columns = [
   {
     field: 'dateApply',
     title: 'Дата\u00a0подання',
-    // editable: 'never',
+    editable: 'never',
     type: 'date'
   },
   {
@@ -167,6 +171,11 @@ const columnsUsers = [
       parent: 'Батьки'
     }
   }
+  // {
+  //   field: 'schoolId',
+  //   title: 'Школа',
+  //   lookup: {}
+  // }
 ];
 
 class Profile extends Component {
@@ -200,6 +209,15 @@ class Profile extends Component {
   componentDidMount() {
     if (this.props.users.userRole === 'superadmin') {
       this.props.getAllUsers();
+      // let allSchools = { null: 'Відсутня' };
+      // this.props.schools.data.forEach(school => {
+      //   allSchools[school._id] = school.name;
+      //   return;
+      // });
+      // let newColumnsUsers = this.state.columnsUsers;
+      // newColumnsUsers[3].lookup = allSchools;
+      // this.setState({ ...this.state, columnsUsers: newColumnsUsers });
+      // console.log(this.state);
     }
   }
   customMenuButton() {
@@ -363,6 +381,10 @@ class Profile extends Component {
                 new Promise(resolve => {
                   setTimeout(() => {
                     this.props.setUserRole(newData.uid, newData.role);
+                    // this.props.setBindedSchool(
+                    //   newData.uid,
+                    //   newData.bindedSchool
+                    // );
                     resolve();
                   }, 600);
                 })
@@ -452,7 +474,8 @@ Profile.propTypes = {
   allUsers: propTypes.object,
   updateRequest: propTypes.func,
   getAllUsers: propTypes.func,
-  setUserRole: propTypes.func
+  setUserRole: propTypes.func,
+  setBindedSchool: propTypes.func
 };
 
 export default connect(
