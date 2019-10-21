@@ -238,6 +238,7 @@ module.exports.addRequest = (req, res) => {
       request._id = new mongoose.Types.ObjectId();
       school.firstGrade.requests.push(request);
       school.firstGrade.enrolled++;
+      school.firstGrade.free--;
       school.save();
       res.status(201).send(request);
     } else {
