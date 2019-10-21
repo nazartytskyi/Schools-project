@@ -27,13 +27,7 @@ const router = express.Router();
 router.put('/user/:uid/role', checkIfAdmin, setUserRole);
 router.get('/user/', checkIfAuthenticated, getUser, createUser, setUserRole);
 
-// this is our get method
-// this method fetches all available data in our database
 router.get('/getData', getSchools);
-
-// this is our update method
-// this method overwrites existing data in our database
-// router.post('/update/schools/:id', updateSchool);
 
 router.get('/allUsers', checkIfAdmin, getAllUsers);
 router.post('/user/:uid/bindedschool', checkIfAdmin, setBindedSchool);

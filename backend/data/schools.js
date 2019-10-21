@@ -79,6 +79,7 @@ const schoolsSchema = new SchoolsSchema(
     firstGrade: {
       _id: false,
       total: Number,
+      free: Number,
       enrolled: Number,
       requests: [
         {
