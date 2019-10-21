@@ -9,6 +9,7 @@ import { setUserRole } from '../../../actions/setUserRole';
 import RequestsAlert from './RequestsAlert';
 import FavSchoolsPage from '../FavSchoolsPage/FavSchoolsPage';
 import ProfileToggleMenu from './ToggleMenu/ToggleMenu';
+import AddSchoolPage from '../AddSchoolPage/AddSchoolPage';
 
 import axios from 'axios';
 
@@ -175,7 +176,13 @@ class Profile extends Component {
       parent: ['mainInfo', 'favoriteSchools'],
       teacher: ['mainInfo', 'favoriteSchools'],
       administration: ['mainInfo', 'favoriteSchools', 'requests'],
-      superadmin: ['mainInfo', 'favoriteSchools', 'requests', 'setRoles']
+      superadmin: [
+        'mainInfo',
+        'favoriteSchools',
+        'requests',
+        'setRoles',
+        'addSchool'
+      ]
     };
 
     this.access = this.rolesAccess[
@@ -234,6 +241,15 @@ class Profile extends Component {
         >
           Керування&#160;доступом
         </Button>
+      ),
+      addSchool: (
+        <Button
+          className={access.addSchool}
+          key="addSchool"
+          onClick={this.showAddSchool.bind(this)}
+        >
+          Додати&#160;школу
+        </Button>
       )
     };
     return this.access.map(item => {
@@ -262,6 +278,12 @@ class Profile extends Component {
     this.setState({
       ...this.state,
       menu: 'setRoles'
+    });
+  }
+  showAddSchool() {
+    this.setState({
+      ...this.state,
+      menu: 'addSchool'
     });
   }
   handleCloseMessage() {
@@ -306,6 +328,9 @@ class Profile extends Component {
     //   }
     // });
     switch (this.state.menu) {
+      case 'addSchool':
+        profileContainer = <AddSchoolPage />;
+        break;
       case 'requests':
         profileContainer = (
           <MaterialTable
