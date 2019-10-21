@@ -24,7 +24,7 @@ export class RemoveNews extends Component {
   }
 
   render() {
-    if(this.props.users.userRole === 'administration') {
+    if(this.props.users.userRole === 'superadmin') {
       return (
         <div className="remove-news">
           <Button variant="contained" onClick={this.removeNews}>
