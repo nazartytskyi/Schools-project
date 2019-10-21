@@ -73,11 +73,11 @@ const mapDispatchToProps = dispatch => ({
     this.setState({...this.state, fileName: e.target.files[0].name});
     let self = this;
     
-  if(e.target.files[0].size < 100000) {
+ 
     oFReader.onload = function (oFREvent) {
       self.setState({...this.state, url: oFREvent.target.result});
   };
-  }
+  
   }
 
   displayMessage = () => {
@@ -177,7 +177,7 @@ const mapDispatchToProps = dispatch => ({
   };
 
   render() {
-    if(this.props.users.userRole === 'administration') {
+    if(this.props.users.userRole === 'superadmin') {
     return (
       <div className="add-news">
         <CustomizedSnackbars 
