@@ -11,8 +11,9 @@
     align-content: space-around;
     justify-content: space-around;
     align-self: stretch;
-    // margin-left: 100px;
+    margin: auto;
     height: 45px;
+    width: 70%;
     .profile-menu-button-active{
       border: 3px solid rgb(177, 177, 177);
     }
@@ -60,4 +61,3 @@
     }
   }
 }
-

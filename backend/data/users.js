@@ -6,7 +6,8 @@ const userSchema = new UserSchema(
   {
     _id: String,
     choosedSchools: Array,
-    role: String
+    role: String,
+    bindedSchool: String
   },
   { collection: 'users' }
 );

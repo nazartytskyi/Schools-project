@@ -18,16 +18,11 @@ const {
   removeVacancy,
   addFeedback,
   removeFeedback,
-  addSchool
+  addSchool,
+  setBindedSchool
 } = require('../middlewares/middlewares');
 
 const router = express.Router();
-
-// router.use('/protectedarticle', checkIfAuthenticated);
-// router.use('/protectedarticle', checkIfAdmin);
-// router.get('/protectedarticle', (req, res) => {
-//   res.send('success');
-// });
 
 router.put('/user/:uid/role', checkIfAdmin, setUserRole);
 router.get('/user/', checkIfAuthenticated, getUser, createUser, setUserRole);
@@ -41,6 +36,7 @@ router.get('/getData', getSchools);
 // router.post('/update/schools/:id', updateSchool);
 
 router.get('/allUsers', checkIfAdmin, getAllUsers);
+router.post('/user/:uid/bindedschool', checkIfAdmin, setBindedSchool);
 
 router.post('/favoriteSchool', checkIfAuthenticated, addFavoriteSchool);
 router.delete(
