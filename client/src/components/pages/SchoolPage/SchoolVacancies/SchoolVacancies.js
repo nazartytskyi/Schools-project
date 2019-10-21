@@ -8,12 +8,11 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Container } from '@material-ui/core';
 import Login from '../../Vacancies/Login/Login';
 import './SchoolVacancies.scss';
 import RemoveVacancy from '../../../shared/RemoveVacancy/RemoveVacancy';
 
-const SchoolVacancies = ({Index,vacancy,index,state,handleExpandClick,currentSchool, vacancyId}) => (
+const SchoolVacancies = ({Index,vacancy,index,expanded,handleExpandClick,currentSchool, vacancyId}) => (
 <Card className="school-vacancy-card" key={index}>
   <div className="card-header">
     <CardHeader
@@ -37,24 +36,23 @@ const SchoolVacancies = ({Index,vacancy,index,state,handleExpandClick,currentSch
     </Typography>
     <Typography variant="body1" color="textPrimary">тел: {currentSchool.phoneNumber}</Typography>
     <div className="respond">
-    <Login/>
-    
+      <Login email={currentSchool.email}/>
     </div> 
     <RemoveVacancy currentSchool={currentSchool} vacancyId={vacancyId}/>
               
   </CardContent>
   <CardActions disableSpacing className="card-footer">
     <IconButton
-      className={ state.expanded.has(Index)
+      className={expanded.has(Index)
         ? 'expandOpen' : 'expand' }
       onClick={() => handleExpandClick(Index)}
-      aria-expanded = {state.expanded}
+      aria-expanded = {expanded}
       aria-label = "show more"
     >
       <ExpandMoreIcon />
     </IconButton>
   </CardActions>
-  <Collapse in={ state.expanded.has(Index) ? 
+  <Collapse in={ expanded.has(Index) ? 
     true : 
     false} timeout="auto" unmountOnExit
   >

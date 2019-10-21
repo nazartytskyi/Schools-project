@@ -23,7 +23,7 @@ export class Contacts extends Component {
                 </Typography>
                 <div className="contacts-phone">
                   <PhoneIcon color="action" className="contacts-phone-icon"/>
-                  <Typography><a href="tel:+38979990099">+38(097)999-00-99</a></Typography>
+                  <Typography><a href="tel:+380979990099">+38(097)999-00-99</a></Typography>
                 </div>
                 <div className="contacts-phone">
                   <PhoneIcon color="action" className="contacts-phone-icon"/>

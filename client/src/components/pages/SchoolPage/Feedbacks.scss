@@ -1,0 +1,16 @@
+@import '../../Variables.scss';
+.school-feedbacks {
+  margin-top: 20px;
+  text-align: center;
+  font-size: $mainFontSize;
+  p {
+    display: flex;
+    flex-direction: column;
+    font-size: $secondFontSize;
+  }
+}
+.school-fItems {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

@@ -12,6 +12,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CustomizedSnackbars from './SchoolInfo/Snackbar';
+import Feedbacks from './Feedbacks';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
 import './SchoolPage.scss';
@@ -29,7 +30,8 @@ class SchoolPage extends Component {
   static getDerivedStateFromProps(props, state) {
     if (props.schools !== state.schools) {
       return {
-        schools: props.schools.data
+        schools: props.schools.data,
+        users: props.users
       };
     }
     return null;
@@ -42,7 +44,8 @@ class SchoolPage extends Component {
       isFavorite: false,
       isSuccess: false,
       successAdd: false,
-      schools: this.props.schools.data
+      schools: this.props.schools.data,
+      users: this.props.users
     };
   }
 
@@ -64,10 +67,10 @@ class SchoolPage extends Component {
     this.props.deleteFavoriteSchool(currentSchool._id);
     this.setState({ ...this.state, isFavorite: false, successAdd: false });
   };
-  checkFavorite = currentSchool => {
+  checkFavorite = (currentSchool,chosen) => {
     if (this.props.users.user !== null) {
       this.setState({ ...this.state, isSuccess: false });
-      if (!this.state.isFavorite) {
+      if (!this.state.isFavorite && chosen === undefined) {
         this.addSchool(currentSchool);
       } else {
         this.deleteFavorite(currentSchool);
@@ -76,26 +79,53 @@ class SchoolPage extends Component {
       this.setState({ ...this.state, isSuccess: true, isFavorite: false });
     }
   };
-  changeHeart = () => {
-    if (this.state.isFavorite) {
+  changeHeart = (chosen) => {
+    if (this.props.users.user !== null && chosen) {
       return <FavoriteIcon />;
-    } else if (!this.state.isFavorite) {
+    } else {
       return <FavoriteBorderIcon />;
     }
   };
 
   render() {
     const schools = this.state.schools || [];
+    const userMongo = this.state.users.userFromMongo  || [];
     const { schoolId } = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
+    const chosen = userMongo.length == undefined ? userMongo.choosedSchools.find(chose => currentSchool._id === chose) :  userMongo.length;
     return currentSchool !== undefined ? (
       <div>
         <SchoolInfo
           checkFavorite={this.checkFavorite}
           changeHeart={this.changeHeart}
           currentSchool={currentSchool}
-          state={this.state}
+          chosen={chosen}
         />
+        <Container className="school-feedbacks" maxWidth="lg">
+          <ExpansionPanel className='fback-panel'>
+            <ExpansionPanelSummary
+              className='fbacks-sum'
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <h2>Відгуки</h2>
+            </ExpansionPanelSummary>
+            {currentSchool.feedbacks.map((fback,fIndex) => {
+              let findex = fIndex;
+              return(
+                <div key = {fback.text}>
+                  <Feedbacks
+                    handleExpandClick={this.handleExpandClick}
+                    expanded={this.state.expanded}
+                    fIndex={findex}
+                    feedback={fback}
+                  />
+              </div>
+              )
+            })}
+          </ExpansionPanel>
+        </Container>
         <Container className="school-news" maxWidth="lg">
           {currentSchool.news.map((item, indexNews) => {
             let SchoolNewsId = `${currentSchool}${indexNews}`;
@@ -103,7 +133,7 @@ class SchoolPage extends Component {
               <div key={item.description}>
                 <SchoolNews
                   item={item}
-                  state={this.state}
+                  expanded={this.state.expanded}
                   SchoolNewsId={SchoolNewsId}
                   handleExpandClick={this.handleExpandClick}
                   currentSchool={currentSchool}
@@ -128,7 +158,7 @@ class SchoolPage extends Component {
                   <SchoolVacancies
                     Index={Index}
                     adress={vacancy.adress}
-                    state={this.state}
+                    expanded={this.state.expanded}
                     vacancy={vacancy}
                     handleExpandClick={this.handleExpandClick}
                     currentSchool={currentSchool}

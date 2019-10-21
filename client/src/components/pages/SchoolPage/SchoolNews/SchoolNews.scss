@@ -31,13 +31,13 @@
 @media only screen and (min-width: 1673px) {
   .school-news-card {
     width: 568px;
-    height: 563px;
+    min-height: 610px;
   }
 }
 @media only screen and (min-width: 1273px) and (max-width: 1672px) {
   .school-news-card {
     width: 568px;
-    min-height: 563px;
+    min-height: 610px;
   }
 }
 @media only screen and (min-width: 720px) and (max-width: 1272px) {

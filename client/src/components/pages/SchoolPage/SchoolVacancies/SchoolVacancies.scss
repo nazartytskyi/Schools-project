@@ -1,3 +1,9 @@
+.card-header {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+}
 .school-vacancy-card {
   width: 265px;
   padding-bottom: 20px;
@@ -8,7 +14,7 @@
   height: 89px;
   left: 20px;
   z-index: 1000;
-  top: 325px;
+  top: 375px;
 }
 .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.Mui-expanded.MuiExpansionPanel-rounded.MuiPaper-rounded {
   height: 525px;
@@ -22,21 +28,21 @@
 }
 @media only screen and (min-width: 1273px)and (max-width: 1679px) {
   .vacancy-card-aside {
-    position: relative;
+    position: sticky;
     top: 0px;
   }
   .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.MuiExpansionPanel-rounded.MuiPaper-rounded{
-    position: relative;
+    position: sticky;
   }
 }
 @media only screen and (min-width: 568px)and (max-width: 1272px) {
   .vacancy-card-aside {
     width: 45%;
-    position: relative;
+    position: sticky;
     top: 0px;
   }
   .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.MuiExpansionPanel-rounded.MuiPaper-rounded{
-    position: relative;
+    position: sticky;
   }
   .school-vacancy-card {
     width: 100%;
@@ -46,7 +52,7 @@
   .vacancy-card-aside {
     width: 100%;
     left: 0px;
-    position: relative;
+    position: sticky;
     top: 0px;
   }
   .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.vacancy-card-aside.MuiExpansionPanel-rounded.MuiPaper-rounded{

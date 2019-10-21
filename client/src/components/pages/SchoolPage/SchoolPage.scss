@@ -6,6 +6,13 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.MuiButtonBase-root.MuiExpansionPanelSummary-root.fbacks-sum  {
+  display: inline-flex;
+}
+.MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.fback-panel.Mui-expanded.MuiExpansionPanel-rounded.MuiPaper-rounded {
+  overflow-y: scroll;
+  height: 525px;
+}
 @media only screen and (max-width: 568px) {
   .teachers-and-vacancies {
     display: block;

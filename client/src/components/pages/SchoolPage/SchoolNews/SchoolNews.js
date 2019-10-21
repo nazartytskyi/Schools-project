@@ -12,7 +12,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import './SchoolNews.scss';
 import RemoveNews from '../../../shared/RemoveNews/RemoveNews'
 
-const SchoolNews = ({item, SchoolNewsId,state,handleExpandClick,currentSchool}) => (
+const SchoolNews = ({item,expanded,SchoolNewsId,handleExpandClick,currentSchool}) => (
   <Card className='school-news-card'>
     <CardHeader
       title={item.title}
@@ -31,16 +31,16 @@ const SchoolNews = ({item, SchoolNewsId,state,handleExpandClick,currentSchool}) 
     </CardContent>
     <CardActions disableSpacing>
       <IconButton
-        className={state.expanded.has(SchoolNewsId)
+        className={expanded.has(SchoolNewsId)
           ? 'expandOpen' : 'expand' }
         onClick={()=>{handleExpandClick(SchoolNewsId)}}
-        aria-expanded={state.expanded}
+        aria-expanded={expanded}
         aria-label="show more"
       >
         <ExpandMoreIcon />
       </IconButton>
     </CardActions>
-    <Collapse in={state.expanded.has(SchoolNewsId) ? 
+    <Collapse in={expanded.has(SchoolNewsId) ? 
       true : 
       false} timeout="auto" unmountOnExit>
       <CardContent>

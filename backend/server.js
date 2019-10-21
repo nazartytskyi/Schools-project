@@ -29,7 +29,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 app.use(logger('dev'));
 
 // append /api for our http requests
