@@ -1,22 +1,23 @@
 import axios from 'axios';
 import { auth } from '../components/shared/firebase-service/firebase-service';
 
-export const setUserRole = (uid, role) => dispatch => {
-  console.log(uid, 'uid action Create');
+export const setUserRole = (uid, role, bindedSchool) => dispatch => {
+  console.log(bindedSchool, 'bindedSchool setUserRole');
   auth()
     .currentUser.getIdToken()
     .then(idToken => {
       axios
         .put(
           `/api/user/${uid}/role`,
-          { role },
+          { role, bindedSchool },
           { headers: { authorization: idToken } }
         )
         .then(() => {
           return dispatch({
             type: 'SET_USER_ROLE',
             uid,
-            role
+            role,
+            bindedSchool
           });
         });
     });

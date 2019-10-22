@@ -50,10 +50,14 @@ module.exports.checkIfAdmin = (req, res, next) => {
 };
 
 module.exports.setUserRole = (req, res) => {
-  const { role } = req.body;
+  let { role, bindedSchool } = req.body;
+  console.log(bindedSchool, 'bindedSchool');
+  // if (bindedSchool === undefined) {
+  //   bindedSchool = null;
+  // }
   admin
     .auth()
-    .setCustomUserClaims(req.params.uid, { role })
+    .setCustomUserClaims(req.params.uid, { role, bindedSchool })
     .then(() => {
       console.log('setCustomUserClaims success');
     })
@@ -64,6 +68,7 @@ module.exports.setUserRole = (req, res) => {
   Users.findOne({ _id: req.params.uid }, (err, user) => {
     if (user) {
       user.role = role;
+      user.bindedSchool = bindedSchool;
       user.save();
       return res.send({ message: 'Success' });
     } else {
@@ -106,9 +111,10 @@ module.exports.createUser = (req, res) => {
   let user = new Users({ _id: req.authId, choosedSchools: [], role: 'parent' });
   user.save();
   let role = 'parent';
+  let bindedSchool = null;
   admin
     .auth()
-    .setCustomUserClaims(req.authId, { role })
+    .setCustomUserClaims(req.authId, { role, bindedSchool })
     .then(() => {
       console.log('setCustomUserClaims success');
     })
@@ -204,6 +210,12 @@ module.exports.getAllUsers = (req, res) => {
                 dataMongo[userMongoIndex].role;
             } else {
               userList[userList.length - 1].role = 'parent';
+            }
+            if (dataMongo[userMongoIndex].bindedSchool) {
+              userList[userList.length - 1].bindedSchool =
+                dataMongo[userMongoIndex].bindedSchool;
+            } else {
+              userList[userList.length - 1].bindedSchool = null;
             }
           }
         });

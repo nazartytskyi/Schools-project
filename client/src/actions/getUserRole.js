@@ -6,7 +6,8 @@ export const getUserRole = () => dispatch => {
     .then(idTokenResult => {
       return dispatch({
         type: 'GET_USER_ROLE',
-        payload: idTokenResult.claims.role
+        role: idTokenResult.claims.role,
+        bindedSchool: idTokenResult.claims.bindedSchool
       });
     })
     .catch(() => {
