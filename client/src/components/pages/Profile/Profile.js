@@ -217,7 +217,7 @@ class Profile extends Component {
       let newColumnsUsers = this.state.columnsUsers;
       newColumnsUsers[3].lookup = allSchools;
       this.setState({ ...this.state, columnsUsers: newColumnsUsers });
-      console.log(this.state);
+      // console.log(this.state);
     }
   }
   customMenuButton() {
@@ -415,6 +415,14 @@ class Profile extends Component {
         let lastLoginAt = '';
         let creationTime = '';
         let redir = null;
+        console.log(
+          Object.keys(this.props.users).length,
+          '(Object.keys(this.props.users).length'
+        );
+        console.log(this.props.users.user, 'this.props.users.user');
+        console.log(
+          Object.keys(this.props.users).length && this.props.users.user
+        );
         if (Object.keys(this.props.users).length && this.props.users.user) {
           userRole = this.props.users.userRole;
           username = this.props.users.user.displayName;
