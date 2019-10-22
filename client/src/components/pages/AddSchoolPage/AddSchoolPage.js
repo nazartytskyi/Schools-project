@@ -8,6 +8,8 @@ import Icon from '@material-ui/core/Icon';
 import './AddSchoolPage.scss';
 import { addSchool } from './../../../actions/addSchool';
 import Container from '@material-ui/core/Container';
+import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import CustomizedSnackbars from './../../shared/AddNews/SuccessAlert';
 
 const mapStateToProps = state => ({
   ...state
@@ -22,8 +24,9 @@ const mapDispatchToProps = dispatch => ({
 class AddSchoolPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { form: {} };
+    this.state = { form: {}, isSuccess: false };
   }
+
 
   getFiles = (e) => {
     let oFReader = new FileReader();
@@ -71,16 +74,38 @@ class AddSchoolPage extends React.Component {
     return false;
   }
 
+  closeMessage = () => {
+    this.setState({...this.state, isSuccess: false});
+   }
+  
+
   sendRequest(form) {
     form.firstGrade.requests = [];
-    this.props.addSchool(form);
-    this.setState({ form: {} });
+    const address = `${form.adress.city} ${form.adress.street} ${form.adress.building}`
+
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        //this.props.setUserCoordinates(latLng);
+        form.coordinates = {...latLng};
+        this.props.addSchool(form);
+        this.setState({ isSuccess: true });
+        console.log('Success', latLng)
+      })
+      .catch(error => console.error('Error', error));
+
   }
 
   render() {
     return (
       <Container maxWidth="md">
+
         <form className="add-school-form" noValidate autoComplete="off">
+         <CustomizedSnackbars 
+          isSuccess={this.state.isSuccess} 
+          closeMessage={this.closeMessage.bind(this)}
+          alertMessage="Успішно додано"
+        />
           <TextField
             required={true}
             id="name"

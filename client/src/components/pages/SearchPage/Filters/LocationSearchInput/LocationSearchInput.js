@@ -1,10 +1,10 @@
-import React from 'react';
-import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {GoogleApiWrapper} from 'google-maps-react';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import './LocationSearchInput.scss'
+import React from 'react';
+import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 
 class LocationSearchInput extends React.Component {
   constructor(props) {

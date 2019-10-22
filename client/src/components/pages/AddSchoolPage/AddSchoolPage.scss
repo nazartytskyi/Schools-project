@@ -9,4 +9,16 @@
         margin-top: 15px;
         margin-bottom: 20px;
     }
+
+    .MuiSnackbar-root {
+        position: fixed;
+        top: 100px;
+        right: -50vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .add-school-form .MuiSnackbar-root {
+        right: 0;
+    }
 }
