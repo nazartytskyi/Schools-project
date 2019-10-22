@@ -159,8 +159,8 @@ class AddSchoolPage extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={e => this.onFieldChanged('language', e.target.value)};
-            }
+            onChange={e => this.onFieldChanged('language', e.target.value)}
+            
           />
 
           <TextField
