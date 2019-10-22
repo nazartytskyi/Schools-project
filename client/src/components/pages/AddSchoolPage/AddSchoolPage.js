@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import './AddSchoolPage.scss';
 import { addSchool } from './../../../actions/addSchool';
 import Container from '@material-ui/core/Container';
+import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import CustomizedSnackbars from './../../shared/AddNews/SuccessAlert';
 
 const mapStateToProps = state => ({
   ...state
@@ -21,8 +24,26 @@ const mapDispatchToProps = dispatch => ({
 class AddSchoolPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { form: {} };
+    this.state = { form: {}, isSuccess: false };
   }
+
+
+  getFiles = (e) => {
+    let oFReader = new FileReader();
+    oFReader.readAsDataURL(e.target.files[0]);
+    this.setState({...this.state, fileName: e.target.files[0].name});
+    const self = this;
+    
+ 
+    oFReader.onload = function (oFREvent) {
+      self.setState({
+        form: {
+          ...self.state.form,
+          photo: oFREvent.target.result
+        }
+      });
+    }   
+  };
 
   onFieldChanged(fieldName, value) {
     this.setState({
@@ -40,6 +61,7 @@ class AddSchoolPage extends React.Component {
       form.firstGrade.free &&
       form.avgZno &&
       form.phoneNumber &&
+      form.language &&
       form.adress &&
       form.adress.city &&
       form.adress.district &&
@@ -53,16 +75,38 @@ class AddSchoolPage extends React.Component {
     return false;
   }
 
+  closeMessage = () => {
+    this.setState({...this.state, isSuccess: false});
+   }
+  
+
   sendRequest(form) {
     form.firstGrade.requests = [];
-    this.props.addSchool(form);
-    this.setState({ form: {} });
+    const address = `${form.adress.city} ${form.adress.street} ${form.adress.building}`
+
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        //this.props.setUserCoordinates(latLng);
+        form.coordinates = {...latLng};
+        this.props.addSchool(form);
+        this.setState({ isSuccess: true });
+        console.log('Success', latLng)
+      })
+      .catch(error => console.error('Error', error));
+
   }
 
   render() {
     return (
       <Container maxWidth="md">
+
         <form className="add-school-form" noValidate autoComplete="off">
+         <CustomizedSnackbars 
+          isSuccess={this.state.isSuccess} 
+          closeMessage={this.closeMessage.bind(this)}
+          alertMessage="Успішно додано"
+        />
           <TextField
             required={true}
             id="name"
@@ -104,6 +148,21 @@ class AddSchoolPage extends React.Component {
             }
           />
 
+          
+          <TextField
+            required
+            id="free"
+            label="Мова викладання"
+            placeholder="Українська"
+            margin="normal"
+            type="number"
+            InputLabelProps={{
+              shrink: true
+            }}
+            onChange={e => this.onFieldChanged('language', e.target.value)}
+            
+          />
+
           <TextField
             required
             id="free"
@@ -114,7 +173,7 @@ class AddSchoolPage extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={e => this.onFieldChanged('avgZno', e.target.value)}
+            onChange={e => this.onFieldChanged('avgZno', +e.target.value)}
           />
 
           <TextField
@@ -196,6 +255,17 @@ class AddSchoolPage extends React.Component {
             }}
             onChange={e => this.onFieldChanged('email', e.target.value)}
           />
+
+          <div className="download-image">
+              <Typography color="textSecondary" className="download-image-title">
+                Завантажте світлину (розмір не більше 0.1 Mb)
+              </Typography>
+              <label className="download-image-btn">
+              <input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.getFiles}/>
+              <Typography>Завантажити</Typography>
+              </label>
+              <Typography className="file-name">{this.state.fileName}</Typography> 
+            </div>
 
           <Button
             className="submit-btn"

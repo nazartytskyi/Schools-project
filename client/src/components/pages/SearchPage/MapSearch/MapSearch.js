@@ -1,18 +1,9 @@
 import { Map, GoogleApiWrapper, Marker} from 'google-maps-react';
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
 import './MapSearch.scss';
-// import propTypes from 'prop-types';
-// import AppBar from '@material-ui/core/AppBar';
 import { Link } from 'react-router-dom'
-
 import { InfoWindow } from 'google-maps-react'
 import ReactDOM from 'react-dom'
-import { relative } from 'path';
-import { makeStyles } from '@material-ui/core/styles';
-import { blue, red } from '@material-ui/core/colors';
-import SvgIcon from '@material-ui/core/SvgIcon';
-
 
 class InfoWindowEx extends Component {
     constructor(props) {
@@ -51,11 +42,6 @@ class MapSearch extends Component {
       redirect: false,
       redirectId: 0
    }
-  }
-  
-  componentDidMount(){
-    //this.setState({initialCenter:{lat: 49.8, lng: 24.0}});
-
   }
 
   onMarkerClick = (props, marker) => {
@@ -102,10 +88,10 @@ class MapSearch extends Component {
           {homeMarker}
           <InfoWindowEx marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
             <div className="map-marker">
-              {/* <Link to='/app'>{this.state.activeMarker.name}</Link>  */}
+               {/* <Link to='/app'>{this.state.activeMarker.name}</Link>   */}
               <h2>{this.state.activeMarker.name}</h2>
               <p>{this.state.activeMarker.adress && `${this.state.activeMarker.adress.city} ${this.state.activeMarker.adress.street} ${this.state.activeMarker.adress.building}`}</p>
-             <p>Вільні місця: {this.state.activeMarker.free || '-'}</p>  
+              <p>Вільні місця: {this.state.activeMarker.free || '-'}</p>  
             </div>                
           
           </InfoWindowEx>

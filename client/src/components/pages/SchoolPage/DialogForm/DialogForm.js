@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import './DialogForm.scss';
 import { addRequest } from './../../../../actions/addRequest';
+import { fromBase64 } from 'bytebuffer';
 
 const mapStateToProps = state => ({
   ...state
@@ -55,6 +56,7 @@ class DialogForm extends React.Component {
   sendRequest(form) {
     form.dateApply = new Date().toLocaleDateString();
     form.dateBirth = new Date(form.dateBirth).toLocaleDateString();
+    fromBase64.firstPriority = false;
     form.comment = '';
     form.status = 'подано';
     this.props.addRequest(form, this.props.schoolId);
@@ -194,17 +196,6 @@ class DialogForm extends React.Component {
               shrink: true
             }}
             onChange={e => this.onFieldChanged('email', e.target.value)}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                color="primary"
-                onChange={e =>
-                  this.onFieldChanged('firstPriority', e.target.checked)
-                }
-              />
-            }
-            label="Перший пріоритет"
           />
 
           <Button

@@ -318,10 +318,10 @@ function ListSearch(props) {
                      <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.zno}</TableCell>
+                      <TableCell align="right">{row.zno || '-'}</TableCell>
                       <TableCell align="right">{row.vacant || '-'}</TableCell>
-                      <TableCell align="right">{row.rate}</TableCell>
-                      <TableCell align="right">{row.distance}</TableCell>
+                      <TableCell align="right">{row.rate || '-'}</TableCell>
+                      <TableCell align="right">{row.distance || '-'}</TableCell>
                     </TableRow>
                   );
                 })}
