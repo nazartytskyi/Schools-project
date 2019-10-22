@@ -47,7 +47,8 @@ class SchoolPage extends Component {
       successAdd: false,
       fSuccess: false,
       schools: this.props.schools.data,
-      users: this.props.users
+      users: this.props.users,
+      uid: null
     };
   }
 
@@ -69,10 +70,10 @@ class SchoolPage extends Component {
     this.props.deleteFavoriteSchool(currentSchool._id);
     this.setState({ ...this.state, isFavorite: false, successAdd: false });
   };
-  checkFavorite = (currentSchool,chosen) => {
+  checkFavorite = (currentSchool, chosen) => {
     if (this.props.users.user !== null) {
       this.setState({ ...this.state, isSuccess: false });
-      if (!this.state.isFavorite && chosen === undefined) {
+      if (!this.state.isFavorite && !chosen) {
         this.addSchool(currentSchool);
       } else {
         this.deleteFavorite(currentSchool);
@@ -94,8 +95,10 @@ class SchoolPage extends Component {
     const userMongo = this.state.users.userFromMongo  || [];
     const { schoolId } = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
-    const chosen = userMongo.length == undefined ? userMongo.choosedSchools.find(chose => currentSchool._id === chose) :  userMongo.length;
-    return currentSchool !== undefined ? (
+    const chosen = userMongo.length === undefined && currentSchool ? userMongo.choosedSchools.find(chose => currentSchool._id === chose) :  userMongo.length;
+    // console.log(chosen);
+    
+    return currentSchool !== undefined  ? (
       <div>
         <SchoolInfo
           checkFavorite={this.checkFavorite}
