@@ -174,7 +174,7 @@ const mapDispatchToProps = dispatch => ({
   };
 
   render() {
-    if(this.props.users.userRole === 'superadmin' && this.props.users.user !== null) {
+    if(this.props.users.userRole === 'administration' && this.props.users.user !== null) {
     return (
       <div className="add-news">
         <CustomizedSnackbars 
