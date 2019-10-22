@@ -17,8 +17,8 @@ class FavSchoolsPage extends React.Component {
     if (currentUserFavSchoolsId) {
       for (let i in this.props.schools.data) {
         for (let j in currentUserFavSchoolsId) {
-          if (this.props.schools.data[j]._id === currentUserFavSchoolsId[i]) {
-            favSchools.push(this.props.schools.data[j]);
+          if (this.props.schools.data[i]._id === currentUserFavSchoolsId[j]) {
+            favSchools.push(this.props.schools.data[i]);
           }
         }
       }
