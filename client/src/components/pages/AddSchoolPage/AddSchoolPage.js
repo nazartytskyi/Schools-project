@@ -61,6 +61,7 @@ class AddSchoolPage extends React.Component {
       form.firstGrade.free &&
       form.avgZno &&
       form.phoneNumber &&
+      form.language &&
       form.adress &&
       form.adress.city &&
       form.adress.district &&
@@ -147,6 +148,22 @@ class AddSchoolPage extends React.Component {
             }
           />
 
+          
+          <TextField
+            required
+            id="free"
+            label="Мова викладання"
+            placeholder="Українська"
+            margin="normal"
+            type="number"
+            InputLabelProps={{
+              shrink: true
+            }}
+            onChange={e =>
+              this.onFieldChanged('language', e.target.value);
+            }
+          />
+
           <TextField
             required
             id="free"
@@ -157,7 +174,7 @@ class AddSchoolPage extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            onChange={e => this.onFieldChanged('avgZno', e.target.value)}
+            onChange={e => this.onFieldChanged('avgZno', +e.target.value)}
           />
 
           <TextField
