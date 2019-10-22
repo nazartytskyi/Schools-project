@@ -81,7 +81,7 @@
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
-@media only screen and (max-width: 779px) {
+@media only screen and (max-width: 849px) {
   .MuiGrid-root.MuiGrid-container {
     display: block;
   }
@@ -89,7 +89,7 @@ button.MuiButton-contained.btn-chosen-sucess {
     max-width: 100%;
   }
   .MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
-    width: 320px;
+    width: 200px;
   }
 }
 @media only screen and (min-width: 850px)and (max-width: 1279px) {

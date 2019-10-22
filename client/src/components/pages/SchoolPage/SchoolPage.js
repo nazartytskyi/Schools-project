@@ -13,6 +13,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CustomizedSnackbars from './SchoolInfo/Snackbar';
 import Feedbacks from './Feedbacks';
+import AddFeedback from './AddFeedback/AddFeedback';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
 import './SchoolPage.scss';
@@ -44,6 +45,7 @@ class SchoolPage extends Component {
       isFavorite: false,
       isSuccess: false,
       successAdd: false,
+      fSuccess: false,
       schools: this.props.schools.data,
       users: this.props.users
     };
@@ -142,6 +144,11 @@ class SchoolPage extends Component {
             );
           })}
         </Container>
+        <div className='add-comment'>
+          <AddFeedback
+            id={currentSchool._id}
+          />
+        </div>
         <div className="teachers-and-vacancies">
           <ExpansionPanel className="vacancy-card-aside">
             <ExpansionPanelSummary
@@ -198,6 +205,7 @@ class SchoolPage extends Component {
           isSuccess={this.state.isSuccess}
           isFavorite={this.state.isFavorite}
           successAdd={this.state.successAdd}
+          fSuccess={this.state.fSuccess}
           closeMessage={this.closeMessage.bind(this)}
         />
       </div>

@@ -5,7 +5,7 @@
   font-size: $mainFontSize;
   p {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     font-size: $secondFontSize;
   }
 }
@@ -13,4 +13,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+@media only screen and (max-width: 568px) {
+  .school-feedbacks p {
+    flex-direction: column;
+    align-items: center;
+  }
 }

@@ -1,10 +1,16 @@
 .main-cont {
-  position: relative;
+  position: sticky;
 }
 .teachers-and-vacancies {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: relative;
+}
+.add-comment {
+  position: fixed;
+  bottom: 77px;
+  right: 50px;
 }
 .MuiButtonBase-root.MuiExpansionPanelSummary-root.fbacks-sum  {
   display: inline-flex;
@@ -16,5 +22,20 @@
 @media only screen and (max-width: 568px) {
   .teachers-and-vacancies {
     display: block;
+  }
+  .add-comment {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+}
+@media only screen and (min-width: 568px) and (max-width: 1679px) {
+  .add-comment {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 }
