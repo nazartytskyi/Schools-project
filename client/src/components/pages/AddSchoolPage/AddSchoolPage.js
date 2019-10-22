@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
@@ -23,6 +24,23 @@ class AddSchoolPage extends React.Component {
     super(props);
     this.state = { form: {} };
   }
+
+  getFiles = (e) => {
+    let oFReader = new FileReader();
+    oFReader.readAsDataURL(e.target.files[0]);
+    this.setState({...this.state, fileName: e.target.files[0].name});
+    const self = this;
+    
+ 
+    oFReader.onload = function (oFREvent) {
+      self.setState({
+        form: {
+          ...self.state.form,
+          photo: oFREvent.target.result
+        }
+      });
+    }   
+  };
 
   onFieldChanged(fieldName, value) {
     this.setState({
@@ -196,6 +214,17 @@ class AddSchoolPage extends React.Component {
             }}
             onChange={e => this.onFieldChanged('email', e.target.value)}
           />
+
+          <div className="download-image">
+              <Typography color="textSecondary" className="download-image-title">
+                Завантажте світлину (розмір не більше 0.1 Mb)
+              </Typography>
+              <label className="download-image-btn">
+              <input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.getFiles}/>
+              <Typography>Завантажити</Typography>
+              </label>
+              <Typography className="file-name">{this.state.fileName}</Typography> 
+            </div>
 
           <Button
             className="submit-btn"
