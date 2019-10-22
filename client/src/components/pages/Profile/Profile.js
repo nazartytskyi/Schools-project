@@ -85,8 +85,8 @@ const mapDispatchToProps = dispatch => ({
   getAllUsers: () => {
     return dispatch(getAllUsers());
   },
-  setUserRole: (uid, role) => {
-    return dispatch(setUserRole(uid, role));
+  setUserRole: (uid, role, bindedSchool) => {
+    return dispatch(setUserRole(uid, role, bindedSchool));
   },
   setBindedSchool: (uid, schoolId) => {
     return dispatch(setBindedSchool(uid, schoolId));
@@ -170,12 +170,12 @@ const columnsUsers = [
       administration: 'Адміністрація школи',
       parent: 'Батьки'
     }
+  },
+  {
+    field: 'bindedSchool',
+    title: 'Школа',
+    lookup: {}
   }
-  // {
-  //   field: 'schoolId',
-  //   title: 'Школа',
-  //   lookup: {}
-  // }
 ];
 
 class Profile extends Component {
@@ -209,15 +209,15 @@ class Profile extends Component {
   componentDidMount() {
     if (this.props.users.userRole === 'superadmin') {
       this.props.getAllUsers();
-      // let allSchools = { null: 'Відсутня' };
-      // this.props.schools.data.forEach(school => {
-      //   allSchools[school._id] = school.name;
-      //   return;
-      // });
-      // let newColumnsUsers = this.state.columnsUsers;
-      // newColumnsUsers[3].lookup = allSchools;
-      // this.setState({ ...this.state, columnsUsers: newColumnsUsers });
-      // console.log(this.state);
+      let allSchools = { null: 'Відсутня' };
+      this.props.schools.data.forEach(school => {
+        allSchools[school._id] = school.name;
+        return;
+      });
+      let newColumnsUsers = this.state.columnsUsers;
+      newColumnsUsers[3].lookup = allSchools;
+      this.setState({ ...this.state, columnsUsers: newColumnsUsers });
+      console.log(this.state);
     }
   }
   customMenuButton() {
@@ -326,13 +326,25 @@ class Profile extends Component {
         );
       }
     } else {
-      requests = this.props.schools.data
-        ? this.props.schools.data[0].firstGrade.requests.map(request => {
-            request.schoolName = this.props.schools.data[0].name;
-            request.schoolId = this.props.schools.data[0]._id;
-            return request;
-          })
-        : [];
+      if (this.props.schools.data) {
+        const currentSchool = this.props.schools.data.find(school => {
+          return this.props.users.bindedSchool === school._id;
+        });
+        requests = currentSchool.firstGrade.requests.map(request => {
+          request.schoolName = currentSchool.name;
+          request.schoolId = currentSchool._id;
+          return request;
+        });
+      } else {
+        requests = [];
+      }
+      // requests = this.props.schools.data
+      //   ? this.props.schools.data[0].firstGrade.requests.map(request => {
+      //       request.schoolName = this.props.schools.data[0].name;
+      //       request.schoolId = this.props.schools.data[0]._id;
+      //       return request;
+      //     })
+      //   : [];
     }
     for (let i = 0; i < requests.length; i++) {
       if (requests[i].status === 'подано') {
@@ -374,7 +386,12 @@ class Profile extends Component {
               onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
                   setTimeout(() => {
-                    this.props.setUserRole(newData.uid, newData.role);
+                    console.log(newData, 'newData');
+                    this.props.setUserRole(
+                      newData.uid,
+                      newData.role,
+                      newData.bindedSchool
+                    );
                     // this.props.setBindedSchool(
                     //   newData.uid,
                     //   newData.bindedSchool

@@ -8,16 +8,19 @@ export default (state = {}, action) => {
     case 'GET_USER_ROLE':
       return {
         ...state,
-        userRole: action.payload
+        userRole: action.role,
+        bindedSchool: action.bindedSchool
       };
     case 'SET_USER_ROLE':
       if (state.userFromMongo._id === action.uid) {
         state.userFromMongo.role = action.role;
+        state.userFromMongo.bindedSchool = action.bindedSchool;
       }
       let userIndex = state.allUsers.findIndex(user => {
         return user.uid === action.uid;
       });
       state.allUsers[userIndex].role = action.role;
+      state.allUsers[userIndex].bindedSchool = action.bindedSchool;
       return { ...state };
     case 'SET_USER_FROM_MONGO':
       return {
@@ -42,11 +45,11 @@ export default (state = {}, action) => {
         ...state,
         allUsers: action.allUsers
       };
-    case 'SET_BINDED_SCHOOL':
-      if (action.uid === state.userFromMongo._id) {
-        state.userFromMongo.bindedSchool = action.schoolId;
-      }
-      return { ...state };
+    // case 'SET_BINDED_SCHOOL':
+    //   if (action.uid === state.userFromMongo._id) {
+    //     state.userFromMongo.bindedSchool = action.schoolId;
+    //   }
+    //   return { ...state };
     default:
       return state;
   }
