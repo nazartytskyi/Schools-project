@@ -5,8 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import './ButtonBases.scss'
 import SearchIcon from '@material-ui/icons/Search';
 import WorkIcon from '@material-ui/icons/Work';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+
 
 export default class ButtonBases extends React.Component {
   render() {
@@ -28,7 +29,7 @@ export default class ButtonBases extends React.Component {
 
         <Link to="/news">  
           <div className="button">
-            <div className="button__icon"><TrendingUpIcon color="primary"/></div>
+            <div className="button__icon"><LibraryBooksIcon color="primary"/></div>
             <h3 className="button__text">Новини</h3>
           </div>
         </Link>
