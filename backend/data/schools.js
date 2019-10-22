@@ -13,6 +13,7 @@ const schoolsSchema = new SchoolsSchema(
     adress: Object,
     language: String,
     email: String,
+    avgZno: Number,
     foreignLanguages: [String],
     director: {
       name: String,

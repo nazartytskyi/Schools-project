@@ -122,7 +122,7 @@ const columns = [
   },
   {
     field: 'firstPriority',
-    title: 'Перша\u00a0черга',
+    title: 'Першочергове\u00a0право',
     type: 'boolean'
   },
   {
