@@ -105,6 +105,7 @@ class SchoolPage extends Component {
           changeHeart={this.changeHeart}
           currentSchool={currentSchool}
           chosen={chosen}
+          user={this.props.users.user}
         />
         <Container className="school-feedbacks" maxWidth="lg">
           <ExpansionPanel className='fback-panel'>

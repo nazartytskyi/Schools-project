@@ -9,7 +9,7 @@ import './AddSchoolPage.scss';
 import { addSchool } from './../../../actions/addSchool';
 import Container from '@material-ui/core/Container';
 import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
-import CustomizedSnackbars from './../../shared/AddNews/SuccessAlert';
+import CustomizedSnackbars from './../../pages/SchoolPage/SchoolInfo/Snackbar';
 
 const mapStateToProps = state => ({
   ...state
