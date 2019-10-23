@@ -99,7 +99,7 @@ class SchoolPage extends Component {
     // console.log(chosen);
     
     return currentSchool !== undefined  ? (
-      <div>
+      <Container className='main-container' maxWidth="lg">
         <SchoolInfo
           checkFavorite={this.checkFavorite}
           changeHeart={this.changeHeart}
@@ -212,7 +212,7 @@ class SchoolPage extends Component {
           fSuccess={this.state.fSuccess}
           closeMessage={this.closeMessage.bind(this)}
         />
-      </div>
+      </Container>
     ) : (
       <CircularProgress className="school-loader" />
     );

@@ -6,6 +6,7 @@
   padding-bottom: 20px;
 }
 .school-news-card {
+  height: 550px;
   margin-top: 20px;
 }
 .text-ellipsis {
@@ -36,8 +37,8 @@
 }
 @media only screen and (min-width: 1273px) and (max-width: 1672px) {
   .school-news-card {
-    width: 568px;
-    min-height: 610px;
+    width: 350px;
+    height: 510px;
   }
 }
 @media only screen and (min-width: 720px) and (max-width: 1272px) {

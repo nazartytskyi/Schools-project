@@ -98,18 +98,16 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite, chosen, user}) =
                   </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                  <Paper className="paper-info-bottom">
+                  <div className="paper-info-bottom">
                     <Typography className="info h5" variant="h5">
                       <InfoIcon fontSize='large'/>
                     </Typography>
                     <div className='info-with-table'>
-                      <Typography component='div'>
                         <InfoTable
                           currentSchool={currentSchool}
                         />
-                      </Typography>
                     </div>
-                  </Paper>
+                  </div >
                 </Grid>
               </Grid>
             </div>  
