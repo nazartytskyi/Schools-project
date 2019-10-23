@@ -9,6 +9,8 @@ import propTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import CustomizedSnackbars from '../SchoolInfo/Snackbar';
+import CommentIcon from '@material-ui/icons/Comment';
+import './AddFeedback.scss';
 
 const mapStateToProps = state => ({
   schools: state.schools.data,
@@ -117,8 +119,8 @@ class AddFeedback extends Component {
             closeMessage={this.closeMessage.bind(this)}
             alertMessage="Відгук додано"
           />
-          <Fab onClick={this.openDialog} color="secondary" aria-label="add">
-            <AddIcon />
+          <Fab className='feedback-icon' onClick={this.openDialog} color="primary" aria-label="add">
+            <CommentIcon className='feedback-icon' />
           </Fab>
           {this.displayAddFeedback()}
         </div>

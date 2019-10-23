@@ -1,9 +1,6 @@
-.main-cont {
-  position: sticky;
-}
 .teachers-and-vacancies {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   position: relative;
 }
@@ -11,6 +8,7 @@
   position: fixed;
   bottom: 77px;
   right: 50px;
+  z-index: 1200;
 }
 .MuiButtonBase-root.MuiExpansionPanelSummary-root.fbacks-sum  {
   display: inline-flex;
@@ -24,18 +22,17 @@
     display: block;
   }
   .add-comment {
-    position: static;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding-bottom: 20px;
+    left:  50px;
   }
 }
-@media only screen and (min-width: 568px) and (max-width: 1679px) {
-  .add-comment {
-    position: static;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+@media only screen and (min-width: 768px) and (max-width: 1678px) {
+  .MuiContainer-root.main-container.MuiContainer-maxWidthLg  {
+    max-width: 900px;
   }
 }
+@media only screen and (min-width: 1679px)and (max-width: 1790px) {
+  .MuiContainer-root.main-container.MuiContainer-maxWidthLg  {
+    max-width: 1150px;
+  }
+}
+
