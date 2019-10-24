@@ -8,8 +8,8 @@ const Feedbacks = ({handleExpandClick,expanded,fIndex,feedback}) => {
   return (
     <Container maxWidth='lg'>
       <Typography className='school-fItems'>
-        <p><PersonIcon fontSize='medium'/>{feedback.author}:</p>
-        <p>{feedback.text}</p>
+        <p className='feedback-author'><PersonIcon fontSize='medium'/>{feedback.author}:</p>
+        <p className='feedback-text'>{feedback.text}</p>
       </Typography>
       <Divider/>
       <IconButton

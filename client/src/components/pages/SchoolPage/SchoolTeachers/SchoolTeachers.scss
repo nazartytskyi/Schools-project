@@ -26,7 +26,7 @@
   height: 89px;
   top: 375px;
   right: 20px;
-
+  z-index: 1000;
   text-align: center;
 }
 .teacher-avatar {
@@ -41,7 +41,7 @@
     width: 17%;
   }
   .MuiPaper-root.MuiPaper-elevation1.MuiExpansionPanel-root.teachers-card-section.Mui-expanded.MuiExpansionPanel-rounded.MuiPaper-rounded {
-    height: 405px;
+    height: 350px;
     overflow-y: scroll;
   }
   .school-teacher-card {
