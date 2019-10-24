@@ -1,5 +1,10 @@
 @import '../../../Variables.scss';
 
+.MuiContainer-root div.MuiSnackbar-root {
+  top: 100px;
+  left: 65%;
+ }
+
 .school-info-container {
   display: flex;
   flex-direction: column;
@@ -65,9 +70,7 @@
 .media-school-photo {
   height: 505px;
 }
-.snack {
-  margin-top: 70px;
-}
+
 .school-loader {
   margin-top: 355px;
   display: flex;

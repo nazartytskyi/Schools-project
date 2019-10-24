@@ -77,7 +77,7 @@ class AddSchoolPage extends React.Component {
 
   closeMessage = () => {
     this.setState({...this.state, isSuccess: false});
-   }
+  }
   
 
   sendRequest(form) {
