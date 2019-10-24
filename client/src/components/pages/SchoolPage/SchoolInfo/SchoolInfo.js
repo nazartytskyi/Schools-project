@@ -60,8 +60,11 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite, chosen, user}) =
                   Надіслати заявку
                 </Button>
               </ButtonGroup>
-              <AddNews id={currentSchool._id}/>
-              <AddVacancy currentSchool={currentSchool}/>
+              <div className="add-btns">
+                <AddNews id={currentSchool._id}/>
+                <AddVacancy currentSchool={currentSchool}/>
+              </div>
+            
             </div>
             <div className='school-content'>
               <Grid container spacing={3}>

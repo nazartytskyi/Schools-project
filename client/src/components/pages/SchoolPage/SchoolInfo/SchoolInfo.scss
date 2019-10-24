@@ -81,6 +81,9 @@
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
+.add-btns {
+  display: flex;
+}
 @media only screen and (max-width: 849px) {
   .MuiGrid-root.MuiGrid-container {
     display: block;
