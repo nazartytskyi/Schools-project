@@ -1,10 +1,5 @@
 @import '../../../Variables.scss';
 
-.MuiContainer-root div.MuiSnackbar-root {
-  top: 100px;
-  left: 65%;
- }
-
 .school-info-container {
   display: flex;
   flex-direction: column;
@@ -70,7 +65,9 @@
 .media-school-photo {
   height: 505px;
 }
-
+.snack {
+  margin-top: 70px;
+}
 .school-loader {
   margin-top: 355px;
   display: flex;
@@ -139,7 +136,7 @@ button.MuiButton-contained.btn-chosen-sucess {
     height: 250px;
   }
   .paper-info {
-    height: 310px;
+    height: 340px;
     p {
       font-size: $miniFontSize;
       margin-block-start: 0.1em;
@@ -149,7 +146,7 @@ button.MuiButton-contained.btn-chosen-sucess {
     font-size: $miniFontSize;
   }
   .school-about {
-    padding-top: 20px;
+    padding-top: 5px;
   }
 }
 @media only screen and (min-width: 320px)and (max-width: 568px) {

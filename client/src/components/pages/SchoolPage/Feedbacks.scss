@@ -5,9 +5,13 @@
   font-size: $mainFontSize;
   p {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     font-size: $secondFontSize;
+    padding-left: 10px;
+    text-align: start;
   }
+}
+.MuiButtonBase-root.MuiExpansionPanelSummary-root.fbacks-sum {
 }
 .school-fItems {
   display: flex;

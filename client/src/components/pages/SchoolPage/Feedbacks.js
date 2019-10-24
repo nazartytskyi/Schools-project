@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MessageIcon from '@material-ui/icons/Message';
 import PersonIcon from '@material-ui/icons/Person';
 import {Typography, Container, IconButton } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
@@ -9,8 +8,8 @@ const Feedbacks = ({handleExpandClick,expanded,fIndex,feedback}) => {
   return (
     <Container maxWidth='lg'>
       <Typography className='school-fItems'>
-        <p><PersonIcon fontSize='large'/>{feedback.author}</p>
-        <p><MessageIcon fontSize='large'/>{feedback.text}</p>
+        <p><PersonIcon fontSize='medium'/>{feedback.author}:</p>
+        <p>{feedback.text}</p>
       </Typography>
       <Divider/>
       <IconButton

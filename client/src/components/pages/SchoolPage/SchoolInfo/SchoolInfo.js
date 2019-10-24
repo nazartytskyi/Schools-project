@@ -57,7 +57,7 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite, chosen, user}) =
                     {changeHeart(chosen)}
                 </Button>
                 <Button onClick={() => user ? openDialogForm(true) : openNotification(true)} color="secondary" className='btn-send-doc'>
-                  Надіслати документи
+                  Надіслати заявку
                 </Button>
               </ButtonGroup>
               <AddNews id={currentSchool._id}/>
