@@ -1,9 +1,9 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import './ToggleMenu.scss';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Typography } from '@material-ui/core';
 
 export default function ProfileToggleMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -34,3 +34,7 @@ export default function ProfileToggleMenu(props) {
     </div>
   );
 }
+
+ProfileToggleMenu.propTypes = {
+  menuItems: propTypes.array
+};
