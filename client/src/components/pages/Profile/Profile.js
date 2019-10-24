@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
 import { setUserRole } from '../../../actions/setUserRole';
@@ -124,7 +125,14 @@ const columns = [
   {
     field: 'schoolName',
     title: 'Назва\u00a0школи',
-    editable: 'never'
+    editable: 'never',
+    render: rowData => {
+      return (
+        <Link to={`/school/${rowData.schoolIdNumber}`}>
+          {rowData.schoolName}
+        </Link>
+      );
+    }
   }
 ];
 const columnsUsers = [
@@ -298,18 +306,23 @@ class Profile extends Component {
             this.props.schools.data[i].firstGrade.requests.map(request => {
               request.schoolName = this.props.schools.data[i].name;
               request.schoolId = this.props.schools.data[i]._id;
+              request.schoolIdNumber = this.props.schools.data[i].id;
               return request;
             })
           );
         }
       } else {
-        if (this.props.schools.data) {
+        if (
+          this.props.users.userRole === 'administration' &&
+          this.props.users.bindedSchool
+        ) {
           const currentSchool = this.props.schools.data.find(school => {
             return this.props.users.bindedSchool === school._id;
           });
           requests = currentSchool.firstGrade.requests.map(request => {
             request.schoolName = currentSchool.name;
             request.schoolId = currentSchool._id;
+            request.schoolIdNumber = currentSchool.id;
             return request;
           });
         } else {
@@ -338,7 +351,7 @@ class Profile extends Component {
                     setTimeout(() => {
                       this.props.updateRequest({ ...newData });
                       resolve();
-                    }, 600);
+                    }, 800);
                   })
               }}
             />
@@ -397,7 +410,11 @@ class Profile extends Component {
           profileContainer = (
             <Paper className="profile-card">
               {redir}
-              <img className="user-picture" src={userPicture}></img>
+              <img
+                className="user-picture"
+                src={userPicture}
+                alt="userPicture"
+              ></img>
               <div className="profile-row">
                 <div className="userdata-title">Ім&#39;я</div>{' '}
                 <div className="userdata">{username}</div>
