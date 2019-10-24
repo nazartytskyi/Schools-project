@@ -10,6 +10,7 @@ import Icon from '@material-ui/core/Icon';
 import './DialogForm.scss';
 import { addRequest } from './../../../../actions/addRequest';
 import { fromBase64 } from 'bytebuffer';
+import CustomizedSnackbars from './../../../shared/AddNews/SuccessAlert';
 
 const mapStateToProps = state => ({
   ...state
@@ -22,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
 class DialogForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { form: {}, isDialogOpen: true };
+    this.state = { form: {}, isDialogOpen: true, isSuccess: false };
   }
 
   onFieldChanged(fieldName, value) {
@@ -53,6 +54,10 @@ class DialogForm extends React.Component {
     return false;
   }
 
+  closeMessage = () => {
+    this.setState({...this.state, isSuccess: false});
+  }
+
   sendRequest(form) {
     form.dateApply = new Date().toLocaleDateString();
     form.dateBirth = new Date(form.dateBirth).toLocaleDateString();
@@ -62,10 +67,18 @@ class DialogForm extends React.Component {
     this.props.addRequest(form, this.props.schoolId);
     this.setState({ form: {} });
     this.props.close();
+    this.setState({ isSuccess: true });
   }
 
   render() {
     return (
+      <>
+      <CustomizedSnackbars 
+        variant="succes"
+        isSuccess={this.state.isSuccess} 
+        closeMessage={this.closeMessage.bind(this)}
+        alertMessage="Надіслано"
+      />
       <Dialog
         onClose={this.props.close}
         open={(this.state.isDialogOpen && this.props.open) || false}
@@ -192,6 +205,7 @@ class DialogForm extends React.Component {
             label="Email"
             placeholder="your.mail@domain.com"
             margin="normal"
+            type="email"
             InputLabelProps={{
               shrink: true
             }}
@@ -210,6 +224,7 @@ class DialogForm extends React.Component {
           </Button>
         </form>
       </Dialog>
+      </>
     );
   }
 }

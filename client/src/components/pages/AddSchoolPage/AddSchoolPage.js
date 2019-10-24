@@ -77,7 +77,7 @@ class AddSchoolPage extends React.Component {
 
   closeMessage = () => {
     this.setState({...this.state, isSuccess: false});
-   }
+  }
   
 
   sendRequest(form) {
@@ -155,7 +155,6 @@ class AddSchoolPage extends React.Component {
             label="Мова викладання"
             placeholder="Українська"
             margin="normal"
-            type="number"
             InputLabelProps={{
               shrink: true
             }}
@@ -258,7 +257,7 @@ class AddSchoolPage extends React.Component {
 
           <div className="download-image">
               <Typography color="textSecondary" className="download-image-title">
-                Завантажте світлину (розмір не більше 0.1 Mb)
+                Завантажте світлину 
               </Typography>
               <label className="download-image-btn">
               <input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.getFiles}/>
