@@ -189,7 +189,7 @@ const mapDispatchToProps = dispatch => ({
   };
 
   render() {
-    if(this.props.users.userRole === 'administration') {
+    if(this.props.users.userRole === 'administration' && this.props.users.user !== null) {
     return (
       <div className="add-news">
         <Button variant="contained" onClick={this.openDialog}>

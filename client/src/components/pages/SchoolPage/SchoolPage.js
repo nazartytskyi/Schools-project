@@ -13,6 +13,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CustomizedSnackbars from './SchoolInfo/Snackbar';
 import Feedbacks from './Feedbacks';
+import AddFeedback from './AddFeedback/AddFeedback';
 import { addFavoriteSchool } from '../../../actions/addFavoriteSchool';
 import { deleteFavoriteSchool } from '../../../actions/deleteFavoriteSchool';
 import './SchoolPage.scss';
@@ -44,8 +45,10 @@ class SchoolPage extends Component {
       isFavorite: false,
       isSuccess: false,
       successAdd: false,
+      fSuccess: false,
       schools: this.props.schools.data,
-      users: this.props.users
+      users: this.props.users,
+      uid: null
     };
   }
 
@@ -67,10 +70,10 @@ class SchoolPage extends Component {
     this.props.deleteFavoriteSchool(currentSchool._id);
     this.setState({ ...this.state, isFavorite: false, successAdd: false });
   };
-  checkFavorite = (currentSchool,chosen) => {
+  checkFavorite = (currentSchool, chosen) => {
     if (this.props.users.user !== null) {
       this.setState({ ...this.state, isSuccess: false });
-      if (!this.state.isFavorite && chosen === undefined) {
+      if (!this.state.isFavorite && !chosen) {
         this.addSchool(currentSchool);
       } else {
         this.deleteFavorite(currentSchool);
@@ -92,14 +95,17 @@ class SchoolPage extends Component {
     const userMongo = this.state.users.userFromMongo  || [];
     const { schoolId } = this.props.match.params;
     const currentSchool = schools.find(school => school.id === +schoolId);
-    const chosen = userMongo.length == undefined ? userMongo.choosedSchools.find(chose => currentSchool._id === chose) :  userMongo.length;
-    return currentSchool !== undefined ? (
-      <div>
+    const chosen = userMongo.length === undefined && currentSchool ? userMongo.choosedSchools.find(chose => currentSchool._id === chose) :  userMongo.length;
+    // console.log(chosen);
+    
+    return currentSchool !== undefined  ? (
+      <Container className='main-container' maxWidth="lg">
         <SchoolInfo
           checkFavorite={this.checkFavorite}
           changeHeart={this.changeHeart}
           currentSchool={currentSchool}
           chosen={chosen}
+          user={this.props.users.user}
         />
         <Container className="school-feedbacks" maxWidth="lg">
           <ExpansionPanel className='fback-panel'>
@@ -142,6 +148,11 @@ class SchoolPage extends Component {
             );
           })}
         </Container>
+        <div className='add-comment'>
+          <AddFeedback
+            id={currentSchool._id}
+          />
+        </div>
         <div className="teachers-and-vacancies">
           <ExpansionPanel className="vacancy-card-aside">
             <ExpansionPanelSummary
@@ -198,9 +209,10 @@ class SchoolPage extends Component {
           isSuccess={this.state.isSuccess}
           isFavorite={this.state.isFavorite}
           successAdd={this.state.successAdd}
+          fSuccess={this.state.fSuccess}
           closeMessage={this.closeMessage.bind(this)}
         />
-      </div>
+      </Container>
     ) : (
       <CircularProgress className="school-loader" />
     );

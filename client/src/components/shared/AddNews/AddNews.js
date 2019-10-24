@@ -146,9 +146,6 @@ const mapDispatchToProps = dispatch => ({
               />
             </div>
             <div className="download-image">
-              <Typography color="textSecondary" className="download-image-title">
-                Завантажте світлину (розмір не більше 0.1 Mb)
-              </Typography>
               <label className="download-image-btn">
               <input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.getFiles}/>
               <Typography>Завантажити</Typography>
@@ -177,7 +174,7 @@ const mapDispatchToProps = dispatch => ({
   };
 
   render() {
-    if(this.props.users.userRole === 'superadmin') {
+    if(this.props.users.userRole === 'administration' && this.props.users.user !== null) {
     return (
       <div className="add-news">
         <CustomizedSnackbars 

@@ -86,8 +86,9 @@ export class Login extends Component {
               this.props.setUserFromMongo(user.data);
             });
         });
-      this.props.getUserRole();
+      
     }
+    this.props.getUserRole();
   };
 
   render() {
