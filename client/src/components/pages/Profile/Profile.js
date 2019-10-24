@@ -299,7 +299,7 @@ class Profile extends Component {
     let requestsApplied = 0;
     let requests = [];
     let menu = [];
-    if (Object.keys(this.props.users).length && this.props.users.user) {
+    if (this.props.schools.data && Object.keys(this.props.users).length && this.props.users.user) {
       if (this.props.users.userRole === 'superadmin') {
         for (let i = 0; i < this.props.schools.data.length; i++) {
           requests = requests.concat(
