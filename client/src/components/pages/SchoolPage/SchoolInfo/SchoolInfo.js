@@ -24,13 +24,24 @@ import AddNews from '../../../shared/AddNews/AddNews'
 import DialogForm from './../DialogForm/DialogForm';
 import InfoTable from './InfoTable';
 import AddVacancy from '../../../shared/AddVacancy/AddVacancy';
+import CustomizedSnackbars from './../../../pages/SchoolPage/SchoolInfo/Snackbar';
 
-const SchoolInfo = ({currentSchool, changeHeart, checkFavorite,chosen}) => {
+const SchoolInfo = ({currentSchool, changeHeart, checkFavorite, chosen, user}) => {
   const [isDialogOpen, openDialogForm] = React.useState(false);
+  const [isNotificationOpen, openNotification] = React.useState(false);
+  
+  const closeMessage = () => {
+    openNotification(false);
+   }
   return (
       <React.Fragment>
         <CssBaseline />
           <Container maxWidth="lg">
+           <CustomizedSnackbars 
+             isSuccess={isNotificationOpen} 
+             closeMessage={closeMessage.bind(this)}
+             alertMessage="Ви не авторизовані!"
+            />
             <DialogForm schoolId={currentSchool._id} close={() => openDialogForm(false)} open={isDialogOpen} />
             <div className="school-btn-container"> 
               <Typography className="school-name" variant="h4" color="textPrimary">
@@ -45,8 +56,8 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite,chosen}) => {
                     Додати в обрані
                     {changeHeart(chosen)}
                 </Button>
-                <Button onClick={() => openDialogForm(true)} color="secondary" className='btn-send-doc'>
-                  Надіслати документи
+                <Button onClick={() => user ? openDialogForm(true) : openNotification(true)} color="secondary" className='btn-send-doc'>
+                  Надіслати заявку
                 </Button>
               </ButtonGroup>
               <AddNews id={currentSchool._id}/>
@@ -87,18 +98,16 @@ const SchoolInfo = ({currentSchool, changeHeart, checkFavorite,chosen}) => {
                   </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                  <Paper className="paper-info-bottom">
+                  <div className="paper-info-bottom">
                     <Typography className="info h5" variant="h5">
                       <InfoIcon fontSize='large'/>
                     </Typography>
                     <div className='info-with-table'>
-                      <Typography component='div'>
                         <InfoTable
                           currentSchool={currentSchool}
                         />
-                      </Typography>
                     </div>
-                  </Paper>
+                  </div >
                 </Grid>
               </Grid>
             </div>  

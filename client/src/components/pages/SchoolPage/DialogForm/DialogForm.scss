@@ -1,19 +1,19 @@
 .dialog-form {
-    height: 500px;
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: 500px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-    .submit-btn {
-        align-self: flex-end;
-        width: 100px;
-        margin-top: 15;
-        margin-bottom: 20px;
-    }
+  .submit-btn {
+      align-self: flex-end;
+      width: 100px;
+      margin-top: 15;
+      margin-bottom: 20px;
+  }
 }
 
 div.MuiDialog-paperWidthSm {
-  max-width: 400px;
+max-width: 400px;
 }

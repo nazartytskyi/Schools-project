@@ -7,10 +7,9 @@ export const removeVacancy = (idSchool, idVacancy) => dispatch => {
       .currentUser.getIdToken()
       .then(idToken => {
         axios
-          .delete(
-            `http://localhost:3001/api/schools/${idSchool}/vacancy/${idVacancy}`,
-            { headers: { authorization: idToken } }
-          )
+          .delete(`/api/schools/${idSchool}/vacancy/${idVacancy}`, {
+            headers: { authorization: idToken }
+          })
           .then(() => {
             return dispatch({
               type: 'REMOVE_VACANCY',

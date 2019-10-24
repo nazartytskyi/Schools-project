@@ -15,6 +15,7 @@ import RemoveNews from '../../../shared/RemoveNews/RemoveNews'
 const SchoolNews = ({item,expanded,SchoolNewsId,handleExpandClick,currentSchool}) => (
   <Card className='school-news-card'>
     <CardHeader
+      className='news-school-header'
       title={item.title}
       subheader={item.date}
     />

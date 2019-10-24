@@ -3,35 +3,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import { updateRequest } from '../../../actions/updateRequest';
 import { getAllUsers } from '../../../actions/getAllUsers';
 import { setUserRole } from '../../../actions/setUserRole';
-import { setBindedSchool } from '../../../actions/setBindedSchool';
 import RequestsAlert from './RequestsAlert';
 import FavSchoolsPage from '../FavSchoolsPage/FavSchoolsPage';
 import ProfileToggleMenu from './ToggleMenu/ToggleMenu';
 import AddSchoolPage from '../AddSchoolPage/AddSchoolPage';
 
-import axios from 'axios';
-
-// import firebase from '../../firebase-service/firebase-service';
-import Container from '@material-ui/core/Container';
-// import axios from 'axios';
 import './Profile.scss';
-import {
-  Paper,
-  Typography,
-  Button,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  InputLabel,
-  Select,
-  MenuItem
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Paper, Button } from '@material-ui/core';
 
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
@@ -85,11 +67,8 @@ const mapDispatchToProps = dispatch => ({
   getAllUsers: () => {
     return dispatch(getAllUsers());
   },
-  setUserRole: (uid, role) => {
-    return dispatch(setUserRole(uid, role));
-  },
-  setBindedSchool: (uid, schoolId) => {
-    return dispatch(setBindedSchool(uid, schoolId));
+  setUserRole: (uid, role, bindedSchool) => {
+    return dispatch(setUserRole(uid, role, bindedSchool));
   }
 });
 
@@ -98,7 +77,6 @@ const columns = [
     field: 'studentName',
     title: 'Ім\u0027я\u00a0учня',
     editable: 'never'
-    // minWidth: 170
   },
   {
     field: 'dateBirth',
@@ -147,7 +125,14 @@ const columns = [
   {
     field: 'schoolName',
     title: 'Назва\u00a0школи',
-    editable: 'never'
+    editable: 'never',
+    render: rowData => {
+      return (
+        <Link to={`/school/${rowData.schoolIdNumber}`}>
+          {rowData.schoolName}
+        </Link>
+      );
+    }
   }
 ];
 const columnsUsers = [
@@ -170,12 +155,12 @@ const columnsUsers = [
       administration: 'Адміністрація школи',
       parent: 'Батьки'
     }
+  },
+  {
+    field: 'bindedSchool',
+    title: 'Школа',
+    lookup: {}
   }
-  // {
-  //   field: 'schoolId',
-  //   title: 'Школа',
-  //   lookup: {}
-  // }
 ];
 
 class Profile extends Component {
@@ -209,15 +194,14 @@ class Profile extends Component {
   componentDidMount() {
     if (this.props.users.userRole === 'superadmin') {
       this.props.getAllUsers();
-      // let allSchools = { null: 'Відсутня' };
-      // this.props.schools.data.forEach(school => {
-      //   allSchools[school._id] = school.name;
-      //   return;
-      // });
-      // let newColumnsUsers = this.state.columnsUsers;
-      // newColumnsUsers[3].lookup = allSchools;
-      // this.setState({ ...this.state, columnsUsers: newColumnsUsers });
-      // console.log(this.state);
+      let allSchools = { null: 'Відсутня' };
+      this.props.schools.data.forEach(school => {
+        allSchools[school._id] = school.name;
+        return;
+      });
+      let newColumnsUsers = this.state.columnsUsers;
+      newColumnsUsers[3].lookup = allSchools;
+      this.setState({ ...this.state, columnsUsers: newColumnsUsers });
     }
   }
   customMenuButton() {
@@ -314,91 +298,103 @@ class Profile extends Component {
     let profileContainer;
     let requestsApplied = 0;
     let requests = [];
-
-    if (this.props.users.userRole === 'superadmin') {
-      for (let i = 0; i < this.props.schools.data.length; i++) {
-        requests = requests.concat(
-          this.props.schools.data[i].firstGrade.requests.map(request => {
-            request.schoolName = this.props.schools.data[i].name;
-            request.schoolId = this.props.schools.data[i]._id;
+    let menu = [];
+    if (Object.keys(this.props.users).length && this.props.users.user) {
+      if (this.props.users.userRole === 'superadmin') {
+        for (let i = 0; i < this.props.schools.data.length; i++) {
+          requests = requests.concat(
+            this.props.schools.data[i].firstGrade.requests.map(request => {
+              request.schoolName = this.props.schools.data[i].name;
+              request.schoolId = this.props.schools.data[i]._id;
+              request.schoolIdNumber = this.props.schools.data[i].id;
+              return request;
+            })
+          );
+        }
+      } else {
+        if (
+          this.props.users.userRole === 'administration' &&
+          this.props.users.bindedSchool
+        ) {
+          const currentSchool = this.props.schools.data.find(school => {
+            return this.props.users.bindedSchool === school._id;
+          });
+          requests = currentSchool.firstGrade.requests.map(request => {
+            request.schoolName = currentSchool.name;
+            request.schoolId = currentSchool._id;
+            request.schoolIdNumber = currentSchool.id;
             return request;
-          })
-        );
+          });
+        } else {
+          requests = [];
+        }
       }
-    } else {
-      requests = this.props.schools.data
-        ? this.props.schools.data[0].firstGrade.requests.map(request => {
-            request.schoolName = this.props.schools.data[0].name;
-            request.schoolId = this.props.schools.data[0]._id;
-            return request;
-          })
-        : [];
-    }
-    for (let i = 0; i < requests.length; i++) {
-      if (requests[i].status === 'подано') {
-        requestsApplied++;
+      for (let i = 0; i < requests.length; i++) {
+        if (requests[i].status === 'подано') {
+          requestsApplied++;
+        }
       }
-    }
-    switch (this.state.menu) {
-      case 'addSchool':
-        profileContainer = <AddSchoolPage />;
-        break;
-      case 'requests':
-        profileContainer = (
-          <MaterialTable
-            icons={tableIcons}
-            title="Заяви"
-            columns={this.state.columns}
-            data={requests}
-            editable={{
-              onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
-                  setTimeout(() => {
-                    this.props.updateRequest({ ...newData });
-                    resolve();
-                  }, 600);
-                })
-            }}
-          />
-        );
-        break;
-      case 'setRoles':
-        let users = this.props.users.allUsers ? this.props.users.allUsers : [];
-        profileContainer = (
-          <MaterialTable
-            icons={tableIcons}
-            title="Користувачі"
-            columns={this.state.columnsUsers}
-            data={users}
-            editable={{
-              onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
-                  setTimeout(() => {
-                    this.props.setUserRole(newData.uid, newData.role);
-                    // this.props.setBindedSchool(
-                    //   newData.uid,
-                    //   newData.bindedSchool
-                    // );
-                    resolve();
-                  }, 600);
-                })
-            }}
-          />
-        );
-        break;
-      case 'favoriteSchools':
-        profileContainer = <FavSchoolsPage />;
-        break;
-      case 'mainInfo':
-      default:
-        let userRole = 'Parent';
-        let username = '';
-        let userPicture = '';
-        let email = '';
-        let lastLoginAt = '';
-        let creationTime = '';
-        let redir = null;
-        if (Object.keys(this.props.users).length && this.props.users.user) {
+      switch (this.state.menu) {
+        case 'addSchool':
+          profileContainer = <AddSchoolPage />;
+          break;
+        case 'requests':
+          profileContainer = (
+            <MaterialTable
+              icons={tableIcons}
+              title="Заяви"
+              columns={this.state.columns}
+              data={requests}
+              editable={{
+                onRowUpdate: (newData, oldData) =>
+                  new Promise(resolve => {
+                    setTimeout(() => {
+                      this.props.updateRequest({ ...newData });
+                      resolve();
+                    }, 800);
+                  })
+              }}
+            />
+          );
+          break;
+        case 'setRoles':
+          let users = this.props.users.allUsers
+            ? this.props.users.allUsers
+            : [];
+          profileContainer = (
+            <MaterialTable
+              icons={tableIcons}
+              title="Користувачі"
+              columns={this.state.columnsUsers}
+              data={users}
+              editable={{
+                onRowUpdate: (newData, oldData) =>
+                  new Promise(resolve => {
+                    setTimeout(() => {
+                      this.props.setUserRole(
+                        newData.uid,
+                        newData.role,
+                        newData.bindedSchool
+                      );
+                      resolve();
+                    }, 600);
+                  })
+              }}
+            />
+          );
+          break;
+        case 'favoriteSchools':
+          profileContainer = <FavSchoolsPage />;
+          break;
+        case 'mainInfo':
+        default:
+          let userRole = 'Parent';
+          let username = '';
+          let userPicture = '';
+          let email = '';
+          let lastLoginAt = '';
+          let creationTime = '';
+          let redir = null;
           userRole = this.props.users.userRole;
           username = this.props.users.user.displayName;
           userPicture = this.props.users.user.photoURL
@@ -411,38 +407,42 @@ class Profile extends Component {
           creationTime = new Date(
             parseInt(this.props.users.user.metadata.a)
           ).toLocaleString();
-        } else {
-          redir = <Redirect push to={'/error/401'} />;
-        }
-        profileContainer = (
-          <Paper className="profile-card">
-            {redir}
-            <img className="user-picture" src={userPicture}></img>
-            <div className="profile-row">
-              <div className="userdata-title">Ім&#39;я</div>{' '}
-              <div className="userdata">{username}</div>
-            </div>
-            <div className="profile-row">
-              <div className="userdata-title">Електронна пошта</div>{' '}
-              <div className="userdata">{email}</div>
-            </div>
-            <div className="profile-row">
-              <div className="userdata-title">Статус</div>{' '}
-              <div className="userdata">{userRole}</div>
-            </div>
-            <div className="profile-row">
-              <div className="userdata-title">Останній вхід</div>{' '}
-              <div className="userdata">{lastLoginAt}</div>
-            </div>
-            <div className="profile-row">
-              <div className="userdata-title">Зареєстровано</div>{' '}
-              <div className="userdata">{creationTime}</div>
-            </div>
-          </Paper>
-        );
-        break;
+          profileContainer = (
+            <Paper className="profile-card">
+              {redir}
+              <img
+                className="user-picture"
+                src={userPicture}
+                alt="userPicture"
+              ></img>
+              <div className="profile-row">
+                <div className="userdata-title">Ім&#39;я</div>{' '}
+                <div className="userdata">{username}</div>
+              </div>
+              <div className="profile-row">
+                <div className="userdata-title">Електронна пошта</div>{' '}
+                <div className="userdata">{email}</div>
+              </div>
+              <div className="profile-row">
+                <div className="userdata-title">Статус</div>{' '}
+                <div className="userdata">{userRole}</div>
+              </div>
+              <div className="profile-row">
+                <div className="userdata-title">Останній вхід</div>{' '}
+                <div className="userdata">{lastLoginAt}</div>
+              </div>
+              <div className="profile-row">
+                <div className="userdata-title">Зареєстровано</div>{' '}
+                <div className="userdata">{creationTime}</div>
+              </div>
+            </Paper>
+          );
+          break;
+      }
+      menu = this.customMenuButton();
+    } else {
+      profileContainer = <Redirect push to={'/error/401'} />;
     }
-    let menu = this.customMenuButton();
     return (
       <>
         <div className="profile-container">

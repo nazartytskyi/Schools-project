@@ -101,7 +101,7 @@ export default function CustomizedSnackbars(props) {
         <MySnackbarContentWrapper
           onClose={handleClose}
           variant="error"
-          message="Спочатку залогіньтесь!"
+          message="Ви не авторизовані!"
         />
       </Snackbar>
 
@@ -119,6 +119,23 @@ export default function CustomizedSnackbars(props) {
           onClose={handleClose}
           variant="success"
           message="Успішно додано"
+        />
+      </Snackbar>
+
+      <Snackbar 
+        className='snack'
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        open={props.fSuccess}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <MySnackbarContentWrapper
+          onClose={handleClose}
+          variant="success"
+          message="Відгук додано"
         />
       </Snackbar>
     </div>

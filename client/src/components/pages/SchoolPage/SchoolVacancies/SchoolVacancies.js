@@ -14,7 +14,7 @@ import RemoveVacancy from '../../../shared/RemoveVacancy/RemoveVacancy';
 
 const SchoolVacancies = ({Index,vacancy,index,expanded,handleExpandClick,currentSchool, vacancyId}) => (
 <Card className="school-vacancy-card" key={index}>
-  <div className="card-header">
+  <div className="card-header-vacancy">
     <CardHeader
       title={vacancy.title}
       subheader={vacancy.date}

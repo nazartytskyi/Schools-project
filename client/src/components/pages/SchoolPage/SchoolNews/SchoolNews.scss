@@ -6,6 +6,8 @@
   padding-bottom: 20px;
 }
 .school-news-card {
+  min-width: 350px;
+  min-height: 450px;
   margin-top: 20px;
 }
 .text-ellipsis {
@@ -28,16 +30,19 @@
 .expandOpen {
   transform: rotate(180deg);
 }
+.news-school-header {
+  height: 100px;
+}
 @media only screen and (min-width: 1673px) {
   .school-news-card {
-    width: 568px;
+    width: 548px;
     min-height: 610px;
   }
 }
 @media only screen and (min-width: 1273px) and (max-width: 1672px) {
   .school-news-card {
-    width: 568px;
-    min-height: 610px;
+    max-width: 350px;
+    min-height: 517px;
   }
 }
 @media only screen and (min-width: 720px) and (max-width: 1272px) {
@@ -55,7 +60,7 @@
 }
 @media only screen and (max-width: 568px) {
   .school-news-card {
-    width: 363px;
+    width: 303px;
     min-height: 563px;
   }
 }

@@ -41,7 +41,7 @@ class Filters extends Component {
               }}
             />
           }
-          label="Тільки з вільними місцями"
+          label="Тільки вільні"
         />
 
         <FormControl>

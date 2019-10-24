@@ -81,7 +81,7 @@
 button.MuiButton-contained.btn-chosen-sucess {
   background-color: green;
 }
-@media only screen and (max-width: 779px) {
+@media only screen and (max-width: 849px) {
   .MuiGrid-root.MuiGrid-container {
     display: block;
   }
@@ -89,10 +89,10 @@ button.MuiButton-contained.btn-chosen-sucess {
     max-width: 100%;
   }
   .MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
-    width: 320px;
+    width: 500px;
   }
 }
-@media only screen and (min-width: 850px)and (max-width: 1279px) {
+@media only screen and (min-width: 768px)and (max-width: 1279px) {
   .school-about {
     display: flex;
     flex-direction: row;
@@ -109,4 +109,49 @@ button.MuiButton-contained.btn-chosen-sucess {
     display: flex;
     flex-direction: row;
   }
+  .paper-info {
+    height: 220px !important;
+  }
 }
+@media only screen and (min-width: 768px)and (max-width: 1678px) {
+  .media-school-photo {
+    height: 350px;
+  }
+  .paper-info {
+    height: 350px;
+    p {
+      font-size: $mainFontSize;
+      margin-block-start: 0.1em;
+      margin-block-end: 0.1em;
+    }
+    padding: 10px;
+    font-size: $mainFontSize;
+  }
+  .school-about {
+    padding-top: 20px;
+  }
+}
+@media only screen and (min-width: 320px)and (max-width: 1272px) {
+  .media-school-photo {
+    height: 250px;
+  }
+  .paper-info {
+    height: 340px;
+    p {
+      font-size: $miniFontSize;
+      margin-block-start: 0.1em;
+      margin-block-end: 0.1em;
+    }
+    padding: 10px;
+    font-size: $miniFontSize;
+  }
+  .school-about {
+    padding-top: 5px;
+  }
+}
+@media only screen and (min-width: 320px)and (max-width: 568px) {
+  .MuiPaper-root.MuiPaper-elevation2.MuiPaper-rounded {
+    width: 300px;
+  }
+}
+

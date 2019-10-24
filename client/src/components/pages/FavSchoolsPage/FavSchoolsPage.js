@@ -32,7 +32,7 @@ class FavSchoolsPage extends React.Component {
 
               <div className="school-info">
                <Link to={'/school/' + school.id}> <h3>{school.name}</h3> </Link>
-               <p>Номре телефону: {school.phoneNumber}</p>
+               <p>Номер телефону: {school.phoneNumber}</p>
                <p>{school.adress && school.adress.city + ' ' +  school.adress.street + ' ' + school.adress.building}</p>
                <p>{school.description}</p>
                <Link to={'/school/' + school.id}>
